@@ -18,6 +18,18 @@ Users can chat with each other through real time.
 - Users can view Posts, Profile, Comments and Likes of own as well as other users
 - Users will recieve notifications when they are followed etc.
 
+## ✨ App Preview
+
+<p align="center">
+  <img src="https://i.imgur.com/fKTNLIJ.png" width="100%" />
+</p>
+
+## Light/Dark Theme
+
+<p align="center">
+  <img src="https://i.imgur.com/QjU2CXV.png" width="100%" />
+</p>
+
 ## Development Setup
 
 To set up Socio for development, you need to follow the steps mentioned below:
