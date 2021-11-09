@@ -1,15 +1,18 @@
-import { __DEV__, DEV_BASE_URL, PROD_BASE_URL, apiVersion } from "@env"
+import Config from "react-native-config";
+
+const { appName, tagLine, __DEV__, DEV_BASE_URL, PROD_BASE_URL, apiVersion, default_profile_picture } = Config;
 
 export default {
-  tagLine:
-    "Helps you connect and share with yours friends, family and other people in your life.",
+  appName: appName,
+  __DEV__: __DEV__,
+  default_profile_picture: default_profile_picture,
   messages: {
     ServerError: "Server Error. Please try again later",
     tokenExpMessage: "Your session has expired. Please login again.",
   },
-  __DEV__: __DEV__,
+  tagLine: tagLine,
   URLs: {
-    BaseURL: __DEV__ === "true" ? DEV_BASE_URL : PROD_BASE_URL,
+    BaseURL: __DEV__ === "development" ? DEV_BASE_URL : PROD_BASE_URL,
     apiVersion: apiVersion,
   },
 };

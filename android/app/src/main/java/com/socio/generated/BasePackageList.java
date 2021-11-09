@@ -9,7 +9,6 @@ public class BasePackageList {
     return Arrays.<Package>asList(
         new expo.modules.application.ApplicationPackage(),
         new expo.modules.av.AVPackage(),
-        new expo.modules.camera.CameraPackage(),
         new expo.modules.constants.ConstantsPackage(),
         new expo.modules.documentpicker.DocumentPickerPackage(),
         new expo.modules.errorrecovery.ErrorRecoveryPackage(),
@@ -20,7 +19,6 @@ public class BasePackageList {
         new expo.modules.imagepicker.ImagePickerPackage(),
         new expo.modules.keepawake.KeepAwakePackage(),
         new expo.modules.lineargradient.LinearGradientPackage(),
-        new expo.modules.medialibrary.MediaLibraryPackage(),
         new expo.modules.splashscreen.SplashScreenPackage(),
         new expo.modules.updates.UpdatesPackage(),
         new expo.modules.videothumbnails.VideoThumbnailsPackage()

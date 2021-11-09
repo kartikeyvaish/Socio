@@ -34,7 +34,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
     }
     signingConfigs {
         release {
@@ -127,4 +127,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: "./eas-build.gradle"
