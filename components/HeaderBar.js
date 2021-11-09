@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { appName } from "@env";
+import config from "../config/config";
 
 import { Badge } from "react-native-paper";
 import Helper from "../config/Helper";
@@ -10,7 +10,7 @@ import Text from "./Text";
 const ScreenWidth = Dimensions.get("screen").width;
 
 function HeaderBar({
-  text = appName,
+  text = config.appName,
   family = "BerkshireSwash",
   showSuffixIcon = true,
   showPrefixIcon = true,

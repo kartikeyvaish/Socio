@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground, StatusBar } from "react-native";
-import { appName } from "@env";
 
 import Button from "../components/Button";
 import config from "../config/config";
@@ -22,7 +21,7 @@ function IntroScreen({ navigation }) {
         imageStyle={{ opacity: 0.4 }}
       >
         <Text
-          text={appName}
+          text={config.appName}
           family="BerkshireSwash"
           size={60}
           color="white"

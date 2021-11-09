@@ -18,8 +18,8 @@ import { SetProfile } from "../store/actions";
 function ProfileScreen({ navigation, User, SetProfile }) {
   const [Refreshing, SetRefreshing] = useState(false);
 
-  const Profile = useSelector((state) => state.Profile || null);
-  const Posts = useSelector((state) => state.Posts || []);
+  const Profile = useSelector((state) => state.Profile);
+  const Posts = useSelector((state) => state.Profile?.Posts);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -163,7 +163,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
 
       {Profile ? (
         <FlatList
-          data={Posts}
+          data={Posts || []}
           keyExtractor={(item) => item._id.toString()}
           renderItem={RenderPostCard}
           numColumns={3}

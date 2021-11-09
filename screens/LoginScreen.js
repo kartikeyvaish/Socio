@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { appName } from "@env";
 
 import API from "../api/API";
 import Button from "./../components/Button";
@@ -57,7 +56,7 @@ function LoginScreen({ navigation, PushToken, SetUser }) {
     () => (
       <>
         <Text
-          text={appName}
+          text={config.appName}
           family="BerkshireSwash"
           size={50}
           adjustsFontSizeToFit={true}

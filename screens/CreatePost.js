@@ -129,7 +129,6 @@ function CreatePost({ navigation, route, User, Add_Post }) {
       }
     } catch (error) {
       SetLoading(false);
-      console.log(error);
       Toast.show({ text: config.messages.ServerError });
     }
   };

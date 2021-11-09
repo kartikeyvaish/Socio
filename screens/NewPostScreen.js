@@ -45,9 +45,7 @@ function NewPostScreen({ navigation }) {
           SharePost(data);
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const PickImage = async () => {

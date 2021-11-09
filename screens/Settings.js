@@ -6,18 +6,18 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as Updates from "expo-updates";
-import { appName } from "@env";
+import { connect } from "react-redux";
+import { Switch } from "react-native-paper";
 
 import API from "../api/API";
 import Container from "../components/Container";
+import ColorPallete from "../config/ColorPallete";
+import config from "../config/config";
 import Dialog from "../components/Dialog";
 import FollowRequestBTN from "../components/FollowRequestBTN";
+import { Logout, ToggleMode } from "../store/actions";
 import MenuCard from "../components/MenuCard";
 import Text from "../components/Text";
-import ColorPallete from "../config/ColorPallete";
-import { Switch } from "react-native-paper";
-import { Logout, ToggleMode } from "../store/actions";
-import { connect } from "react-redux";
 
 function Settings({ navigation, Mode, SetMode, Logout, User }) {
   const [Loading, SetLoading] = useState(false);
@@ -52,7 +52,7 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
         hideDialog={() => SetConfirmationBox(false)}
         title="Sign Out?"
       >
-        <Text text={`Are you sure you want to logout of ${appName}?`} />
+        <Text text={`Are you sure you want to logout of ${config.appName}?`} />
         <View style={styles.DialogBTNs}>
           <View style={{ flex: 1, padding: 10 }}>
             <FollowRequestBTN
@@ -82,6 +82,8 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
         await Updates.fetchUpdateAsync();
         ToastAndroid.show("Installed Latest Version", 2000);
         await Updates.reloadAsync();
+      } else {
+        ToastAndroid.show("No Updates Available", 2000);
       }
     } catch (error) {}
   };

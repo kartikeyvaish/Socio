@@ -10,7 +10,6 @@ import {
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import * as DocumentPicker from "expo-document-picker";
-import { default_profile_picture } from "@env";
 
 import API from "../api/API";
 import Button from "../components/Button";
@@ -18,13 +17,14 @@ import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
 import HyperLinkText from "../components/HyperLinkText";
 import Icon from "../components/Icon";
+import KeyboardView from "../components/KeyboardView";
 import { Login } from "../store/actions";
 import RegisterSchema from "../schema/RegisterSchema";
 import Text from "../components/Text";
 import TextInput from "../components/TextInput";
 import Toast from "../components/Toast";
-import KeyboardView from "../components/KeyboardView";
 
+const defaultPic = config.default_profile_picture;
 const ScreenWidth = Dimensions.get("screen").width;
 
 const InitialValues = RegisterSchema.InitialValues;
@@ -32,7 +32,7 @@ const ValidationSchema = RegisterSchema.RegisterSchema();
 
 function SignUp({ navigation, route, PushToken, SetUser }) {
   const [Loading, SetLoading] = useState(false);
-  const [ProfileImage, SetProfileImage] = useState(default_profile_picture);
+  const [ProfileImage, SetProfileImage] = useState(defaultPic);
 
   const Register = async (values) => {
     try {
@@ -45,7 +45,7 @@ function SignUp({ navigation, route, PushToken, SetUser }) {
       formData.append("Password", values.Password);
       formData.append("PushToken", PushToken);
 
-      if (ProfileImage !== default_profile_picture) {
+      if (ProfileImage !== defaultPic) {
         formData.append("ProfilePicture", {
           type: "image/jpeg",
           name: "ProfilePicture.jpg",
@@ -102,10 +102,10 @@ function SignUp({ navigation, route, PushToken, SetUser }) {
                       source={{ uri: ProfileImage }}
                       style={styles.Image}
                     />
-                    {ProfileImage !== default_profile_picture ? (
+                    {ProfileImage !== defaultPic ? (
                       <Pressable
                         style={styles.RemoveBTN}
-                        onPress={() => SetProfileImage(default_profile_picture)}
+                        onPress={() => SetProfileImage(defaultPic)}
                       >
                         <Icon
                           Name="Entypo"
