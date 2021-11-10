@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
-import { FileSystem } from "react-native-unimodules";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as VideoThumbnails from "expo-video-thumbnails";
 
@@ -89,16 +88,6 @@ function CreatePost({ navigation, route, User, Add_Post }) {
           Height = response.height;
           Preview = response.uri;
         } catch (error) {}
-      }
-
-      const sizeCheck = await FileSystem.getInfoAsync(route.params.uri, {
-        size: true,
-      });
-
-      if (sizeCheck.exists === false || sizeCheck.size > FILE_LIMIT) {
-        SetLoading(false);
-        Toast.show({ text: "File Limit Exceeded" });
-        return;
       }
 
       formData.append("location", Location);

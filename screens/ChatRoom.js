@@ -13,7 +13,6 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { io } from "socket.io-client";
 import * as DocumentPicker from "expo-document-picker";
-import { FileSystem } from "react-native-unimodules";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTheme } from "@react-navigation/native";
@@ -469,16 +468,6 @@ function ChatRoom({ navigation, route, User }) {
 
           Preview = response.uri;
         } catch (error) {}
-      }
-
-      const sizeCheck = await FileSystem.getInfoAsync(SelectedFile.uri, {
-        size: true,
-      });
-
-      if (sizeCheck.exists === false || sizeCheck.size > FILE_LIMIT) {
-        SetSendLoading(false);
-        Toast.show({ text: "File Limit Exceeded" });
-        return;
       }
 
       formData.append("file", {
