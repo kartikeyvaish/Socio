@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>EXUpdatesSDKVersion</key>
-    <string>42.0.0</string>
+    <string>43.0.0</string>
     <key>EXUpdatesURL</key>
     <string>https://exp.host/@kartikeyvaish/Socio</string>
     <key>EXUpdatesEnabled</key>
