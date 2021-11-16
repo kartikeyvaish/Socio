@@ -1,6 +1,6 @@
 {
   "name": "socio",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.11",
+    "@react-native-google-signin/google-signin": "^7.0.1",
     "@react-native-masked-view/masked-view": "^0.2.6",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/material-top-tabs": "^6.0.6",
