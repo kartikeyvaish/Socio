@@ -1,6 +1,7 @@
 import Config from "react-native-config";
 
-const { appName, tagLine, __DEV__, DEV_BASE_URL, PROD_BASE_URL, apiVersion, default_profile_picture } = Config;
+const { appName, tagLine, __DEV__, DEV_BASE_URL, PROD_BASE_URL, googleApiClientID, apiVersion, default_profile_picture } = Config;
+
 
 export default {
   appName: appName,
@@ -10,6 +11,7 @@ export default {
     ServerError: "Server Error. Please try again later",
     tokenExpMessage: "Your session has expired. Please login again.",
   },
+  googleApiClientID: googleApiClientID,
   tagLine: tagLine,
   URLs: {
     BaseURL: __DEV__ === "development" ? DEV_BASE_URL : PROD_BASE_URL,

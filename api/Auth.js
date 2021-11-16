@@ -1,13 +1,14 @@
 import apiClient from "./client";
 
+const change_password = "/auth/change-password";
+const forgot_pass_otp = "/auth/send-forgot-password-otp";
+const google_login = "/auth/google-login";
 const login = "/auth/login";
-const register = "/auth/register";
 const logout = "/auth/logout";
+const register = "/auth/register";
+const resetPassword = "/auth/reset-password";
 const search_users = "/auth/search-users";
 const send_email_register_otp = "/auth/send-email-register-otp";
-const forgot_pass_otp = "/auth/send-forgot-password-otp";
-const resetPasend = "/auth/reset-password";
-const change_password = "/auth/change-password";
 
 const Login = (DATA) => apiClient.post(login, DATA);
 
@@ -46,7 +47,7 @@ const Send_Email_Register_OTP = (Email) =>
 
 const SendForgotPassOTP = (DATA) => apiClient.post(forgot_pass_otp, DATA);
 
-const ResetPassword = (DATA) => apiClient.post(resetPasend, DATA);
+const ResetPassword = (DATA) => apiClient.post(resetPassword, DATA);
 
 const ChangePassword = (DATA, Token) =>
   apiClient.put(change_password, DATA, {
@@ -54,6 +55,8 @@ const ChangePassword = (DATA, Token) =>
       Authorization: `Bearer ${Token}`,
     },
   });
+
+const GoogleLogin = (Token) => apiClient.post(google_login, { Token });
 
 export default {
   Login,
@@ -64,4 +67,5 @@ export default {
   SendForgotPassOTP,
   ChangePassword,
   ResetPassword,
+  GoogleLogin,
 };
