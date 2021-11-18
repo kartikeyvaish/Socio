@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Easing } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -7,6 +7,7 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
@@ -14,6 +15,7 @@ import Avatar from "./../components/Avatar";
 import ChangePassword from "../screens/ChangePassword";
 import Chats from "./../screens/Chats";
 import ChatRoom from "./../screens/ChatRoom";
+import ColorPallete from "../config/ColorPallete";
 import Comments from "../screens/Comments";
 import CreatePost from "../screens/CreatePost";
 import DiscoverScreen from "../screens/DiscoverScreen";
@@ -39,8 +41,10 @@ const Tab = createBottomTabNavigator();
 const PeopleTabs = createMaterialTopTabNavigator();
 
 function BottomTabs() {
-  const { colors } = useTheme();
-  const ProfilePicture = useSelector((state) => state.User.ProfilePicture);
+  const { colors, dark } = useTheme();
+  const ProfilePicture = useSelector(
+    (state) => state.AuthState.User.ProfilePicture
+  );
 
   return (
     <Tab.Navigator
@@ -48,19 +52,25 @@ function BottomTabs() {
         style: {
           backgroundColor: colors.background,
           borderTopWidth: 0,
-          elevation: 10,
+          elevation: 20,
         },
         headerShown: false,
         showLabel: false,
         tabBarShowLabel: false,
-        tabBarActiveBackgroundColor: colors.background,
-        tabBarInactiveBackgroundColor: colors.background,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.text,
         activeTintColor: colors.primary,
         inactiveTintColor: colors.text,
         tabStyle: {
           borderColor: colors.background,
+        },
+        tabBarStyle: {
+          backgroundColor: dark ? ColorPallete.black : ColorPallete.white,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+          height: 60,
+          elevation: 20,
+          overflow: "hidden",
         },
       }}
     >
@@ -91,11 +101,18 @@ function BottomTabs() {
         component={NewPostScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <Icon
-              Name="AntDesign"
-              IconName={focused ? "pluscircle" : "pluscircleo"}
-              color={color}
-            />
+            <LinearGradient
+              colors={["rgba(0,0,0,.5)", "transparent"]}
+              style={styles.MiddleCard}
+              start={[0, 1]}
+              end={[1, 0]}
+            >
+              <Icon
+                Name="AntDesign"
+                IconName={focused ? "pluscircle" : "pluscircleo"}
+                color={"white"}
+              />
+            </LinearGradient>
           ),
         }}
       />
@@ -308,5 +325,13 @@ function AppNavigator() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  MiddleCard: {
+    backgroundColor: ColorPallete.primary,
+    padding: 10,
+    borderRadius: 15,
+  },
+});
 
 export default AppNavigator;
