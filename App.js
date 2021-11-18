@@ -8,16 +8,12 @@ import PushNotification from "react-native-push-notification";
 
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
+import { ChangeMode } from "./store/theme/actions";
 import { LocalNotification } from "./hooks/useNotifications";
-import Theme from "./theme/Theme";
-import { ToggleMode, UpdatePushToken } from "./store/actions";
-
-function GetTheme(Mode) {
-  return Mode === "Default" ? Theme[Appearance.getColorScheme()] : Theme[Mode];
-}
+import { UpdatePushToken } from "./store/auth/actions";
 
 function App(props) {
-  const { Mode, ToggleMode, User, SetPushToken, PushToken } = props;
+  const { ToggleMode, User, SetPushToken, PushToken, Theme } = props;
 
   // Push Notification Setup
   useEffect(() => {
@@ -71,7 +67,7 @@ function App(props) {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer theme={GetTheme(Mode)}>
+      <NavigationContainer theme={Theme}>
         <Provider>{User ? <AppNavigator /> : <AuthNavigator />}</Provider>
       </NavigationContainer>
     </GestureHandlerRootView>
@@ -80,15 +76,15 @@ function App(props) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
-    Mode: state.Mode,
-    PushToken: state.PushToken,
+    User: state.AuthState.User,
+    Theme: state.ThemeState.Theme,
+    PushToken: state.AuthState.PushToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    ToggleMode: (colorScheme) => dispatch(ToggleMode(colorScheme)),
+    ToggleMode: (colorScheme) => dispatch(ChangeMode(colorScheme)),
     SetPushToken: (PushToken) => dispatch(UpdatePushToken(PushToken)),
   };
 };
