@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 import FastImage from "react-native-fast-image";
 import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import LottieView from "lottie-react-native";
-import { useBackHandler } from "./../hooks/useBackHandler";
 import { useTheme } from "@react-navigation/native";
 import { Video } from "expo-av";
 
@@ -20,13 +19,15 @@ import API from "../api/API";
 import Avatar from "./Avatar";
 import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
+import { DeleteProfilePost } from "../store/profile/actions";
+import { DeletePost } from "./../store/posts/actions";
 import Dialog from "./Dialog";
 import Helper from "../config/Helper";
 import Icon from "./Icon";
 import MenuCard from "./MenuCard";
 import Text from "./Text";
 import TruncateIt from "./TruncateText";
-import { DeletePost } from "../store/actions";
+import { useBackHandler } from "./../hooks/useBackHandler";
 
 const SideOffset = 5;
 const ScreenWidth = Dimensions.get("screen").width - SideOffset * 2;
@@ -56,11 +57,12 @@ function PostCard({
   is_liked,
   comments_count,
   User,
+  DELETE_PROFILE_POST,
   DELETE_POST,
   onGoback = () => {},
 }) {
   const { colors } = useTheme();
-  const CalculateHeight = (ScreenWidth * Height) / Width;
+  const CalculateHeight = ((ScreenWidth - 2) * Height) / Width;
   const post_type = mime_type.split("/")[0];
 
   const VideoPlayer = useRef();
@@ -106,6 +108,7 @@ function PostCard({
 
   // Function to like a post
   const LikeAPost = async () => {
+    SetLIKED(true);
     try {
       const response = await API.LikePost(
         {
@@ -114,14 +117,16 @@ function PostCard({
         Token
       );
       if (response.ok) {
-        SetLIKED(true);
         SetLIKE_COUNT(response.data.likes_count);
       }
-    } catch (error) {}
+    } catch (error) {
+      SetLIKED(false);
+    }
   };
 
   // Function to unlike a post
   const UnLikeAPost = async () => {
+    SetLIKED(false);
     try {
       const response = await API.UnLikePost(
         {
@@ -130,10 +135,11 @@ function PostCard({
         Token
       );
       if (response.ok) {
-        SetLIKED(false);
         SetLIKE_COUNT(response.data.likes_count);
       }
-    } catch (error) {}
+    } catch (error) {
+      SetLIKED(false);
+    }
   };
 
   // Function to delete a post
@@ -145,6 +151,7 @@ function PostCard({
         const response = await API.DeletePost({ _id: _id }, User.Token);
         SetDeleteLoading(false);
         if (response.ok) {
+          DELETE_PROFILE_POST(_id);
           DELETE_POST(_id);
           onGoback();
         } else ToastAndroid.show(response.data, ToastAndroid.LONG);
@@ -295,7 +302,7 @@ function PostCard({
   // Styles that cannnot be defined outside the function
   const ImageContainerStyle = {
     zIndex: 100,
-    height: CalculateHeight > ScreenWidth ? ScreenWidth : CalculateHeight,
+    height: CalculateHeight,
     width: ScreenWidth - 2,
     alignSelf: "center",
   };
@@ -367,14 +374,15 @@ function PostCard({
         <Video
           ref={VideoPlayer}
           source={{ uri: file }}
-          resizeMode="contain"
+          resizeMode="cover"
           isLooping
           isMuted={muted}
-          style={styles.video}
           style={{
-            zIndex: 100,
+            width: ScreenWidth - 2,
             height:
-              CalculateHeight > ScreenWidth ? ScreenWidth : CalculateHeight,
+              CalculateHeight > ScreenWidth - 2
+                ? ScreenWidth - 2
+                : CalculateHeight,
           }}
           usePoster={preview_file ? true : false}
           posterSource={{ uri: preview_file }}
@@ -420,12 +428,13 @@ function PostCard({
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    DELETE_PROFILE_POST: (post_id) => dispatch(DeleteProfilePost(post_id)),
     DELETE_POST: (post_id) => dispatch(DeletePost(post_id)),
   };
 };
