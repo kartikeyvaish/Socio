@@ -10,12 +10,13 @@ import { connect } from "react-redux";
 import { Switch } from "react-native-paper";
 
 import API from "../api/API";
+import { ChangeMode } from "../store/theme/actions";
 import Container from "../components/Container";
 import ColorPallete from "../config/ColorPallete";
 import config from "../config/config";
 import Dialog from "../components/Dialog";
 import FollowRequestBTN from "../components/FollowRequestBTN";
-import { Logout, ToggleMode } from "../store/actions";
+import { Logout } from "./../store/auth/actions";
 import MenuCard from "../components/MenuCard";
 import Text from "../components/Text";
 
@@ -152,14 +153,14 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
-    Mode: state.Mode,
+    User: state.AuthState.User,
+    Mode: state.ThemeState.Mode,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SetMode: (colorScheme) => dispatch(ToggleMode(colorScheme)),
+    SetMode: (colorScheme) => dispatch(ChangeMode(colorScheme)),
     Logout: (User) => dispatch(Logout(User)),
   };
 };

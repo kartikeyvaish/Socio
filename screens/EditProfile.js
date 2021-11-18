@@ -13,7 +13,7 @@ import Icon from "../components/Icon";
 import ScrollContainer from "./../components/ScrollContainer";
 import TextInput from "./../components/TextInput";
 import Toast from "../components/Toast";
-import { UpdateUser } from "../store/actions";
+import { UpdateUser } from "../store/auth/actions";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
@@ -151,7 +151,7 @@ function EditProfile({ navigation, route, User, SetUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 

@@ -1,11 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Keyboard,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 
@@ -14,7 +8,7 @@ import Button from "./../components/Button";
 import config from "../config/config";
 import HyperLinkText from "./../components/HyperLinkText";
 import KeyboardView from "../components/KeyboardView";
-import { Login } from "../store/actions";
+import { Login } from "./../store/auth/actions";
 import LoginSchema from "../schema/LoginSchema";
 import Text from "./../components/Text";
 import TextInput from "./../components/TextInput";
@@ -151,7 +145,7 @@ function LoginScreen({ navigation, PushToken, SetUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    PushToken: state.PushToken,
+    PushToken: state.AuthState.PushToken,
   };
 };
 

@@ -8,7 +8,7 @@ import Container from "./../components/Container";
 import { FlatList } from "react-native";
 import Icon from "./../components/Icon";
 import { ToastAndroid } from "react-native";
-import { SetChats } from "./../store/actions";
+import { SetChats } from "../store/chats/actions";
 
 function Chats({ navigation, User, UpdateChats, Chats }) {
   const [Refresing, SetRefresing] = useState(false);
@@ -85,8 +85,8 @@ function Chats({ navigation, User, UpdateChats, Chats }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
-    Chats: state.Chats,
+    User: state.AuthState.User,
+    Chats: state.ChatsState.Chats,
   };
 };
 

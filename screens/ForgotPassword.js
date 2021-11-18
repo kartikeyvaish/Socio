@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { StyleSheet, ToastAndroid, Keyboard } from "react-native";
-import { Formik } from "formik";
 import { connect } from "react-redux";
+import { Formik } from "formik";
 
+import API from "../api/API";
 import Button from "../components/Button";
+import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
 import Container from "../components/Container";
 import ForgotPasswordSchema from "../schema/ForgotPasswordSchema";
+import { Login } from "../store/auth/actions";
 import Text from "../components/Text";
 import TextInput from "../components/TextInput";
-import API from "../api/API";
-import config from "../config/config";
-import { Login } from "../store/actions";
 
 const InitialValues = ForgotPasswordSchema.InitialValues;
 const ValidationSchema = ForgotPasswordSchema.ForgotPasswordSchema();
@@ -228,7 +228,7 @@ function ForgotPassword({ SetUser, PushToken }) {
 
 const mapStateToProps = (state) => {
   return {
-    PushToken: state.PushToken,
+    PushToken: state.AuthState.PushToken,
   };
 };
 

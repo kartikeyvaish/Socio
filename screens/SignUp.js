@@ -18,7 +18,7 @@ import ColorPallete from "../config/ColorPallete";
 import HyperLinkText from "../components/HyperLinkText";
 import Icon from "../components/Icon";
 import KeyboardView from "../components/KeyboardView";
-import { Login } from "../store/actions";
+import { Login } from "./../store/auth/actions";
 import RegisterSchema from "../schema/RegisterSchema";
 import Text from "../components/Text";
 import TextInput from "../components/TextInput";
@@ -202,7 +202,7 @@ function SignUp({ navigation, route, PushToken, SetUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    PushToken: state.PushToken,
+    PushToken: state.AuthState.PushToken,
   };
 };
 

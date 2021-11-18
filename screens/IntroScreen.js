@@ -13,7 +13,7 @@ import API from "../api/API";
 import Button from "../components/Button";
 import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
-import { Login } from "../store/actions";
+import { Login } from "./../store/auth/actions";
 import Text from "../components/Text";
 
 const googleApiClientID = config.googleApiClientID;

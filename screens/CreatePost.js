@@ -13,10 +13,9 @@ import TextInput from "./../components/TextInput";
 import PreviewFile from "../components/PreviewFile";
 import ScrollContainer from "../components/ScrollContainer";
 import Toast from "../components/Toast";
-import { AddPost } from "../store/actions";
+import { AddPost } from "./../store/posts/actions";
 
 const ScreenWidth = Dimensions.get("screen").width;
-const FILE_LIMIT = 10485760;
 
 function CreatePost({ navigation, route, User, Add_Post }) {
   const [Loading, SetLoading] = useState(false);
@@ -140,7 +139,7 @@ function CreatePost({ navigation, route, User, Add_Post }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 

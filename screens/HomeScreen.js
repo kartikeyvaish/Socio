@@ -17,7 +17,8 @@ import HeaderBar from "../components/HeaderBar";
 import Text from "../components/Text";
 import Toast from "../components/Toast";
 import PostCard from "../components/PostCard";
-import { SetPosts, SetStorePosts } from "../store/actions";
+import { SetPosts } from "./../store/posts/actions";
+import { SetStorePosts } from "./../store/cache/actions";
 
 function HomeScreen({
   navigation,
@@ -231,10 +232,10 @@ function HomeScreen({
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
-    Posts: state.Posts,
-    StorePosts: state.StorePosts,
-    Unread: state.Unread,
+    User: state.AuthState.User,
+    Posts: state.PostsState.Posts,
+    StorePosts: state.CacheState.StorePosts,
+    Unread: state.ChatsState.Unread,
   };
 };
 

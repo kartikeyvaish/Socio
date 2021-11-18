@@ -9,7 +9,7 @@ import Text from "../components/Text";
 import TextInput from "../components/TextInput";
 import Toast from "../components/Toast";
 
-function ForgotPassword({ navigation, route }) {
+function EmailVerifyCode({ navigation, route }) {
   const [OTP, SetOTP] = useState("");
   const [Loading, SetLoading] = useState(false);
 
@@ -68,7 +68,7 @@ function ForgotPassword({ navigation, route }) {
   );
 }
 
-export default ForgotPassword;
+export default EmailVerifyCode;
 
 const styles = StyleSheet.create({
   container: {

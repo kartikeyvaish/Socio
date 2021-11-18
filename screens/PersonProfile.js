@@ -410,7 +410,7 @@ function PersonProfile({ navigation, route, User }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 

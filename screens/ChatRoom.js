@@ -26,16 +26,15 @@ import ColorPallete from "../config/ColorPallete";
 import Helper from "../config/Helper";
 import Icon from "../components/Icon";
 import KeyBoard from "../components/KeyBoard";
+import LoadingScreen from "../components/LoadingScreen";
 import Modal from "react-native-modal";
 import moment from "moment";
 import RecievedMessage from "../components/RecievedMessage";
 import SendMessage from "../components/SendMessage";
 import Text from "./../components/Text";
-import LoadingScreen from "../components/LoadingScreen";
 
 const BaseURL = config.URLs.BaseURL;
 const deviceWidth = Dimensions.get("window").width;
-const FILE_LIMIT = 10485760;
 
 function ChatRoom({ navigation, route, User }) {
   const socket = useRef(io(BaseURL));
@@ -587,7 +586,7 @@ function ChatRoom({ navigation, route, User }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 

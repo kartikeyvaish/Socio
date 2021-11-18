@@ -4,11 +4,12 @@ import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 
 import Container from "./../components/Container";
+import config from "../config/config";
 import Helper from "../config/Helper";
 import Icon from "../components/Icon";
 import NewPostMenuCard from "./NewPostMenuCard";
-import config from "../config/config";
 
+const FILE_LIMIT = 10485760;
 const ScreenWidth = Dimensions.get("screen").width;
 
 function NewPostScreen({ navigation }) {
@@ -55,11 +56,17 @@ function NewPostScreen({ navigation }) {
       });
 
       if (response.type !== "cancel") {
+        // Limit size to 10mb
+        if (response.size > FILE_LIMIT) {
+          ToastAndroid.show("File Limit Exceeded", ToastAndroid.SHORT);
+          return;
+        }
+
         const mimName = Helper.GiveMimeName(response.name);
         const data = {
           id: Helper.GenerateUniqueID(),
           mediaType: mimName === "image" ? "photo" : "video",
-          uri: "file://" + response.uri,
+          uri: response.uri,
         };
 
         SharePost(data);

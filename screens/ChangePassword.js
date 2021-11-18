@@ -91,7 +91,7 @@ function ChangePassword({ navigation, User }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 

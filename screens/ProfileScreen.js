@@ -13,13 +13,12 @@ import ProfilePostCard from "../components/ProfilePostCard";
 import Text from "../components/Text";
 import Toast from "../components/Toast";
 import StatsCard from "../components/StatsCard";
-import { SetProfile } from "../store/actions";
+import { SetProfile } from "./../store/profile/actions";
 
 function ProfileScreen({ navigation, User, SetProfile }) {
   const [Refreshing, SetRefreshing] = useState(false);
 
-  const Profile = useSelector((state) => state.Profile);
-  const Posts = useSelector((state) => state.Profile?.Posts);
+  const Profile = useSelector((state) => state.ProfileState.Profile);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -163,7 +162,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
 
       {Profile ? (
         <FlatList
-          data={Posts || []}
+          data={Profile.Posts || []}
           keyExtractor={(item) => item._id.toString()}
           renderItem={RenderPostCard}
           numColumns={3}
@@ -187,7 +186,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
 
 const mapStateToProps = (state) => {
   return {
-    User: state.User,
+    User: state.AuthState.User,
   };
 };
 
