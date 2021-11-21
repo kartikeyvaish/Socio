@@ -31,7 +31,7 @@ function ChatCard({
             family={
               last_message_details.user_id === current_user
                 ? "Inter"
-                : last_message_details.read === false
+                : last_message_details.read === true
                 ? "Inter"
                 : "InterBold"
             }
@@ -50,7 +50,7 @@ function ChatCard({
             family={
               last_message_details.user_id === current_user
                 ? "Inter"
-                : last_message_details.read === false
+                : last_message_details.read === true
                 ? "Inter"
                 : "InterBold"
             }
@@ -68,7 +68,7 @@ function ChatCard({
               family={
                 last_message_details.user_id === current_user
                   ? "Inter"
-                  : last_message_details.read === false
+                  : last_message_details.read === true
                   ? "Inter"
                   : "InterBold"
               }
