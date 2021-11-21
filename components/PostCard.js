@@ -19,8 +19,9 @@ import API from "../api/API";
 import Avatar from "./Avatar";
 import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
-import { DeleteProfilePost } from "../store/profile/actions";
 import { DeletePost } from "./../store/posts/actions";
+import { DeleteProfilePost } from "../store/profile/actions";
+import { DeleteStorePost } from "../store/cache/actions";
 import Dialog from "./Dialog";
 import Helper from "../config/Helper";
 import Icon from "./Icon";
@@ -39,7 +40,7 @@ function PostCard({
   Height,
   onCommentPress,
   onLikesPress,
-  ViewableItems,
+  viewable,
   muted,
   onMuteToggle,
   showOpenMenu = false,
@@ -59,6 +60,7 @@ function PostCard({
   User,
   DELETE_PROFILE_POST,
   DELETE_POST,
+  DELETE_STORE_POST,
   onGoback = () => {},
 }) {
   const { colors } = useTheme();
@@ -87,13 +89,11 @@ function PostCard({
     else animation.current.play(66, 19);
   }, [LIKED]);
 
-  // Viewable Items changed
+  // Play/Pause a video post according to viisibility
   useEffect(() => {
-    if (ViewableItems && ViewableItems.length) {
-      if (ViewableItems[0] === _id) VideoPlayer?.current?.playAsync();
-      else VideoPlayer?.current?.pauseAsync();
-    } else VideoPlayer?.current?.pauseAsync();
-  }, [ViewableItems, muted]);
+    if (viewable === _id) VideoPlayer?.current?.playAsync();
+    else VideoPlayer?.current?.pauseAsync();
+  }, [viewable]);
 
   // Back handler
   useBackHandler(() => {
@@ -153,6 +153,7 @@ function PostCard({
         if (response.ok) {
           DELETE_PROFILE_POST(_id);
           DELETE_POST(_id);
+          DELETE_STORE_POST(_id);
           onGoback();
         } else ToastAndroid.show(response.data, ToastAndroid.LONG);
       }
@@ -370,7 +371,7 @@ function PostCard({
   // useMemo for Video Part
   const VideoPart = useMemo(() => {
     return (
-      <Pressable onPress={ViewableItems?.[0] === _id ? onMuteToggle : null}>
+      <Pressable onPress={viewable === _id ? onMuteToggle : null}>
         <Video
           ref={VideoPlayer}
           source={{ uri: file }}
@@ -402,7 +403,7 @@ function PostCard({
       </Pressable>
     );
   }, [
-    ViewableItems,
+    viewable,
     VideoPlayer,
     muted,
     preview_file,
@@ -436,6 +437,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     DELETE_PROFILE_POST: (post_id) => dispatch(DeleteProfilePost(post_id)),
     DELETE_POST: (post_id) => dispatch(DeletePost(post_id)),
+    DELETE_STORE_POST: (post_id) => dispatch(DeleteStorePost(post_id)),
   };
 };
 
