@@ -4,7 +4,13 @@ import FastImage from "react-native-fast-image";
 
 import { useTheme } from "@react-navigation/native";
 
-function Image({ uri, style = {}, resizeMode = "contain", onPress = null }) {
+function Image({
+  uri,
+  style = {},
+  resizeMode = "contain",
+  onPress = null,
+  borderRadius = 0,
+}) {
   const { colors } = useTheme();
 
   const MainImage = () => {
@@ -15,6 +21,7 @@ function Image({ uri, style = {}, resizeMode = "contain", onPress = null }) {
             width: "100%",
             height: "100%",
             backgroundColor: colors.background,
+            borderRadius: borderRadius,
           }}
           source={{ uri: uri }}
           resizeMode={
@@ -37,7 +44,7 @@ const styles = StyleSheet.create({
   ImageBoxPart: {
     width: "100%",
     height: "100%",
-    backgroundColor: "red",
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
   },
