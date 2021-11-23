@@ -21,6 +21,7 @@ function RecievedMessage({
   onMessagePress,
 }) {
   const { colors } = useTheme();
+  const cardStyle = [styles.MessageBox, { backgroundColor: colors.background }];
 
   return (
     <View style={styles.container}>
@@ -36,9 +37,7 @@ function RecievedMessage({
       ) : null}
 
       <View style={{ alignItems: "flex-start" }}>
-        <View
-          style={[styles.MessageBox, { backgroundColor: colors.background }]}
-        >
+        <View style={cardStyle}>
           {message_type === "file" ? (
             <View style={styles.ImageBox}>
               <Image
@@ -51,6 +50,7 @@ function RecievedMessage({
               <TimeStamp
                 style={styles.TimeStamp}
                 time={Helper.GetTimeFromObject(message_datetime)}
+                showRead={false}
               />
               {mime_type.slice(0, 5) === "video" ? (
                 <Icon

@@ -20,9 +20,14 @@ function SendMessage({
   onMessagePress,
   topDate = null,
   read = false,
-  showRead = false,
+  undelivered = false,
 }) {
   const { colors, dark } = useTheme();
+
+  const cardStyle = {
+    ...styles.messageBox,
+    backgroundColor: dark ? colors.background : "#EAEAEA",
+  };
 
   return (
     <View style={styles.container}>
@@ -38,70 +43,71 @@ function SendMessage({
       ) : null}
 
       <View style={{ alignItems: "flex-end" }}>
-        <View
-          style={{
-            ...styles.messageBox,
-            backgroundColor: dark ? colors.background : "#EAEAEA",
-          }}
-        >
-          <View style={styles.MessageBox}>
-            {message_type === "file" ? (
-              <View style={styles.ImageBox}>
-                <Image
-                  uri={preview_file}
-                  resizeMode="cover"
-                  style={styles.Image}
+        <View style={cardStyle}>
+          {message_type === "file" ? (
+            <View style={styles.ImageBox}>
+              <Image
+                uri={preview_file}
+                resizeMode="cover"
+                style={styles.Image}
+                onPress={onMessagePress}
+                borderRadius={10}
+              />
+              <TimeStamp
+                style={styles.TimeStamp}
+                time={Helper.GetTimeFromObject(message_datetime)}
+                read={read}
+              />
+              {mime_type.slice(0, 5) === "video" ? (
+                <Icon
+                  Name="AntDesign"
+                  IconName="play"
+                  style={styles.PLayICon}
+                  color={ColorPallete.primary}
+                  size={30}
                   onPress={onMessagePress}
-                  borderRadius={10}
                 />
-                <TimeStamp
-                  style={styles.TimeStamp}
-                  time={Helper.GetTimeFromObject(message_datetime)}
-                />
-                {mime_type.slice(0, 5) === "video" ? (
-                  <Icon
-                    Name="AntDesign"
-                    IconName="play"
-                    style={styles.PLayICon}
-                    color={ColorPallete.primary}
-                    size={30}
-                    onPress={onMessagePress}
-                  />
-                ) : null}
-              </View>
-            ) : null}
+              ) : null}
+            </View>
+          ) : null}
 
-            {message ? <Text text={message} size={16} family="Inter" /> : null}
+          {message ? <Text text={message} size={16} family="Inter" /> : null}
 
-            {message_type === "text" ? (
-              <View>
-                <Text
-                  text={Helper.GetTimeFromObject(message_datetime)}
-                  size={10}
-                  family="Inter"
-                  marginTop={5}
-                  style={{ textAlign: "right" }}
+          {message_type === "text" ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignSelf: "flex-end",
+                marginTop: 3,
+              }}
+            >
+              <Text
+                text={Helper.GetTimeFromObject(message_datetime)}
+                size={10}
+                family="Inter"
+                marginTop={5}
+              />
+              {undelivered ? (
+                <Icon
+                  Name="Ionicons"
+                  IconName={"time-outline"}
+                  color={colors.text}
+                  size={17}
+                  marginLeft={5}
                 />
-              </View>
-            ) : null}
-          </View>
+              ) : (
+                <Icon
+                  Name="Ionicons"
+                  IconName={read ? "checkmark-done" : "checkmark"}
+                  color={read ? ColorPallete.primary : colors.text}
+                  size={17}
+                  marginLeft={5}
+                />
+              )}
+            </View>
+          ) : null}
         </View>
       </View>
-
-      {showRead ? (
-        read ? (
-          <View>
-            <Text
-              text={"read"}
-              size={12}
-              family="Inter"
-              marginTop={10}
-              marginBottom={10}
-              style={{ textAlign: "right" }}
-            />
-          </View>
-        ) : null
-      ) : null}
     </View>
   );
 }
