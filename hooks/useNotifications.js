@@ -1,43 +1,55 @@
+// Import Packages
+import { useEffect } from "react";
+import messaging from "@react-native-firebase/messaging";
 import PushNotification from "react-native-push-notification";
 
-// largeIconUrl = Icon for topmost image url without expansion
-// bigLargeIconUrl = Icon for image when expanded icon logo
-// bigPictureUrl = expanded picture here
+// Fucntion to get device FCM Token
+async function GetDevicePushToken() {
+  try {
+    let fcmToken = await messaging().getToken();
+    if (fcmToken) return fcmToken;
+    else return null;
+  } catch (error) {
+    return null;
+  }
+}
 
-export const LocalNotification = (props) => {
+// // largeIconUrl = Icon for topmost image url without expansion
+// // bigLargeIconUrl = Icon for image when expanded icon logo
+// // bigPictureUrl = expanded picture here
+// This is a function to display local notifications to the user
+export const showLocalNotification = (props) => {
   const {
-    autoCancel = true,
-    bigText = "",
-    subText = "",
-    title = "",
     body = "",
     message = "",
-    vibrate = true,
-    vibration = 300,
-    largeIconUrl,
-    bigLargeIconUrl,
-    bigPictureUrl,
-    playSound = true,
-    actions = "",
     channelId = "SocioDefault",
+    ...otherProps
   } = props;
+
   if (body !== "" || message !== "") {
     PushNotification.localNotification({
-      autoCancel: autoCancel,
-      bigText: bigText,
-      subText: subText,
-      title: title,
+      ...otherProps,
       message: body || message,
-      vibrate: vibrate,
-      vibration: vibration,
-      largeIconUrl: largeIconUrl,
-      bigLargeIconUrl: bigLargeIconUrl,
-      bigPictureUrl: bigPictureUrl,
-      playSound: playSound,
-      actions: actions,
       channelId: channelId,
       importance: "high",
       visibility: "public",
     });
   }
 };
+
+export default function useNotifications(PushToken, SetPushToken) {
+  useEffect(() => {
+    Init();
+
+    messaging().onMessage((message) => {
+      showLocalNotification({ ...message.notification, ...message.data });
+    });
+  }, []);
+
+  const Init = async () => {
+    try {
+      const token = await GetDevicePushToken();
+      if (token && PushToken !== token) SetPushToken(token);
+    } catch (error) {}
+  };
+}
