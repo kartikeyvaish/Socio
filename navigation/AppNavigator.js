@@ -33,6 +33,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import PersonProfile from "../screens/PersonProfile";
 import PostDetails from "../screens/PostDetails";
 import Settings from "../screens/Settings";
+import ScreenNames from "./ScreenNames";
 
 const Stack = createStackNavigator();
 
@@ -207,7 +208,7 @@ function AppNavigator() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="HomeTabs" component={BottomTabs} />
         <Stack.Screen
-          name="CreatePost"
+          name={ScreenNames.CreatePost}
           component={CreatePost}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -216,7 +217,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="PersonProfile"
+          name={ScreenNames.PersonProfile}
           component={PersonProfile}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -225,7 +226,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="PostDetails"
+          name={ScreenNames.PostDetails}
           component={PostDetails}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -234,7 +235,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="FollowRequests"
+          name={ScreenNames.FollowRequests}
           component={FollowRequests}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -243,7 +244,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="Chats"
+          name={ScreenNames.Chats}
           component={Chats}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -252,7 +253,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="ChatRoom"
+          name={ScreenNames.ChatRoom}
           component={ChatRoom}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -261,7 +262,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="NewChatScreen"
+          name={ScreenNames.NewChatScreen}
           component={NewChatScreen}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -270,7 +271,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="ListPeople"
+          name={ScreenNames.ListPeople}
           component={ListPeople}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -279,7 +280,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="Comments"
+          name={ScreenNames.Comments}
           component={Comments}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -287,7 +288,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="Likes"
+          name={ScreenNames.Likes}
           component={Likes}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -295,7 +296,7 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="EditProfile"
+          name={ScreenNames.EditProfile}
           component={EditProfile}
           options={({ route }) => ({
             ...HeaderBarConfig,
@@ -304,16 +305,16 @@ function AppNavigator() {
           })}
         />
         <Stack.Screen
-          name="Settings"
+          name={ScreenNames.Settings}
           component={Settings}
           options={({ route }) => ({
             ...HeaderBarConfig,
             ...Horizantal,
-            title: "Settings",
+            title: ScreenNames.Settings,
           })}
         />
         <Stack.Screen
-          name="ChangePassword"
+          name={ScreenNames.ChangePassword}
           component={ChangePassword}
           options={({ route }) => ({
             ...HeaderBarConfig,

@@ -13,6 +13,7 @@ import ForgotPassword from "../screens/ForgotPassword";
 import IntroScreen from "../screens/IntroScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUp from "../screens/SignUp";
+import ScreenNames from "./ScreenNames";
 
 const Stack = createStackNavigator();
 
@@ -40,26 +41,30 @@ function AuthNavigator() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
-          name="LoginScreen"
+          name={ScreenNames.LoginScreen}
           component={LoginScreen}
           options={Horizantal}
         />
         <Stack.Screen
-          name="ForgotPassword"
+          name={ScreenNames.ForgotPassword}
           component={ForgotPassword}
           options={Horizantal}
         />
         <Stack.Screen
-          name="EmailSignUp"
+          name={ScreenNames.EmailSignUp}
           component={EmailSignUp}
           options={Horizantal}
         />
         <Stack.Screen
-          name="EmailVerifyCode"
+          name={ScreenNames.EmailVerifyCode}
           component={EmailVerifyCode}
           options={Horizantal}
         />
-        <Stack.Screen name="SignUp" component={SignUp} options={Horizantal} />
+        <Stack.Screen
+          name={ScreenNames.SignUp}
+          component={SignUp}
+          options={Horizantal}
+        />
       </Stack.Navigator>
     </View>
   );
