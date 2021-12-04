@@ -1,72 +1,31 @@
-import React, { useEffect } from "react";
-import { Appearance } from "react-native";
+import React from "react";
 import { connect } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-native-paper";
-import PushNotification from "react-native-push-notification";
 
 import AppNavigator from "./navigation/AppNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 import { ChangeMode } from "./store/theme/actions";
-import { LocalNotification } from "./hooks/useNotifications";
+import OfflineNotice from "./components/OfflineNotice";
+import Overlay from "./components/Overlay";
+import useNotifications from "./hooks/useNotifications";
+import useThemeManager from "./hooks/useThemeManager";
 import { UpdatePushToken } from "./store/auth/actions";
 
 function App(props) {
-  const { ToggleMode, User, SetPushToken, PushToken, Theme } = props;
+  const { ToggleMode, User, SetPushToken, PushToken, Theme, overlayConfig } =
+    props;
+  // Notification/Push Token handlers using custom hook
+  useNotifications(PushToken, SetPushToken);
 
-  // Push Notification Setup
-  useEffect(() => {
-    PushNotification.configure({
-      onRegister: onRegister,
-      onNotification: onNotification,
-
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
-  }, []);
-
-  // Appearance Change UseEffect
-  useEffect(() => {
-    Appearance.addChangeListener(onThemeChange);
-
-    return () => Appearance.removeChangeListener(onThemeChange);
-  }, []);
-
-  // Function to execute on notification arrival
-  const onNotification = async (notification) => {
-    try {
-      if (notification.data !== null) {
-        if (notification.data.showInForeGround === "false") return;
-
-        const DATA = notification.data || {};
-        const NOTIFICATIONS = notification.notification || {};
-        const NotifyData = {
-          ...NOTIFICATIONS,
-          ...DATA,
-        };
-        LocalNotification(NotifyData);
-      }
-    } catch (error) {}
-  };
-
-  // Funtion to execute on token fetch
-  const onRegister = async (token) => {
-    try {
-      if (token?.token && PushToken !== token?.token) SetPushToken(token.token);
-    } catch (error) {}
-  };
-
-  // Function to execute on phone theme change
-  const onThemeChange = ({ colorScheme }) => ToggleMode(colorScheme);
+  // Light/Dark Mode manager using custom hook
+  useThemeManager(ToggleMode);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <OfflineNotice />
+      <Overlay {...overlayConfig} />
       <NavigationContainer theme={Theme}>
         <Provider>{User ? <AppNavigator /> : <AuthNavigator />}</Provider>
       </NavigationContainer>
@@ -79,6 +38,7 @@ const mapStateToProps = (state) => {
     User: state.AuthState.User,
     Theme: state.ThemeState.Theme,
     PushToken: state.AuthState.PushToken,
+    overlayConfig: state.UtilsState.overlayConfig,
   };
 };
 

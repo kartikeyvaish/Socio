@@ -3,6 +3,7 @@ import React from "react";
 import { AppRegistry } from "react-native";
 import { Provider } from "react-redux";
 import PushNotification, { Importance } from "react-native-push-notification";
+import messaging from "@react-native-firebase/messaging";
 import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
@@ -20,6 +21,9 @@ PushNotification.createChannel(
   },
   (created) => {}
 );
+
+// Register background handler
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {});
 
 function HeadlessCheck({ isHeadless }) {
   return isHeadless ? null : (
