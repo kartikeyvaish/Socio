@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { Switch } from "react-native-paper";
 
 import API from "../api/API";
-import { ChangeMode } from "../store/theme/actions";
+import { ChangeMode, Reset } from "../store/theme/actions";
 import Container from "../components/Container";
 import ColorPallete from "../config/ColorPallete";
 import config from "../config/config";
@@ -19,12 +19,21 @@ import FollowRequestBTN from "../components/FollowRequestBTN";
 import { Logout } from "./../store/auth/actions";
 import MenuCard from "../components/MenuCard";
 import Text from "../components/Text";
+import ScreenNames from "../navigation/ScreenNames";
+import { SetOverlay } from "../store/utils/actions";
 
-function Settings({ navigation, Mode, SetMode, Logout, User }) {
+function Settings({
+  navigation,
+  Mode,
+  SetMode,
+  Logout,
+  User,
+  RESET,
+  SetOverlay,
+}) {
   const [Loading, SetLoading] = useState(false);
-  const [LogoutLoading, SetLogoutLoading] = useState(false);
   const [ConfirmationBox, SetConfirmationBox] = useState(false);
-  const [ProfilePrivate, SetProfilePrivate] = useState(false);
+  const [ProfilePrivate, SetProfilePrivate] = useState(User.Private ?? false);
 
   const onToggleSwitch = () => {
     if (Mode === "light") {
@@ -37,12 +46,16 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
   const Logout_Function = async () => {
     try {
       SetConfirmationBox(false);
-      SetLogoutLoading(true);
+      SetOverlay({
+        text: "Logging Out...",
+        visible: true,
+      });
       await API.Logout(User.Token);
-      SetLogoutLoading(false);
+      RESET();
       Logout(null);
+      SetOverlay({ visible: false });
     } catch (error) {
-      SetLogoutLoading(false);
+      SetOverlay({ visible: false });
     }
   };
 
@@ -103,6 +116,7 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
   return (
     <Container style={styles.container}>
       {CancelRequestConfirmation()}
+
       <View style={styles.RowMenu}>
         <Text text="Dark Mode" family="InterBold" size={18} />
         <Switch
@@ -127,7 +141,7 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
         prefixIconName="form-textbox-password"
         text="Change Password"
         showSuffixIcon={false}
-        onPress={() => navigation.navigate("ChangePassword")}
+        onPress={() => navigation.navigate(ScreenNames.ChangePassword)}
       />
 
       <MenuCard
@@ -145,7 +159,6 @@ function Settings({ navigation, Mode, SetMode, Logout, User }) {
         showSuffixIcon={false}
         color={ColorPallete.red}
         onPress={() => SetConfirmationBox(true)}
-        suffixLoading={LogoutLoading}
       />
     </Container>
   );
@@ -162,6 +175,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     SetMode: (colorScheme) => dispatch(ChangeMode(colorScheme)),
     Logout: (User) => dispatch(Logout(User)),
+    RESET: () => dispatch(Reset()),
+    SetOverlay: (configs) => dispatch(SetOverlay(configs)),
   };
 };
 

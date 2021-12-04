@@ -7,7 +7,8 @@ import Container from "./../components/Container";
 import config from "../config/config";
 import Helper from "../config/Helper";
 import Icon from "../components/Icon";
-import NewPostMenuCard from "./NewPostMenuCard";
+import NewPostMenuCard from "../components/NewPostMenuCard";
+import ScreenNames from "../navigation/ScreenNames";
 
 const FILE_LIMIT = 10485760;
 const ScreenWidth = Dimensions.get("screen").width;
@@ -15,7 +16,7 @@ const ScreenWidth = Dimensions.get("screen").width;
 function NewPostScreen({ navigation }) {
   const SharePost = (data) => {
     try {
-      navigation.navigate("CreatePost", { ...data });
+      navigation.navigate(ScreenNames.CreatePost, { ...data });
     } catch (error) {
       ToastAndroid.show(config.messages.ServerError, ToastAndroid.SHORT);
     }

@@ -17,6 +17,7 @@ import Helper from "../config/Helper";
 import HeaderBar from "./../components/HeaderBar";
 import NotificationsCard from "../components/NotificationsCard";
 import Text from "./../components/Text";
+import ScreenNames from "../navigation/ScreenNames";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
@@ -103,7 +104,7 @@ function Notifications({ navigation, User }) {
           </View>
           <Pressable
             style={{ flex: 1 }}
-            onPress={() => navigation.navigate("FollowRequests")}
+            onPress={() => navigation.navigate(ScreenNames.FollowRequests)}
           >
             <Text text="Follow Requests" size={20} family="InterBold" />
             <Text text="Accept or decline follow requests" />
@@ -125,7 +126,7 @@ function Notifications({ navigation, User }) {
               created_at={item.created_at}
               notification_type={item.notification_type}
               onPress={() =>
-                navigation.navigate("PostDetails", {
+                navigation.navigate(ScreenNames.PostDetails, {
                   _id: item.post_details._id,
                   title: "Post",
                 })

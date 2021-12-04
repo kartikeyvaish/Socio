@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { View, FlatList, ActivityIndicator, StyleSheet } from "react-native";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useScrollToTop } from "@react-navigation/native";
 
 import API from "../api/API";
@@ -19,6 +19,7 @@ import Toast from "../components/Toast";
 import PostCard from "../components/PostCard";
 import { SetPosts } from "./../store/posts/actions";
 import { SetStorePosts } from "./../store/cache/actions";
+import ScreenNames from "../navigation/ScreenNames";
 
 function HomeScreen({
   navigation,
@@ -27,16 +28,17 @@ function HomeScreen({
   UpdatePosts,
   UpdateStorePosts,
   StorePosts = [],
-  Unread,
 }) {
   const FlatListRef = useRef(null);
   const LastItem = useRef("");
   const LastID = useRef("");
   const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 70 });
-  const [Viewable, SetViewable] = useState([]);
+  const [ViewableItem, SetViewableItem] = useState("");
   const [UniversalMute, SetUniversalMute] = useState(true);
   const [GettingPosts, SetGettingPosts] = useState(false);
   const [Refreshing, SetRefreshing] = useState(false);
+
+  const Unread = useSelector((state) => state.ChatsState.Unread);
 
   // On double tap of Home Screen tab, the user scrolls to top
   useScrollToTop(FlatListRef);
@@ -54,7 +56,7 @@ function HomeScreen({
   // To stop playing the video when the user changes the screen
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
-      SetViewable([]);
+      SetViewableItem(null);
     });
 
     return unsubscribe;
@@ -89,22 +91,18 @@ function HomeScreen({
 
   // Viewable configuration
   const onViewRef = useRef((viewableItems) => {
-    let Check = [];
-
-    for (var i = 0; i < viewableItems.viewableItems.length; i++)
-      if (viewableItems?.viewableItems[i]?.item?._id || 0)
-        Check.push(viewableItems.viewableItems[i].item._id);
-
-    SetViewable(Check);
-
-    if (Check.length)
-      if (Check[Check.length - 1]) LastItem.current = Check[Check.length - 1];
+    if (viewableItems?.viewableItems?.length > 0) {
+      SetViewableItem(viewableItems.viewableItems[0].item._id || 0);
+      LastItem.current = viewableItems.viewableItems[0].item._id;
+    }
   });
 
   // useCallback for Resume Playing
   const ResumePlay = useCallback(() => {
     try {
-      if (LastItem.current !== null) SetViewable([LastItem.current]);
+      if (LastItem.current !== null) {
+        SetViewableItem(LastItem.current);
+      }
     } catch (error) {}
   }, [LastItem]);
 
@@ -151,12 +149,12 @@ function HomeScreen({
       <>
         <HeaderBar
           showPrefixIcon={false}
-          onSuffixPress={() => navigation.navigate("Chats")}
+          onSuffixPress={() => navigation.navigate(ScreenNames.Chats)}
           SuffixBadgeNumber={Unread}
         />
       </>
     );
-  }, [Unread]);
+  }, [navigation, Unread]);
 
   // useMemo for Empty Part
   const EmptyRender = useMemo(() => {
@@ -175,24 +173,26 @@ function HomeScreen({
       Token={User.Token}
       onNamePress={
         User._id === item.user_id
-          ? () => navigation.navigate("ProfileScreen")
+          ? () => navigation.navigate(ScreenNames.ProfileScreen)
           : () =>
-              navigation.navigate("PersonProfile", {
+              navigation.navigate(ScreenNames.PersonProfile, {
                 title: item.Username,
                 _id: item.user_id,
               })
       }
       Width={item.dimensions.width}
       Height={item.dimensions.height}
-      onLikesPress={() => navigation.navigate("Likes", { PostID: item._id })}
+      onLikesPress={() =>
+        navigation.navigate(ScreenNames.Likes, { PostID: item._id })
+      }
       onCommentPress={() =>
-        navigation.navigate("Comments", {
+        navigation.navigate(ScreenNames.Comments, {
           PostID: item._id,
           PostOwnerID: item.user_id,
         })
       }
       onRefresh={GetPosts}
-      ViewableItems={Viewable}
+      viewable={ViewableItem}
       muted={UniversalMute}
       onMuteToggle={() => SetUniversalMute(!UniversalMute)}
     />
@@ -235,7 +235,6 @@ const mapStateToProps = (state) => {
     User: state.AuthState.User,
     Posts: state.PostsState.Posts,
     StorePosts: state.CacheState.StorePosts,
-    Unread: state.ChatsState.Unread,
   };
 };
 

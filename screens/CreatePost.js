@@ -1,23 +1,38 @@
 import React, { useLayoutEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  Image,
+} from "react-native";
 import { connect } from "react-redux";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as VideoThumbnails from "expo-video-thumbnails";
 
 import API from "../api/API";
+import { AddPost } from "./../store/posts/actions";
+import { AddToStorePosts } from "../store/cache/actions";
+import { AddPostToProfile } from "../store/profile/actions";
 import ColorPallete from "../config/ColorPallete";
 import config from "../config/config";
 import Helper from "../config/Helper";
 import Text from "../components/Text";
 import TextInput from "./../components/TextInput";
-import PreviewFile from "../components/PreviewFile";
 import ScrollContainer from "../components/ScrollContainer";
 import Toast from "../components/Toast";
-import { AddPost } from "./../store/posts/actions";
+import ScreenNames from "../navigation/ScreenNames";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
-function CreatePost({ navigation, route, User, Add_Post }) {
+function CreatePost({
+  navigation,
+  route,
+  User,
+  Add_Post,
+  Add_to_Store_Posts,
+  Add_Post_To_Profile,
+}) {
   const [Loading, SetLoading] = useState(false);
   const [Caption, SetCaption] = useState("");
   const [Location, SetLocation] = useState("");
@@ -110,7 +125,9 @@ function CreatePost({ navigation, route, User, Add_Post }) {
       if (response.ok) {
         SetLoading(false);
         Add_Post(response.data);
-        navigation.navigate("HomeScreen");
+        Add_to_Store_Posts(response.data);
+        Add_Post_To_Profile(response.data);
+        navigation.navigate(ScreenNames.HomeScreen);
       } else {
         SetLoading(false);
         Toast.show({ text: response.data });
@@ -123,15 +140,20 @@ function CreatePost({ navigation, route, User, Add_Post }) {
 
   return (
     <ScrollContainer style={styles.container}>
-      <View style={styles.PReviewBox}>
-        <PreviewFile {...route.params} />
+      <View style={{ flexDirection: "row" }}>
+        <Image
+          source={{ uri: route.params.uri }}
+          style={{ width: 70, height: 70, borderRadius: 10 }}
+        />
+        <View style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
+          <TextInput
+            label="Write a Caption"
+            multiline={true}
+            onChangeText={SetCaption}
+            mode="flat"
+          />
+        </View>
       </View>
-
-      <TextInput
-        label="Write a Caption"
-        multiline={true}
-        onChangeText={SetCaption}
-      />
       <TextInput label="Location" mode="flat" onChangeText={SetLocation} />
     </ScrollContainer>
   );
@@ -146,6 +168,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     Add_Post: (post_id) => dispatch(AddPost(post_id)),
+    Add_to_Store_Posts: (post) => dispatch(AddToStorePosts(post)),
+    Add_Post_To_Profile: (post) => dispatch(AddPostToProfile(post)),
   };
 };
 

@@ -6,6 +6,7 @@ import API from "../api/API";
 import config from "../config/config";
 import PeopleCard from "../components/PeopleCard";
 import Toast from "../components/Toast";
+import ScreenNames from "../navigation/ScreenNames";
 
 const BaseURL = config.URLs.BaseURL;
 
@@ -80,7 +81,7 @@ function Followers({ navigation, route, User }) {
         User._id === item.user_details._id
           ? () => navigation.goBack()
           : () =>
-              navigation.navigate("PersonProfile", {
+              navigation.navigate(ScreenNames.PersonProfile, {
                 title: item.user_details.Username,
                 _id: item.user_details._id,
               })

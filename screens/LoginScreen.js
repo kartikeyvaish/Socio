@@ -14,6 +14,7 @@ import Text from "./../components/Text";
 import TextInput from "./../components/TextInput";
 import Toast from "../components/Toast";
 import ScrollContainer from "./../components/ScrollContainer";
+import ScreenNames from "../navigation/ScreenNames";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
@@ -32,7 +33,7 @@ function LoginScreen({ navigation, PushToken, SetUser }) {
       const response = await API.Login({
         Email: values.Email,
         Password: values.Password,
-        PushToken: PushToken,
+        PushNotificationToken: PushToken,
       });
 
       SetLoading(false);
@@ -98,7 +99,7 @@ function LoginScreen({ navigation, PushToken, SetUser }) {
             <HyperLinkText
               Title="Forgot Password?"
               family="InterLight"
-              onPress={() => navigation.navigate("ForgotPassword")}
+              onPress={() => navigation.navigate(ScreenNames.ForgotPassword)}
             />
           </View>
 
@@ -134,7 +135,7 @@ function LoginScreen({ navigation, PushToken, SetUser }) {
               Title="Register"
               size={20}
               family="InterBold"
-              onPress={() => navigation.replace("EmailSignUp")}
+              onPress={() => navigation.replace(ScreenNames.EmailSignUp)}
             />
           </View>
         </View>

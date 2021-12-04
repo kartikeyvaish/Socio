@@ -8,6 +8,7 @@ import Container from "../components/Container";
 import Text from "../components/Text";
 import TextInput from "../components/TextInput";
 import Toast from "../components/Toast";
+import ScreenNames from "../navigation/ScreenNames";
 
 function EmailVerifyCode({ navigation, route }) {
   const [OTP, SetOTP] = useState("");
@@ -23,11 +24,8 @@ function EmailVerifyCode({ navigation, route }) {
       });
 
       SetLoading(false);
-      if (response.ok) {
-        navigation.replace("SignUp", route.params);
-      } else {
-        Toast.show({ text: response.data });
-      }
+      if (response.ok) navigation.replace(ScreenNames.SignUp, route.params);
+      else Toast.show({ text: response.data });
     } catch (error) {
       SetLoading(false);
       Toast.show({ text: config.messages.ServerError });

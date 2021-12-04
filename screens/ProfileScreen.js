@@ -14,11 +14,15 @@ import Text from "../components/Text";
 import Toast from "../components/Toast";
 import StatsCard from "../components/StatsCard";
 import { SetProfile } from "./../store/profile/actions";
+import ScreenNames from "../navigation/ScreenNames";
 
-function ProfileScreen({ navigation, User, SetProfile }) {
+function ProfileScreen({ navigation, User, SetProfile, Profile }) {
   const [Refreshing, SetRefreshing] = useState(false);
+  const [Loading, SetLoading] = useState(false);
 
-  const Profile = useSelector((state) => state.ProfileState.Profile);
+  const ProfilePosts = useSelector(
+    (state) => state.ProfileState?.Profile?.Posts
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,7 +31,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
           Name="Feather"
           IconName="settings"
           marginRight={15}
-          onPress={() => navigation.navigate("Settings")}
+          onPress={() => navigation.navigate(ScreenNames.Settings)}
         />
       ),
       headerLeft: () => (
@@ -47,12 +51,18 @@ function ProfileScreen({ navigation, User, SetProfile }) {
     InitialLoad();
   }, []);
 
+  // Initial Load of Profile
   const InitialLoad = async () => {
     try {
+      SetLoading(true);
       await GetProfileDetails();
-    } catch (error) {}
+      SetLoading(false);
+    } catch (error) {
+      SetLoading(false);
+    }
   };
 
+  // API call to get Profile details
   const GetProfileDetails = async () => {
     try {
       const response = await API.GetProfile(User._id, User.Token);
@@ -66,6 +76,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
     }
   };
 
+  // Render Profile Stats Container
   const GetProfileContainer = () => {
     return (
       <View style={styles.Seperator}>
@@ -82,7 +93,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
               title="Followers"
               count={Profile?.FollowersCount || 0}
               onPress={() =>
-                navigation.navigate("ListPeople", {
+                navigation.navigate(ScreenNames.ListPeople, {
                   initialRoute: "Followers",
                   user_id: User._id,
                 })
@@ -92,7 +103,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
               title="Following"
               count={Profile?.FollowingCount || 0}
               onPress={() =>
-                navigation.navigate("ListPeople", {
+                navigation.navigate(ScreenNames.ListPeople, {
                   initialRoute: "Following",
                   user_id: User._id,
                 })
@@ -124,7 +135,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
             text="Edit Profile"
             defaultBackground={true}
             onPress={() =>
-              navigation.navigate("EditProfile", {
+              navigation.navigate(ScreenNames.EditProfile, {
                 ...User,
               })
             }
@@ -134,6 +145,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
     );
   };
 
+  // API call for refresh
   const RefreshData = async () => {
     try {
       SetRefreshing(true);
@@ -144,11 +156,12 @@ function ProfileScreen({ navigation, User, SetProfile }) {
     }
   };
 
+  // Render Profile Posts card
   const RenderPostCard = ({ item }) => (
     <ProfilePostCard
       {...item}
       onPress={() =>
-        navigation.navigate("PostDetails", {
+        navigation.navigate(ScreenNames.PostDetails, {
           _id: item._id,
           title: "Posts",
         })
@@ -160,26 +173,36 @@ function ProfileScreen({ navigation, User, SetProfile }) {
     <Container>
       {GetProfileContainer()}
 
-      {Profile ? (
-        <FlatList
-          data={Profile.Posts || []}
-          keyExtractor={(item) => item._id.toString()}
-          renderItem={RenderPostCard}
-          numColumns={3}
-          onRefresh={RefreshData}
-          refreshing={Refreshing}
-          ListEmptyComponent={
-            <View style={styles.CenteredFlex}>
-              <Text text="No Posts" family="InterBold" size={18} />
-            </View>
-          }
-        />
-      ) : (
-        <View style={styles.CenteredFlex}>
-          <Text text="Error in getting Profile" family="InterBold" size={18} />
-          <Button title="Retry" onPress={GetProfileDetails} marginTop={10} />
-        </View>
-      )}
+      <View style={{ flex: 1 }}>
+        {Profile ? (
+          <FlatList
+            data={ProfilePosts || []}
+            keyExtractor={(item) => item._id.toString()}
+            renderItem={RenderPostCard}
+            numColumns={3}
+            onRefresh={RefreshData}
+            refreshing={Refreshing}
+            ListEmptyComponent={
+              <View style={styles.CenteredFlex}>
+                <Text text="No Posts" family="InterBold" size={18} />
+              </View>
+            }
+          />
+        ) : Loading ? (
+          <View style={styles.CenteredFlex}>
+            <Text text="Loading Profile" family="InterBold" size={18} />
+          </View>
+        ) : (
+          <View style={styles.CenteredFlex}>
+            <Text
+              text="Error in getting profile"
+              family="InterBold"
+              size={18}
+            />
+            <Button title="Retry" onPress={GetProfileDetails} marginTop={10} />
+          </View>
+        )}
+      </View>
     </Container>
   );
 }
@@ -187,6 +210,7 @@ function ProfileScreen({ navigation, User, SetProfile }) {
 const mapStateToProps = (state) => {
   return {
     User: state.AuthState.User,
+    Profile: state.ProfileState.Profile,
   };
 };
 

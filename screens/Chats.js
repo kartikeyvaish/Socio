@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import API from "../api/API";
 import ChatCard from "../components/ChatCard";
@@ -9,9 +9,12 @@ import { FlatList } from "react-native";
 import Icon from "./../components/Icon";
 import { ToastAndroid } from "react-native";
 import { SetChats } from "../store/chats/actions";
+import ScreenNames from "../navigation/ScreenNames";
 
-function Chats({ navigation, User, UpdateChats, Chats }) {
+function Chats({ navigation, User, UpdateChats }) {
   const [Refresing, SetRefresing] = useState(false);
+
+  const Chats = useSelector((state) => state.ChatsState.Chats);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -20,7 +23,7 @@ function Chats({ navigation, User, UpdateChats, Chats }) {
           Name="Ionicons"
           IconName="ios-create"
           marginRight={20}
-          onPress={() => navigation.navigate("NewChatScreen")}
+          onPress={() => navigation.navigate(ScreenNames.NewChatScreen)}
         />
       ),
     });
@@ -32,7 +35,7 @@ function Chats({ navigation, User, UpdateChats, Chats }) {
 
   const InitialLoad = async () => {
     try {
-      if (Chats.length === 0) await GetChats();
+      await GetChats();
     } catch (error) {}
   };
 
@@ -40,7 +43,7 @@ function Chats({ navigation, User, UpdateChats, Chats }) {
     try {
       const response = await API.GetChats(User.Token);
 
-      if (response.ok) UpdateChats(response.data.Chats);
+      if (response.ok) UpdateChats(response.data.Chats, User._id);
       else ToastAndroid.show(response.data, 3000);
     } catch (error) {
       ToastAndroid.show(config.messages.ServerError, 3000);
@@ -68,7 +71,7 @@ function Chats({ navigation, User, UpdateChats, Chats }) {
                 {...item}
                 current_user={User._id}
                 onPress={() =>
-                  navigation.navigate("ChatRoom", {
+                  navigation.navigate(ScreenNames.ChatRoom, {
                     RoomID: item._id,
                     OtherUser: item.chatting_with,
                   })
@@ -92,7 +95,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateChats: (chats) => dispatch(SetChats(chats)),
+    UpdateChats: (chats, _id) => dispatch(SetChats(chats, _id)),
   };
 };
 

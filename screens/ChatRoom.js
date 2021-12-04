@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+// Packages import
+import React, { useEffect, useLayoutEffect, useReducer, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -18,6 +19,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTheme } from "@react-navigation/native";
 import { Video } from "expo-av";
 
+// components, APIs, and functions
 import API from "../api/API";
 import Avatar from "./../components/Avatar";
 import config from "../config/config";
@@ -29,76 +31,67 @@ import KeyBoard from "../components/KeyBoard";
 import LoadingScreen from "../components/LoadingScreen";
 import Modal from "react-native-modal";
 import moment from "moment";
-import RecievedMessage from "../components/RecievedMessage";
-import SendMessage from "../components/SendMessage";
 import Text from "./../components/Text";
 
-const BaseURL = config.URLs.BaseURL;
-const deviceWidth = Dimensions.get("window").width;
+// Imports from Chat Room Store
+// Initial State and Reducer
+import chatRoomReducer, {
+  chatRoomInitialState,
+} from "../store/chatRoom/reducer";
 
-function ChatRoom({ navigation, route, User }) {
+// Action Creators
+import { MarkChatAsRead, UpdateChat } from "../store/chats/actions";
+import {
+  MarkMessageAsRead,
+  SetChatThread,
+  SetFullFile,
+  SetFullModal,
+  SetLoading,
+  SetMessage,
+  SetPreviewModal,
+  SetSelectedFile,
+  SetSendLoading,
+  SetTyping,
+  SetUsersCount,
+  RemoveMessageItem,
+  UpdateChatThread,
+  UpdateMessageItem,
+} from "../store/chatRoom/actions";
+import MessageCard from "../components/MessageCard";
+import ScreenNames from "../navigation/ScreenNames";
+
+// Constants
+const BaseURL = config.URLs.BaseURL;
+const ScreenWidth = Dimensions.get("window").width;
+
+function ChatRoom({
+  navigation,
+  route,
+  User,
+  MarkChatAsRead,
+  UpdateChat,
+  MarkMessageRead,
+}) {
+  // theme for the application
+  const { dark } = useTheme();
+
+  // useRefs for the chat room
   const socket = useRef(io(BaseURL));
   const VideoPlayer = useRef();
   const FLatListRef = useRef();
   const Skip = useRef(0);
-  const [ChatThread, SetChatThread] = useState([]);
-  const [Message, SetMessage] = useState("");
-  const [Users, SetUsers] = useState(0);
-  const [SelectedFile, SetSelectedFile] = useState(null);
-  const [FullFile, SetFullFile] = useState(null);
-  const [PreviewModal, SetPreviewModal] = useState(false);
-  const [FullViewModal, SetFullViewModal] = useState(false);
-  const [SendLoading, SetSendLoading] = useState(false);
-  const [Loading, SetLoading] = useState(false);
-  const [typing, Settyping] = useState(false);
-  const { dark } = useTheme();
 
-  const room = route?.params?.RoomID;
+  // reducer for the chat room
+  const [state, dispatch] = useReducer(chatRoomReducer, chatRoomInitialState);
 
+  // owner_id for the chat room
   const OwnerID = User._id;
 
+  // Route Parameters
+  const room = route?.params?.RoomID;
   const RecieverID = route.params?.OtherUser?._id;
   const RecieverUsername = route.params?.OtherUser?.Username;
   const RecieverProfilePicture = route.params?.OtherUser?.ProfilePicture;
-
-  // useLayoutEffect to update the user details in the header
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: (props) => (
-        <Pressable
-          style={styles.NameAndPicHeaderBox}
-          onPress={() =>
-            navigation.navigate("PersonProfile", {
-              title: RecieverUsername,
-              _id: RecieverID,
-            })
-          }
-        >
-          <Avatar
-            uri={RecieverProfilePicture}
-            size={35}
-            showOnlineButton={Users > 1 ? true : false}
-            online={Users > 1 ? true : false}
-          />
-          <View>
-            <Text
-              text={RecieverUsername}
-              family="InterBold"
-              size={18}
-              marginLeft={15}
-            />
-            <Text
-              text={Users > 1 ? (typing ? "Typing..." : "Online") : "Offline"}
-              size={13}
-              marginLeft={15}
-            />
-          </View>
-        </Pressable>
-      ),
-    });
-
-    if (Users > 1) MarkAsReadUserUpdate();
-  }, [navigation, Users, typing]);
 
   // useEffect which gets executed when the component mounts
   useEffect(() => {
@@ -115,31 +108,81 @@ function ChatRoom({ navigation, route, User }) {
 
     socket.current.on("type-update-emitter", (message) => {
       if (message.typer !== OwnerID) {
-        if (message.message === "start") Settyping(true);
-        else Settyping(false);
+        if (message.message === "start") dispatch(SetTyping(true));
+        else dispatch(SetTyping(false));
       }
     });
 
     socket.current.on("roomUsers", ({ room, users }) => {
-      if (Users !== users.length) SetUsers(users.length);
+      if (state.Users !== users.length) dispatch(SetUsersCount(users.length));
     });
 
     return () => socket.current.disconnect();
   }, []);
 
+  // useLayoutEffect to update the user details in the header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: (props) => (
+        <Pressable
+          style={styles.NameAndPicHeaderBox}
+          onPress={() =>
+            navigation.navigate(ScreenNames.PersonProfile, {
+              title: RecieverUsername,
+              _id: RecieverID,
+            })
+          }
+        >
+          <Avatar
+            uri={RecieverProfilePicture}
+            size={35}
+            showOnlineButton={state.Users > 1 ? true : false}
+            online={state.Users > 1 ? true : false}
+          />
+          <View>
+            <Text
+              text={RecieverUsername}
+              family="InterBold"
+              size={18}
+              marginLeft={15}
+            />
+            {state.Users > 1 ? (
+              <Text
+                text={state.typing ? "Typing..." : "Online"}
+                size={13}
+                marginLeft={15}
+              />
+            ) : null}
+          </View>
+        </Pressable>
+      ),
+    });
+
+    if (state.Users > 1) dispatch(MarkMessageRead(OwnerID));
+  }, [navigation, state.Users, state.typing, OwnerID]);
+
+  // To update the chat last message when user leaves the screen
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () => {
+      UpdateChat(room, state.ChatThread[0], OwnerID);
+    });
+
+    return unsubscribe;
+  }, [navigation, state.ChatThread, OwnerID, room]);
+
   // Whenever there is a change in ChatThread, then update the Skip count to its length
   useEffect(() => {
-    Skip.current = ChatThread.length;
-  }, [ChatThread]);
+    Skip.current = state.ChatThread.length;
+  }, [state.ChatThread]);
 
   // Wheneve the FullFile changes, update the preview modal
   useEffect(() => {
-    if (FullFile !== null) SetFullViewModal(true);
-  }, [FullFile]);
+    if (state.FullFile !== null) dispatch(SetFullModal(true));
+  }, [state.FullFile]);
 
   // Update the other user that I am typing through socket
   useEffect(() => {
-    if (Message.length) {
+    if (state.Message.length) {
       if (socket.current) {
         socket.current.emit("type-update", {
           message: `start`,
@@ -158,17 +201,17 @@ function ChatRoom({ navigation, route, User }) {
     }, 1500);
 
     return () => clearTimeout(timeout);
-  }, [Message]);
+  }, [state.Message]);
 
   // Initial Load
   const InitialLoad = async () => {
     try {
-      SetLoading(true);
+      dispatch(SetLoading(true));
       await GetMessages();
       await MarkAsRead();
-      SetLoading(false);
+      dispatch(SetLoading(false));
     } catch (error) {
-      SetLoading(false);
+      dispatch(SetLoading(false));
     }
   };
 
@@ -178,23 +221,10 @@ function ChatRoom({ navigation, route, User }) {
       const response = await API.GetMessages(room, Skip.current, User.Token);
 
       if (response.ok) {
-        let length = response.data.Messages.length;
-        if (length) {
-          // let temp = _.unionBy(ChatThread, response.data.Messages, "_id");
-          let temp = [...ChatThread, ...response.data.Messages];
-          SetChatThread(temp);
-        }
-      }
-    } catch (error) {}
-  };
-
-  // Mark the 0th element as Read when the other user opens the chat room
-  const MarkAsReadUserUpdate = async () => {
-    try {
-      let temp = [...ChatThread];
-      if (temp[0].user_id === OwnerID) {
-        temp[0] = { ...temp[0], read: true };
-        SetChatThread(temp);
+        if (response.data.Messages.length)
+          dispatch(
+            SetChatThread([...state.ChatThread, ...response.data.Messages])
+          );
       }
     } catch (error) {}
   };
@@ -203,6 +233,7 @@ function ChatRoom({ navigation, route, User }) {
   const MarkAsRead = async () => {
     try {
       await API.MarkAsRead(room, User.Token);
+      MarkChatAsRead(room, OwnerID);
     } catch (error) {}
   };
 
@@ -218,26 +249,15 @@ function ChatRoom({ navigation, route, User }) {
         if (response.uri.startsWith("file")) previewFile.uri = response.uri;
         else previewFile.uri = "file://" + response.uri;
 
-        SetSelectedFile(previewFile);
-        SetPreviewModal(true);
+        dispatch(SetSelectedFile(previewFile));
+        dispatch(SetPreviewModal(true));
       }
-    } catch (error) {}
-  };
-
-  // Remove an item from CHatThread array based on the _id
-  const RemoveMessageBasedOnID = async (_id) => {
-    try {
-      const filter = ChatThread.filter((item) => item._id !== _id);
-
-      SetChatThread(filter);
     } catch (error) {}
   };
 
   // Add an item to the CHatThread array
   const AddToChatThread = (data) => {
-    SetChatThread((ChatThread) => {
-      return [data].concat(ChatThread);
-    });
+    dispatch(UpdateChatThread(data));
   };
 
   // Fucntoin to send a message to the socket to other user
@@ -252,11 +272,11 @@ function ChatRoom({ navigation, route, User }) {
   // Reset the states
   const ResetModal = async () => {
     try {
-      SetSelectedFile(null);
-      SetPreviewModal(false);
-      SetFullFile(null);
-      SetFullViewModal(false);
-      SetMessage("");
+      dispatch(SetSelectedFile(null));
+      dispatch(SetPreviewModal(false));
+      dispatch(SetFullFile(null));
+      dispatch(SetFullModal(false));
+      dispatch(SetMessage(""));
       if (VideoPlayer.current) await VideoPlayer.current.unloadAsync();
     } catch (error) {}
   };
@@ -264,7 +284,7 @@ function ChatRoom({ navigation, route, User }) {
   // Render the File Picked Preview Modal
   const RenderPreviewModal = () => (
     <Modal
-      isVisible={PreviewModal}
+      isVisible={state.PreviewModal}
       onBackButtonPress={ResetModal}
       animationInTiming={1}
       animationOutTiming={1}
@@ -272,22 +292,22 @@ function ChatRoom({ navigation, route, User }) {
       backdropOpacity={1}
       style={{ padding: 0, margin: 0 }}
     >
-      {SelectedFile ? (
+      {state.SelectedFile ? (
         <View style={styles.FilePart}>
-          <View style={{ width: deviceWidth }}>
-            {SelectedFile.mimeName === "image" ? (
+          <View style={{ width: ScreenWidth }}>
+            {state.SelectedFile.mimeName === "image" ? (
               <IMG
-                source={{ uri: SelectedFile.uri }}
+                source={{ uri: state.SelectedFile.uri }}
                 style={styles.ImagePreview}
               />
             ) : (
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Video
                   ref={VideoPlayer}
-                  source={{ uri: SelectedFile.uri }}
+                  source={{ uri: state.SelectedFile.uri }}
                   shouldPlay
                   isLooping
-                  style={{ minWidth: deviceWidth, minHeight: deviceWidth }}
+                  style={{ minWidth: ScreenWidth, minHeight: ScreenWidth }}
                   resizeMode="contain"
                 />
               </View>
@@ -317,13 +337,13 @@ function ChatRoom({ navigation, route, User }) {
 
       <View style={{ width: "100%", position: "absolute", bottom: 20 }}>
         <KeyBoard
-          onChangeText={(value) => SetMessage(value)}
+          onChangeText={(value) => dispatch(SetMessage(value))}
           onSubmit={Send_File_Message}
-          value={Message}
+          value={state.Message}
           showFilePicker={false}
           color="black"
           backgroundColor="white"
-          Loading={SendLoading}
+          Loading={state.SendLoading}
         />
       </View>
     </Modal>
@@ -332,7 +352,7 @@ function ChatRoom({ navigation, route, User }) {
   // Render the modal which opens when the user clicks on the file message
   const RenderFullFileModal = () => (
     <Modal
-      isVisible={FullViewModal}
+      isVisible={state.FullViewModal}
       onBackButtonPress={ResetModal}
       animationInTiming={1}
       animationOutTiming={1}
@@ -340,22 +360,22 @@ function ChatRoom({ navigation, route, User }) {
       backdropOpacity={1}
       style={{ padding: 0, margin: 0 }}
     >
-      {FullFile ? (
+      {state.FullFile ? (
         <View style={styles.FilePart}>
-          <View style={{ width: deviceWidth }}>
-            {FullFile.mime_type.slice(0, 5) === "image" ? (
+          <View style={{ width: ScreenWidth }}>
+            {state.FullFile.mime_type.slice(0, 5) === "image" ? (
               <IMG
-                source={{ uri: FullFile.file }}
+                source={{ uri: state.FullFile.file }}
                 style={styles.ImagePreview}
               />
             ) : (
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Video
                   ref={VideoPlayer}
-                  source={{ uri: FullFile.file }}
+                  source={{ uri: state.FullFile.file }}
                   style={{
-                    minWidth: deviceWidth,
-                    minHeight: deviceWidth,
+                    minWidth: ScreenWidth,
+                    minHeight: ScreenWidth,
                   }}
                   shouldPlay
                   isLooping
@@ -379,7 +399,9 @@ function ChatRoom({ navigation, route, User }) {
             color="white"
           />
           <Text
-            text={FullFile?.user_id === OwnerID ? "You" : RecieverUsername}
+            text={
+              state.FullFile?.user_id === OwnerID ? "You" : RecieverUsername
+            }
             marginLeft={20}
             size={22}
             family="InterBold"
@@ -395,35 +417,39 @@ function ChatRoom({ navigation, route, User }) {
     try {
       const UniqueID = Helper.GenerateUniqueID();
       Keyboard.dismiss();
+      FLatListRef.current.scrollToOffset({ animated: false, offset: 0 });
+
+      dispatch(SetMessage(""));
 
       const formData = new FormData();
       formData.append("room_id", room);
-      formData.append("message", Message);
-      formData.append("read", Users > 1 ? true : false);
+      formData.append("message", state.Message.trim());
+      formData.append("read", state.Users > 1 ? true : false);
       formData.append("message_type", "text");
 
       const temp_message = {
         _id: UniqueID,
         room_id: room,
-        message: Message,
+        message: state.Message.trim(),
         message_datetime: moment(),
         user_id: OwnerID,
         reciever_id: RecieverID,
         message_type: "text",
-        read: Users > 1 ? true : false,
+        read: state.Users > 1 ? true : false,
+        undelivered: true,
       };
 
       AddToChatThread(temp_message);
 
       const response = await API.SendMessage(formData, User.Token);
 
-      if (response.ok) SendToSocket(response.data);
-      else {
-        RemoveMessageBasedOnID(UniqueID);
+      if (response.ok) {
+        SendToSocket(response.data);
+        dispatch(UpdateMessageItem(UniqueID, response.data));
+      } else {
+        dispatch(RemoveMessageItem(UniqueID));
         ToastAndroid.show(config.messages.ServerError, 3000);
       }
-
-      SetMessage("");
     } catch (error) {
       ToastAndroid.show(config.messages.ServerError, 3000);
     }
@@ -432,22 +458,23 @@ function ChatRoom({ navigation, route, User }) {
   // Send A File Message
   const Send_File_Message = async () => {
     try {
-      SetSendLoading(true);
+      dispatch(SetSendLoading(true));
       Keyboard.dismiss();
+      FLatListRef.current.scrollToOffset({ animated: false, offset: 0 });
 
       const formData = new FormData();
       formData.append("room_id", room);
-      formData.append("message", Message);
-      formData.append("read", Users > 1 ? true : false);
+      formData.append("message", state.Message.trim());
+      formData.append("read", state.Users > 1 ? true : false);
       formData.append("message_type", "file");
 
-      let MimeType = Helper.GiveMimeType(SelectedFile.uri);
+      let MimeType = Helper.GiveMimeType(state.SelectedFile.uri);
       let Preview = "";
 
-      if (SelectedFile.mimeName === "image") {
+      if (state.SelectedFile.mimeName === "image") {
         try {
           const response = await ImageManipulator.manipulateAsync(
-            SelectedFile.uri,
+            state.SelectedFile.uri,
             [],
             {
               compress: 0.3,
@@ -456,10 +483,10 @@ function ChatRoom({ navigation, route, User }) {
           );
           Preview = response.uri;
         } catch (error) {}
-      } else if (SelectedFile.mimeName === "video") {
+      } else if (state.SelectedFile.mimeName === "video") {
         try {
           const response = await VideoThumbnails.getThumbnailAsync(
-            SelectedFile.uri,
+            state.SelectedFile.uri,
             {
               quality: 0.3,
             }
@@ -470,14 +497,14 @@ function ChatRoom({ navigation, route, User }) {
       }
 
       formData.append("file", {
-        uri: SelectedFile.uri,
-        name: "someFile." + Helper.GetExtension(SelectedFile.uri),
+        uri: state.SelectedFile.uri,
+        name: "someFile." + Helper.GetExtension(state.SelectedFile.uri),
         type: MimeType,
       });
 
       formData.append("preview_file", {
         uri: Preview,
-        name: "somePreviewFile." + Helper.GetExtension(SelectedFile.uri),
+        name: "somePreviewFile." + Helper.GetExtension(state.SelectedFile.uri),
         type: MimeType,
       });
 
@@ -489,18 +516,18 @@ function ChatRoom({ navigation, route, User }) {
         ToastAndroid.show(config.messages.ServerError, 3000);
       }
 
-      SetMessage("");
-      SetPreviewModal(false);
-      SetSendLoading(false);
+      dispatch(SetMessage(""));
+      dispatch(SetPreviewModal(false));
+      dispatch(SetSendLoading(false));
     } catch (error) {
-      SetPreviewModal(false);
-      SetSendLoading(false);
+      dispatch(SetMessage(""));
+      dispatch(SetPreviewModal(false));
+      dispatch(SetSendLoading(false));
     }
   };
 
-  if (!OwnerID || !RecieverID || !room) {
-    return null;
-  }
+  // if any props missing then return null
+  if (!OwnerID || !RecieverID || !room) return null;
 
   return (
     <Container backgroundColor={dark ? "#000000" : null}>
@@ -508,74 +535,53 @@ function ChatRoom({ navigation, route, User }) {
 
       {RenderFullFileModal()}
 
-      {Loading ? (
+      {state.Loading ? (
         <LoadingScreen loadingText="Getting Chat.." />
       ) : (
         <>
           <View style={{ flex: 1 }}>
             <FlatList
-              data={ChatThread}
+              data={state.ChatThread}
               ref={FLatListRef}
-              onEndReached={ChatThread.length > 20 ? GetMessages : null}
+              onEndReached={GetMessages}
               inverted
+              keyboardShouldPersistTaps="always"
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item._id.toString()}
               renderItem={({ item, index }) => (
                 <>
-                  {item.user_id === OwnerID ? (
-                    <SendMessage
-                      {...item}
-                      onMessagePress={
-                        item.message_type === "post"
-                          ? () =>
-                              navigation.navigate("PostDetails", {
-                                _id: item.post_id,
-                                title: "Posts",
-                              })
-                          : item.message_type === "file"
-                          ? () => SetFullFile(item)
-                          : null
-                      }
-                      showRead={index === 0 ? true : false}
-                      topDate={Helper.GiveDateTopData(
-                        item.message_datetime,
-                        index + 1 === ChatThread.length
-                          ? null
-                          : ChatThread[index + 1].message_datetime
-                      )}
-                    />
-                  ) : (
-                    <RecievedMessage
-                      {...item}
-                      onMessagePress={
-                        item.message_type === "post"
-                          ? () =>
-                              navigation.navigate("PostDetails", {
-                                _id: item.post_id,
-                                title: "Posts",
-                              })
-                          : item.message_type === "file"
-                          ? () => SetFullFile(item)
-                          : null
-                      }
-                      topDate={Helper.GiveDateTopData(
-                        item.message_datetime,
-                        index + 1 === ChatThread.length
-                          ? null
-                          : ChatThread[index + 1].message_datetime
-                      )}
-                    />
-                  )}
+                  <MessageCard
+                    OwnerID={OwnerID}
+                    user_id={item.user_id}
+                    props={{ ...item }}
+                    onMessagePress={
+                      item.message_type === "post"
+                        ? () =>
+                            navigation.navigate(ScreenNames.PostDetails, {
+                              _id: item.post_id,
+                              title: "Posts",
+                            })
+                        : item.message_type === "file"
+                        ? () => dispatch(SetFullFile(item))
+                        : null
+                    }
+                    topDate={Helper.GiveDateTopData(
+                      item.message_datetime,
+                      index + 1 === state.ChatThread.length
+                        ? null
+                        : state.ChatThread[index + 1].message_datetime
+                    )}
+                  />
                 </>
               )}
             />
           </View>
 
           <KeyBoard
-            onChangeText={(value) => SetMessage(value)}
-            onSubmit={Message.length > 0 ? Send_Text_Message : null}
+            onChangeText={(value) => dispatch(SetMessage(value))}
+            onSubmit={state.Message.length > 0 ? Send_Text_Message : null}
             onPickPress={PickFile}
-            value={Message}
+            value={state.Message}
             backgroundColor={dark ? "black" : null}
           />
         </>
@@ -590,7 +596,16 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ChatRoom);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    MarkChatAsRead: (room_id, user) => dispatch(MarkChatAsRead(room_id, user)),
+    UpdateChat: (room_id, user) => dispatch(UpdateChat(room_id, user)),
+    MarkMessageRead: (room_id, user) =>
+      dispatch(MarkMessageAsRead(room_id, user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);
 
 const styles = StyleSheet.create({
   NameAndPicHeaderBox: {
@@ -615,22 +630,9 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     flexDirection: "row",
   },
-  PlayIcon: {
-    backgroundColor: ColorPallete.white,
-    borderRadius: 120,
-  },
-  PauseIcon: {
-    backgroundColor: ColorPallete.primary,
-    borderRadius: 120,
-  },
   ImagePreview: {
     width: "100%",
     height: "100%",
     resizeMode: "contain",
-  },
-  Progress: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 10,
   },
 });

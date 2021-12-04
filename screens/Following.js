@@ -9,6 +9,7 @@ import Text from "../components/Text";
 import FollowRequestBTN from "../components/FollowRequestBTN";
 import Toast from "../components/Toast";
 import { connect } from "react-redux";
+import ScreenNames from "../navigation/ScreenNames";
 
 const BaseURL = config.URLs.BaseURL;
 
@@ -56,7 +57,7 @@ function Following({ navigation, route, User }) {
         User._id === item.user_details._id
           ? () => navigation.goBack()
           : () =>
-              navigation.navigate("PersonProfile", {
+              navigation.navigate(ScreenNames.PersonProfile, {
                 title: item.user_details.Username,
                 _id: item.user_details._id,
               })

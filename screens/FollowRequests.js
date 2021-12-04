@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import API from "../api/API";
 import Container from "../components/Container";
 import RequestCard from "../components/RequestCard";
+import ScreenNames from "../navigation/ScreenNames";
 
 function FollowRequests({ navigation, User }) {
   const [Loading, SetLoading] = useState(false);
@@ -78,7 +79,7 @@ function FollowRequests({ navigation, User }) {
           <RequestCard
             {...item}
             onProfilePress={() =>
-              navigation.navigate("PersonProfile", {
+              navigation.navigate(ScreenNames.PersonProfile, {
                 _id: item.user_details._id,
               })
             }

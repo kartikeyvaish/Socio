@@ -12,8 +12,10 @@ import FollowRequestBTN from "../components/FollowRequestBTN";
 import ProfilePostCard from "../components/ProfilePostCard";
 import Text from "../components/Text";
 import Toast from "../components/Toast";
+import ScreenNames from "../navigation/ScreenNames";
 
 function PersonProfile({ navigation, route, User }) {
+  const [DetailsLoading, SetDetailsLoading] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [Refreshing, SetRefreshing] = useState(false);
   const [CancelConfirmationDialog, SetCancelConfirmationDialog] =
@@ -29,16 +31,16 @@ function PersonProfile({ navigation, route, User }) {
   // Get Profile Details
   const GetProfileDetails = async () => {
     try {
-      SetLoading(true);
+      SetDetailsLoading(true);
       const response = await API.GetProfile(route.params._id, User.Token);
-      SetLoading(false);
+      SetDetailsLoading(false);
       if (response.ok) {
         SetProfileData(response.data);
       } else {
         Toast.show({ text: response.data });
       }
     } catch (error) {
-      SetLoading(false);
+      SetDetailsLoading(false);
       Toast.show({ text: config.messages.ServerError });
     }
   };
@@ -67,7 +69,7 @@ function PersonProfile({ navigation, route, User }) {
             onPress={
               ProfileData.allowed_to_see_posts === true
                 ? () =>
-                    navigation.navigate("ListPeople", {
+                    navigation.navigate(ScreenNames.ListPeople, {
                       initialRoute: "Followers",
                       user_id: route.params._id,
                     })
@@ -91,7 +93,7 @@ function PersonProfile({ navigation, route, User }) {
             onPress={
               ProfileData.allowed_to_see_posts === true
                 ? () =>
-                    navigation.navigate("ListPeople", {
+                    navigation.navigate(ScreenNames.ListPeople, {
                       initialRoute: "Following",
                       user_id: route.params._id,
                     })
@@ -348,7 +350,7 @@ function PersonProfile({ navigation, route, User }) {
     <ProfilePostCard
       {...item}
       onPress={() =>
-        navigation.navigate("PostDetails", {
+        navigation.navigate(ScreenNames.PostDetails, {
           _id: item._id,
           title: "Posts",
         })
@@ -394,7 +396,7 @@ function PersonProfile({ navigation, route, User }) {
             }
           />
         </View>
-      ) : Loading === true ? (
+      ) : DetailsLoading === true ? (
         <View style={styles.CenteredFlex}>
           <Text text="Fetching Data..." family="InterBold" size={18} />
         </View>

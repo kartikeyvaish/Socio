@@ -16,6 +16,7 @@ import Icon from "./../components/Icon";
 import PersonCard from "../components/PersonCard";
 import Text from "./../components/Text";
 import { useBackHandler } from "./../hooks/useBackHandler";
+import ScreenNames from "../navigation/ScreenNames";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
@@ -127,9 +128,9 @@ function DiscoverScreen({ navigation, User }) {
         ProfilePicture={item.ProfilePicture}
         onPress={
           User._id === item._id
-            ? () => navigation.navigate("ProfileScreen")
+            ? () => navigation.navigate(ScreenNames.ProfileScreen)
             : () =>
-                navigation.navigate("PersonProfile", {
+                navigation.navigate(ScreenNames.PersonProfile, {
                   title: item.Username,
                   _id: item._id,
                 })

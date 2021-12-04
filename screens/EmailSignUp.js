@@ -10,6 +10,7 @@ import Text from "./../components/Text";
 import TextInput from "./../components/TextInput";
 import Toast from "../components/Toast";
 import RoundButton from "../components/RoundButton";
+import ScreenNames from "../navigation/ScreenNames";
 
 const ScreenWidth = Dimensions.get("screen").width;
 
@@ -25,7 +26,7 @@ function EmailSignUp({ navigation }) {
       SetLoading(true);
       const response = await API.Send_Email_Register_OTP(values.Email);
       if (response.ok) {
-        navigation.replace("EmailVerifyCode", {
+        navigation.replace(ScreenNames.EmailVerifyCode, {
           Email: values.Email,
           OTP_ID: response.data.response._id,
         });

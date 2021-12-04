@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -13,8 +13,9 @@ import API from "../api/API";
 import Button from "../components/Button";
 import config from "../config/config";
 import ColorPallete from "../config/ColorPallete";
-import { Login } from "./../store/auth/actions";
+import { Login } from "../store/auth/actions";
 import Text from "../components/Text";
+import ScreenNames from "../navigation/ScreenNames";
 
 const googleApiClientID = config.googleApiClientID;
 
@@ -22,19 +23,28 @@ GoogleSignin.configure({
   webClientId: googleApiClientID,
 });
 
-function IntroScreen({ navigation, SetUser }) {
+function IntroScreen({ navigation, SetUser, PushToken }) {
+  const [Loading, SetLoading] = useState(false);
+
   async function onGoogleButtonPress() {
     try {
       // Get the users ID token
+      SetLoading(true);
       await GoogleSignin.signOut();
       const response = await GoogleSignin.signIn();
 
-      const apiResponse = await API.GoogleLogin(response.idToken);
+      const apiResponse = await API.GoogleLogin({
+        Token: response.idToken,
+        PushNotificationToken: PushToken,
+      });
 
       if (apiResponse.ok) SetUser(apiResponse.data.User);
-      else ToastAndroid.show(apiResponse.data, ToastAndroid.LONG);
+      else {
+        SetLoading(false);
+        ToastAndroid.show(apiResponse.data, ToastAndroid.LONG);
+      }
     } catch (error) {
-      console.log(error);
+      SetLoading(false);
     }
   }
 
@@ -73,7 +83,7 @@ function IntroScreen({ navigation, SetUser }) {
             backgroundColor={ColorPallete.primary}
             marginBottom={10}
             contentStyle={{ height: 60 }}
-            onPress={() => navigation.navigate("LoginScreen")}
+            onPress={() => navigation.navigate(ScreenNames.LoginScreen)}
             style={{ borderRadius: 50 }}
           />
           <Button
@@ -83,13 +93,14 @@ function IntroScreen({ navigation, SetUser }) {
             contentStyle={{ height: 60 }}
             onPress={onGoogleButtonPress}
             style={{ borderRadius: 50 }}
+            loading={Loading}
           />
           <Button
             title="Create Account"
             backgroundColor={ColorPallete.grandis}
             marginBottom={10}
             contentStyle={{ height: 60 }}
-            onPress={() => navigation.navigate("EmailSignUp")}
+            onPress={() => navigation.navigate(ScreenNames.EmailSignUp)}
             style={{ borderRadius: 50 }}
           />
         </View>
@@ -97,6 +108,11 @@ function IntroScreen({ navigation, SetUser }) {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    PushToken: state.AuthState.PushToken,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -104,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(IntroScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroScreen);
 
 const styles = StyleSheet.create({
   container: {

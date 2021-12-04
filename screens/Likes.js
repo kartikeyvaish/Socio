@@ -7,6 +7,7 @@ import config from "../config/config";
 import LoadingScreen from "./../components/LoadingScreen";
 import NewChatCard from "../components/NewChatCard";
 import Toast from "../components/Toast";
+import ScreenNames from "../navigation/ScreenNames";
 
 function Likes({ route, navigation, User }) {
   const [UsersLiked, SetUsersLiked] = useState();
@@ -67,9 +68,9 @@ function Likes({ route, navigation, User }) {
         showCirlce={false}
         onPress={
           User._id === item.user_id
-            ? () => navigation.navigate("ProfileScreen")
+            ? () => navigation.navigate(ScreenNames.ProfileScreen)
             : () =>
-                navigation.navigate("PersonProfile", {
+                navigation.navigate(ScreenNames.PersonProfile, {
                   title: item.Username,
                   _id: item.user_id,
                 })
