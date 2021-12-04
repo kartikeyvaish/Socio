@@ -10,6 +10,7 @@ import Text from "./Text";
 import TimeStamp from "./TimeStamp";
 
 const ScreenWidth = Dimensions.get("screen").width;
+const MaxCardWidth = ScreenWidth * 0.6;
 
 function SendMessage({
   message = "",
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
   },
   messageBox: {
     flexWrap: "wrap",
-    maxWidth: ScreenWidth - 150,
+    maxWidth: MaxCardWidth,
     padding: 10,
     borderRadius: 10,
     elevation: 10,
@@ -132,14 +133,14 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   ImageBox: {
-    width: ScreenWidth - 150 - 20,
-    height: ScreenWidth - 150 - 20,
+    width: MaxCardWidth - 20,
+    height: MaxCardWidth - 20,
     justifyContent: "center",
     alignItems: "center",
   },
   Image: {
-    width: ScreenWidth - 150 - 20,
-    height: ScreenWidth - 150 - 20,
+    width: MaxCardWidth - 20,
+    height: MaxCardWidth - 20,
   },
   PLayICon: {
     position: "absolute",

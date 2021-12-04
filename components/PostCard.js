@@ -5,13 +5,11 @@ import {
   Dimensions,
   Pressable,
   ToastAndroid,
-  TouchableWithoutFeedback,
   Animated,
 } from "react-native";
 import { connect } from "react-redux";
 import FastImage from "react-native-fast-image";
 import { PinchGestureHandler, State } from "react-native-gesture-handler";
-import LottieView from "lottie-react-native";
 import { useTheme } from "@react-navigation/native";
 import { Video } from "expo-av";
 
@@ -25,6 +23,7 @@ import { DeleteStorePost } from "../store/cache/actions";
 import Dialog from "./Dialog";
 import Helper from "../config/Helper";
 import Icon from "./Icon";
+import LikeButton from "./LikeButton";
 import MenuCard from "./MenuCard";
 import Text from "./Text";
 import TruncateIt from "./TruncateText";
@@ -68,8 +67,6 @@ function PostCard({
   const post_type = mime_type.split("/")[0];
 
   const VideoPlayer = useRef();
-  const animation = useRef(null);
-  const isFirstRun = useRef(true);
   const sheetRef = useRef(null);
   const Scale = useRef(new Animated.Value(1));
 
@@ -78,16 +75,6 @@ function PostCard({
   const [LIKED, SetLIKED] = useState(is_liked);
   const [LIKE_COUNT, SetLIKE_COUNT] = useState(likes_count);
   const [SheetOpened, SetSheetOpened] = useState(false);
-
-  // useEffect for Like Button animation
-  useEffect(() => {
-    if (isFirstRun.current) {
-      if (LIKED) animation.current.play(66, 66);
-      else animation.current.play(19, 19);
-      isFirstRun.current = false;
-    } else if (LIKED) animation.current.play(19, 66);
-    else animation.current.play(66, 19);
-  }, [LIKED]);
 
   // Play/Pause a video post according to viisibility
   useEffect(() => {
@@ -116,9 +103,7 @@ function PostCard({
         },
         Token
       );
-      if (response.ok) {
-        SetLIKE_COUNT(response.data.likes_count);
-      }
+      if (response.ok) SetLIKE_COUNT(response.data.likes_count);
     } catch (error) {
       SetLIKED(false);
     }
@@ -134,9 +119,7 @@ function PostCard({
         },
         Token
       );
-      if (response.ok) {
-        SetLIKE_COUNT(response.data.likes_count);
-      }
+      if (response.ok) SetLIKE_COUNT(response.data.likes_count);
     } catch (error) {
       SetLIKED(false);
     }
@@ -145,17 +128,19 @@ function PostCard({
   // Function to delete a post
   const DeletePost = async () => {
     try {
-      SetDialogVisible(false);
       if (user_id === User._id) {
         SetDeleteLoading(true);
         const response = await API.DeletePost({ _id: _id }, User.Token);
         SetDeleteLoading(false);
+        SetDialogVisible(false);
         if (response.ok) {
           DELETE_PROFILE_POST(_id);
           DELETE_POST(_id);
           DELETE_STORE_POST(_id);
           onGoback();
         } else ToastAndroid.show(response.data, ToastAndroid.LONG);
+      } else {
+        SetDialogVisible(false);
       }
     } catch (error) {
       SetDeleteLoading(false);
@@ -232,15 +217,13 @@ function PostCard({
     return (
       <View style={styles.OperationsBTN}>
         <View style={styles.ThreeBTNS}>
-          <TouchableWithoutFeedback onPress={LIKED ? UnLikeAPost : LikeAPost}>
-            <LottieView
-              ref={animation}
-              style={styles.heartLottie}
-              source={require("../animations/like_animation.json")}
-              autoPlay={false}
-              loop={false}
-            />
-          </TouchableWithoutFeedback>
+          <LikeButton
+            style={{ marginRight: 10 }}
+            liked={LIKED}
+            onPress={LIKED ? UnLikeAPost : LikeAPost}
+            likedColor={ColorPallete.red}
+            unlikedColor={colors.text}
+          />
 
           <Icon
             Name="FontAwesome"
@@ -314,8 +297,6 @@ function PostCard({
   };
 
   const containerStyle = {
-    borderColor: colors.text,
-    borderWidth: 1 - StyleSheet.hairlineWidth,
     margin: SideOffset,
     borderRadius: 10,
     elevation: 10,

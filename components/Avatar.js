@@ -13,6 +13,7 @@ function Avatar({
   borderWidth = 1,
   headers,
   style = {},
+  borderRadius = null,
   showOnlineButton = false,
   online = false,
 }) {
@@ -24,7 +25,7 @@ function Avatar({
         style={{
           width: size,
           height: size,
-          borderRadius: size,
+          borderRadius: borderRadius !== null ? borderRadius : size,
           backgroundColor: colors.background,
           borderColor: borderColor ? borderColor : ColorPallete.primary,
           borderWidth: showBorder ? borderWidth : 0,

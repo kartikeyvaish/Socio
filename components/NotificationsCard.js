@@ -60,6 +60,7 @@ function NotificationsCard({
           <Avatar
             size={suffixSize}
             uri={suffixUri}
+            borderRadius={5}
             borderColor="grey"
             style={{ marginRight: 20, marginLeft: 15 }}
           />
