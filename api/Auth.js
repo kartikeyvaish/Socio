@@ -56,7 +56,7 @@ const ChangePassword = (DATA, Token) =>
     },
   });
 
-const GoogleLogin = (Token) => apiClient.post(google_login, { Token });
+const GoogleLogin = (DATA) => apiClient.post(google_login, DATA);
 
 export default {
   Login,
