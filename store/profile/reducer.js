@@ -17,6 +17,22 @@ const profileReducer = (state = InitialState, action) => {
       return myState;
     }
 
+    // Add a post to Profile.Posts in starting of array
+    case actionTypes.ADD_POST_TO_PROFILE: {
+      const myState = { ...state };
+
+      if (myState.Profile === null) {
+        myState.Profile = {
+          Posts: [],
+        };
+      }
+
+      myState.Profile.Posts = [action.payload, ...myState.Profile.Posts];
+      myState.Profile.PostsCount = myState.Profile.Posts.length;
+
+      return myState;
+    }
+
     // Delete a Post from Profile.Posts array
     case actionTypes.DELETE_PROFILE_POST: {
       const myState = { ...state };
@@ -26,8 +42,14 @@ const profileReducer = (state = InitialState, action) => {
       );
 
       myState.Profile.Posts = updatedPostsArray;
+      myState.Profile.PostsCount = updatedPostsArray.length;
 
       return myState;
+    }
+
+    // Reset the state
+    case actionTypes.RESET: {
+      return InitialState;
     }
 
     // Default

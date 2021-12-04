@@ -8,6 +8,7 @@ import chatReducer from "./chats/reducer";
 import postsReducer from "./posts/reducer";
 import themeReducer from "./theme/reducer";
 import profileReducer from "./profile/reducer";
+import utilsReducer from "./utils/reducer";
 
 // Combining all the reducers and exporting
 export default combineReducers({
@@ -28,4 +29,7 @@ export default combineReducers({
 
   // Theme reducer which has Theme for Navigation Container
   ThemeState: themeReducer,
+
+  // Utils reducer which has global simple states
+  UtilsState: utilsReducer,
 });

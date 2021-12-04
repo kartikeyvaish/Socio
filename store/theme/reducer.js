@@ -27,6 +27,11 @@ const themeReducer = (state = InitialState, action) => {
       return myState;
     }
 
+    // Reset
+    case actionTypes.RESET: {
+      return InitialState;
+    }
+
     // Default
     default:
       return state;

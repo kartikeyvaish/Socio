@@ -29,7 +29,9 @@ const authReducer = (state = InitialState, action) => {
 
     // User Logout
     case actionTypes.LOGOUT: {
-      return InitialState;
+      const myState = { ...state };
+      myState.User = null;
+      return myState;
     }
 
     // Update Push Token

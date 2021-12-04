@@ -7,12 +7,6 @@ export const SetPosts = (Posts) => ({
   payload: Posts,
 });
 
-// Set StorePosts
-export const SetStorePosts = (StorePosts) => ({
-  type: actionTypes.SET_STORE_POSTS,
-  payload: StorePosts,
-});
-
 // Add Post
 export const AddPost = (Post) => ({
   type: actionTypes.ADD_POST,
@@ -23,4 +17,9 @@ export const AddPost = (Post) => ({
 export const DeletePost = (_id) => ({
   type: actionTypes.DELETE_POST,
   payload: _id,
+});
+
+// Reset the state
+export const Reset = () => ({
+  type: actionTypes.RESET,
 });

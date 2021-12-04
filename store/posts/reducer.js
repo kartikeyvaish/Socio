@@ -17,14 +17,7 @@ const postsReducer = (state = InitialState, action) => {
       return myState;
     }
 
-    // Set Store Posts
-    case actionTypes.SET_STORE_POSTS: {
-      const myState = { ...state };
-      myState.StorePosts = action.payload;
-      return myState;
-    }
-
-    // Set Posts
+    // Add Posts
     case actionTypes.ADD_POST: {
       const myState = { ...state };
       myState.Posts = [action.payload, ...myState.Posts];
@@ -40,6 +33,11 @@ const postsReducer = (state = InitialState, action) => {
       );
 
       return myState;
+    }
+
+    // Reset the state
+    case actionTypes.RESET: {
+      return InitialState;
     }
 
     // Default
