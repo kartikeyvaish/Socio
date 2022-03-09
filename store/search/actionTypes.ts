@@ -1,0 +1,5 @@
+// Feed Action Types
+export const ADD_SEARCH_ITEMS = "ADD_SEARCH_ITEMS";
+export const UPDATE_SEARCH_ITEM = "UPDATE_SEARCH_ITEM";
+export const REMOVE_SEARCH_ITEM = "REMOVE_SEARCH_ITEM";
+export const CLEAR_SEARCH_ITEMS = "CLEAR_SEARCH_ITEMS";
