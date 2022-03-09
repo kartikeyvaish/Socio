@@ -52,7 +52,12 @@ buck-out/
 # Expo
 .expo/
 web-build/
+dist/
 
-
-.env
+# Firebase Docs
 google-services.json
+
+debug.keystore
+
+# Environment Variables
+.env

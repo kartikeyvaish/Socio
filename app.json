@@ -2,10 +2,9 @@
   "expo": {
     "name": "Socio",
     "slug": "Socio",
-    "version": "1.0.3",
+    "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]
-  },
-  "name": "Socio"
+  }
 }
