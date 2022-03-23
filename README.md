@@ -12,6 +12,7 @@ Users can chat with each other through real time.
 - Users can create an account
 - Users can login
 - Users can upload pictures and videos as Posts
+- Users can post stories just like Instagram
 - Users can chat with each other through real time
 - Users can like and comment on Posts
 - Users can follow other users
@@ -21,13 +22,25 @@ Users can chat with each other through real time.
 ## ✨ App Preview
 
 <p align="center">
-  <img src="https://i.imgur.com/fKTNLIJ.png" width="100%" />
+  <img src="https://i.imgur.com/hbR5uFa.png" width="100%" />
 </p>
 
 ## Light/Dark Theme
 
 <p align="center">
-  <img src="https://i.imgur.com/QjU2CXV.png" width="100%" />
+  <img src="https://i.imgur.com/2v7dna8.png" width="100%" />
+</p>
+
+## Chat Section
+
+<p align="center">
+  <img src="https://i.imgur.com/gchgrlj.png" width="100%" />
+</p>
+
+## Some Other Previews
+
+<p align="center">
+  <img src="https://i.imgur.com/UQ4QzlG.png" width="100%" />
 </p>
 
 ## Development Setup
@@ -76,13 +89,36 @@ After this process is completed, just run
 ## Environemnt Variables
 
 ```dosini
-appName="Name_of_your_app"
-tagLine="a_tag_line"
+mode="development"
 
-__DEV__="developement_or_production"
-DEV_BASE_URL="dev_base_endpoint_url"
-PROD_BASE_URL="production_base_endpoint"
+OTP_Email_Send_Key=""
+SignUP_API_KEY=""
 
-apiVersion="api_version_if_any"
-default_profile_picture="default_profile_image"
+apiVersion=""
+dev_base_url=""
+prod_base_url=""
+
+auth=""
+otp=""
+people=""
+posts=""
+profile=""
+stories=""
+chats=""
+
+default_channel_id=""
+googleApiClientID=""
+agoraAppID=""
+
+application_name="Socio"
+application_tag_line="Connect with Friends and Family.."
+developer_image=""
+owner_email=""
+owner_github=""
+owner_stackoverflow=""
+owner_linkedin=""
+about_owner=""
+about_socio=""
+default_profile_picture=""
+app_logo=""
 ```
