@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Socio",
-    "slug": "Socio",
+    "name": "socio",
+    "slug": "socio",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
