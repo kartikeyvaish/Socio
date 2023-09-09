@@ -2,7 +2,8 @@
 import { View, StyleSheet } from "react-native";
 
 // Local Imports (components/types/utils)
-import AppContainer from "../components/App/AppContainer";
+import AppContainer from "../../components/App/AppContainer";
+import AppText from "../../components/App/AppText";
 
 // interface for LoginScreen component
 export interface LoginScreenProps {}
@@ -13,7 +14,11 @@ function LoginScreen(props: LoginScreenProps) {
   const {} = props;
 
   // render
-  return <AppContainer></AppContainer>;
+  return (
+    <AppContainer>
+      <AppText text='Socio' />
+    </AppContainer>
+  );
 }
 
 // exports
