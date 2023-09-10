@@ -8,6 +8,7 @@ import AnimatedView from "../../components/Animated/AnimatedView";
 import AppButton from "../../components/App/AppButton";
 import AppContainer from "../../components/App/AppContainer";
 import AppText from "../../components/App/AppText";
+import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 
 // interface for VerifyLoginOTPScreen component
 export interface VerifyLoginOTPScreenProps {}
@@ -27,10 +28,12 @@ function VerifyLoginOTPScreen(props: VerifyLoginOTPScreenProps) {
   // render
   return (
     <AppContainer style={styles.container}>
+      <BackButtonHeader title='Verify Email' />
+
       <AppText
         text='Please enter the OTP sent to your email address to continue.'
         style={{ textAlign: "center" }}
-        margins={{ bottom: 20 }}
+        margins={{ bottom: 20, top: 20 }}
       />
 
       <AnimatedView style={{ justifyContent: "center", flex: 1 }}>
@@ -49,5 +52,6 @@ export default VerifyLoginOTPScreen;
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    paddingTop: 0,
   },
 });
