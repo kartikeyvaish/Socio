@@ -2,7 +2,7 @@
 import * as Yup from "yup";
 import { CONFIRM_PASSWORD_SCHEMA, EMAIL_SCHEMA, FIRST_NAME_SCHEMA, LAST_NAME_SCHEMA, PASSWORD_SCHEMA, USERNAME_SCHEMA } from "../types/YupSchema";
 
-// validate schema for login form
+// validate schema for register form
 const validationSchema = () => {
     return Yup.object().shape({
         first_name: FIRST_NAME_SCHEMA,
@@ -14,7 +14,7 @@ const validationSchema = () => {
     });
 };
 
-// initial values for login form
+// initial values for register form
 const initialValues = {
     first_name: "",
     last_name: "",
