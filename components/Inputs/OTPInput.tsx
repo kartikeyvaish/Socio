@@ -14,6 +14,7 @@ import AnimatedText from "../Animated/AnimatedText";
 
 // Named Imports
 import { useAppSelector } from "../../store/reduxHooks";
+import useFirstRender from "../../hooks/useFirstRender";
 
 // Constants
 const DIGIT_SIZE = 70;
@@ -96,6 +97,8 @@ function AnimatedOTPInput(props: AnimatedOTPInputProps) {
   const [code, setCode] = useState<Array<number>>([]);
   const [otpVisible, setOtpVisible] = useState<boolean>(false);
 
+  const firstRender = useFirstRender();
+
   useEffect(() => {
     onChange?.(code.join(""));
   }, [code]);
@@ -111,7 +114,11 @@ function AnimatedOTPInput(props: AnimatedOTPInputProps) {
     if (item === "VISIBILITY_TOGGLE")
       return (
         <RippleCircleButton onPress={() => setOtpVisible(prev => !prev)}>
-          <AnimatedView entering={ZoomIn} exiting={ZoomOut} key={otpVisible ? "eye" : "eye-off"}>
+          <AnimatedView
+            entering={!firstRender ? ZoomIn : undefined}
+            exiting={ZoomOut}
+            key={otpVisible ? "eye" : "eye-off"}
+          >
             <AppIcon
               family='Feather'
               name={otpVisible ? "eye" : "eye-off"}
