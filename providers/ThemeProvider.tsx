@@ -1,6 +1,7 @@
 // Packages Imports
 import { useEffect } from "react";
 import { Appearance, Platform, StatusBar, StatusBarStyle, StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Portal, Provider as PaperProvider } from "react-native-paper";
 import * as NavigationBar from "expo-navigation-bar";
 
@@ -56,8 +57,10 @@ function ThemeProvider(props: ChildrenProps) {
       {/* React Native Paper Theme */}
       <PaperProvider>
         <Portal>
-          {/* children components */}
-          {children}
+          <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            {/* children components */}
+            {children}
+          </GestureHandlerRootView>
         </Portal>
       </PaperProvider>
     </>
