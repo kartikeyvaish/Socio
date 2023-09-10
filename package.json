@@ -19,6 +19,7 @@
     "dayjs": "^1.11.9",
     "expo": "~49.0.8",
     "expo-av": "~13.4.1",
+    "expo-haptics": "~12.4.0",
     "expo-image": "~1.3.2",
     "expo-image-picker": "~14.3.2",
     "expo-linear-gradient": "~12.3.0",
