@@ -1,4 +1,5 @@
 // Packages Imports
+import { memo } from "react";
 import Animated, { Layout } from "react-native-reanimated";
 
 // Local imports
@@ -18,4 +19,4 @@ function AnimatedView(props: AnimatedViewProps) {
 }
 
 // exports
-export default AnimatedView;
+export default memo(AnimatedView);
