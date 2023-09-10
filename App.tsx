@@ -1,6 +1,6 @@
 // Local imports (components, providers, etc.)
 import BackgroundColorProvider from "./providers/BackgroundColorProvider";
-import LoginScreen from "./screens/LoginScreen";
+import NavigationProvider from "./providers/NavigationProvider";
 import SafeAreaProvider from "./providers/SafeAreaProvider";
 import ThemeProvider from "./providers/ThemeProvider";
 
@@ -9,7 +9,7 @@ export default function App() {
     <BackgroundColorProvider>
       <SafeAreaProvider>
         <ThemeProvider>
-          <LoginScreen />
+          <NavigationProvider />
         </ThemeProvider>
       </SafeAreaProvider>
     </BackgroundColorProvider>

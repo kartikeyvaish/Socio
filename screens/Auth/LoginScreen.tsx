@@ -1,5 +1,5 @@
 // Packages Imports (from node_modules)
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LayoutChangeEvent, ScrollView, StyleSheet } from "react-native";
 import { FadeIn, Layout } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
@@ -14,28 +14,64 @@ import AppFormPasswordField from "../../components/Forms/AppFormPasswordField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
 import AppText from "../../components/App/AppText";
 import ColorPallete from "../../constants/ColorPallete";
+import ErrorText from "../../components/Text/ErrorText";
 import LoginFormValidations from "../../validations/LoginFormValidations";
+import Messages from "../../constants/Messages";
 
 // Named Imports
-import { DEVICE_HEIGHT } from "../../constants/DeviceConstants";
 import { AuthScreenProps } from "../../navigation/NavigationTypes";
+import { DEVICE_HEIGHT } from "../../constants/DeviceConstants";
+import { loginAPI } from "../../api/services/Auth";
 
 // functional component for LoginScreen
 function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
   // Destructuring props
   const { navigation } = props;
 
+  const { navigate } = navigation;
+
   const isFocused = useIsFocused();
 
   // Local States
   const [loginFormVisible, setLoginFormVisible] = useState<boolean>(false);
   const [initialHeight, setInitialHeight] = useState<number>(0);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isFocused) {
+      setFormError(null);
+    }
+  }, []);
 
   // handlers
-  const loginPressHandler = (values?: typeof LoginFormValidations.initialValues) => {
-    if (!loginFormVisible) {
-      setLoginFormVisible(true);
-      return;
+  const loginPressHandler = async (values?: typeof LoginFormValidations.initialValues) => {
+    try {
+      setFormError(null);
+
+      if (!loginFormVisible) {
+        setLoginFormVisible(true);
+        return;
+      }
+
+      if (values === undefined) return;
+
+      const { email, password } = values || {};
+
+      if (!email || !password) return;
+
+      setLoading(true);
+      const apiResponse = await loginAPI(values);
+      setLoading(false);
+
+      if (apiResponse.ok === true) {
+        navigate("VerifyLoginOTPScreen", { otp_id: apiResponse.data.otp_id.toString() });
+      } else if (apiResponse.ok === false) {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setFormError(Messages.serverErrorMessage);
+      setLoading(false);
     }
   };
 
@@ -60,6 +96,8 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
             style={styles.logoText}
           />
 
+          <ErrorText error={formError} style={{ textAlign: "center" }} margins={{ top: 30 }} />
+
           <AppForm
             initialValues={LoginFormValidations.initialValues}
             validationSchema={LoginFormValidations.validationSchema}
@@ -74,12 +112,14 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
                   placeholder='Email'
                   autoFocus={true}
                   keyboardType='email-address'
+                  controlled={true}
                 />
 
                 <AppFormPasswordField
                   title='password'
                   placeholder='Password'
                   margins={{ top: 12 }}
+                  controlled={true}
                 />
 
                 <AppText
@@ -88,7 +128,7 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
                   color={ColorPallete.primary}
                   style={{ textAlign: "right" }}
                   margins={{ top: 15 }}
-                  onPress={() => navigation.navigate("ForgotPasswordScreen")}
+                  onPress={() => navigate("ForgotPasswordScreen")}
                 />
               </AnimatedView>
             ) : null}
@@ -97,7 +137,8 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
               animatedViewProps={{ layout: Layout }}
               title='Log In'
               margins={{ top: 20 }}
-              onPress={loginPressHandler}
+              onPress={loginFormVisible ? undefined : loginPressHandler}
+              disabled={loading}
             />
           </AppForm>
 
