@@ -18,6 +18,7 @@ export interface AppFormTextFieldProps extends TextFieldInputProps {
     title: string;
     customError?: string;
     containerStyles?: StyleProp<ViewStyle>;
+    clearCustomError?: () => void;
 }
 
 export interface AppFormSubmitButtonProps extends Omit<AppButtonProps, 'onPress'> {
