@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     flexDirection: "row",
+    paddingVertical: 5,
+    paddingHorizontal: 16,
   },
   iconContainer: {},
 });

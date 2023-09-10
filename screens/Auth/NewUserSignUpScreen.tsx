@@ -5,7 +5,6 @@ import { StyleSheet } from "react-native";
 import AppContainer from "../../components/App/AppContainer";
 import AppText from "../../components/App/AppText";
 import AppForm from "../../components/Forms/AppForm";
-import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 import NewUserFormValidation from "../../validations/NewUserFormValidation";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppView from "../../components/App/AppView";
@@ -27,8 +26,6 @@ function NewUserSignUpScreen(props: NewUserSignUpScreenProps) {
   // render
   return (
     <AppContainer style={styles.container}>
-      <BackButtonHeader title='Create Account' />
-
       <AppText
         text='Enter your email to create an account.'
         margins={{ top: 20, bottom: 20 }}

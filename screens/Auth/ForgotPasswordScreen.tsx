@@ -5,7 +5,6 @@ import { StyleSheet } from "react-native";
 import AppContainer from "../../components/App/AppContainer";
 import AppText from "../../components/App/AppText";
 import AppForm from "../../components/Forms/AppForm";
-import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
 import AppView from "../../components/App/AppView";
@@ -27,8 +26,6 @@ function ForgotPasswordScreen(props: ForgotPasswordScreenProps) {
   // render
   return (
     <AppContainer style={styles.container}>
-      <BackButtonHeader title='Forgot Password' />
-
       <AppText
         text='Enter your registered email address. We will send an OTP to your email through which we will verify your account.'
         margins={{ top: 20, bottom: 20 }}

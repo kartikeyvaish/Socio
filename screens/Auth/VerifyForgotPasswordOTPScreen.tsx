@@ -8,7 +8,6 @@ import AnimatedView from "../../components/Animated/AnimatedView";
 import AppButton from "../../components/App/AppButton";
 import AppContainer from "../../components/App/AppContainer";
 import AppText from "../../components/App/AppText";
-import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 
 // interface for VerifyForgotPasswordOTPScreen component
 export interface VerifyForgotPasswordOTPScreenProps {}
@@ -28,8 +27,6 @@ function VerifyForgotPasswordOTPScreen(props: VerifyForgotPasswordOTPScreenProps
   // render
   return (
     <AppContainer style={styles.container}>
-      <BackButtonHeader title='Verify Email' />
-
       <AppText
         text='Please enter the OTP sent to your email address to continue.'
         style={{ textAlign: "center" }}

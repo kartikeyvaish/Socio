@@ -9,7 +9,6 @@ import AppForm from "../../components/Forms/AppForm";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppFormPasswordField from "../../components/Forms/AppFormPasswordField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
-import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 import RegisterFormValidation from "../../validations/RegisterFormValidation";
 
 // interface for RegisterScreen component
@@ -32,8 +31,6 @@ function RegisterScreen(props: RegisterScreenProps) {
   return (
     <AppContainer style={styles.container}>
       <ScrollView>
-        <BackButtonHeader title='Create Account' />
-
         <AppForm
           initialValues={RegisterFormValidation.initialValues}
           validationSchema={RegisterFormValidation.validationSchema}

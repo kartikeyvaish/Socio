@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { LayoutChangeEvent, ScrollView, StyleSheet } from "react-native";
 import { FadeIn, Layout } from "react-native-reanimated";
+import { useIsFocused } from "@react-navigation/native";
 
 // Local Imports (components/types/utils)
 import AnimatedText from "../../components/Animated/AnimatedText";
@@ -17,14 +18,14 @@ import LoginFormValidations from "../../validations/LoginFormValidations";
 
 // Named Imports
 import { DEVICE_HEIGHT } from "../../constants/DeviceConstants";
-
-// interface for LoginScreen component
-export interface LoginScreenProps {}
+import { AuthScreenProps } from "../../navigation/NavigationTypes";
 
 // functional component for LoginScreen
-function LoginScreen(props: LoginScreenProps) {
+function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
   // Destructuring props
-  const {} = props;
+  const { navigation } = props;
+
+  const isFocused = useIsFocused();
 
   // Local States
   const [loginFormVisible, setLoginFormVisible] = useState<boolean>(false);
@@ -63,6 +64,8 @@ function LoginScreen(props: LoginScreenProps) {
             initialValues={LoginFormValidations.initialValues}
             validationSchema={LoginFormValidations.validationSchema}
             onSubmit={loginPressHandler}
+            resetOnFocus={true}
+            isFocused={isFocused}
           >
             {loginFormVisible ? (
               <AnimatedView style={styles.loginForm} entering={FadeIn.delay(200)}>
@@ -85,6 +88,7 @@ function LoginScreen(props: LoginScreenProps) {
                   color={ColorPallete.primary}
                   style={{ textAlign: "right" }}
                   margins={{ top: 15 }}
+                  onPress={() => navigation.navigate("ForgotPasswordScreen")}
                 />
               </AnimatedView>
             ) : null}
@@ -101,7 +105,11 @@ function LoginScreen(props: LoginScreenProps) {
             text={`Don't Have an account? `}
             style={{ textAlign: "center", marginTop: loginFormVisible ? 150 : 20 }}
           >
-            <AnimatedText text='Sign Up' color={ColorPallete.primary} />
+            <AnimatedText
+              text='Sign Up'
+              color={ColorPallete.primary}
+              onPress={() => navigation.navigate("NewUserSignUpScreen")}
+            />
           </AnimatedText>
         </AnimatedView>
       </ScrollView>

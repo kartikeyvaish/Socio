@@ -8,7 +8,6 @@ import AppContainer from "../../components/App/AppContainer";
 import AppForm from "../../components/Forms/AppForm";
 import AppFormPasswordField from "../../components/Forms/AppFormPasswordField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
-import BackButtonHeader from "../../components/Headers/BackButtonHeader";
 import RegisterFormValidation from "../../validations/RegisterFormValidation";
 
 // interface for ResetPasswordScreen component
@@ -31,8 +30,6 @@ function ResetPasswordScreen(props: ResetPasswordScreenProps) {
   return (
     <AppContainer style={styles.container}>
       <ScrollView>
-        <BackButtonHeader title='Reset Password' />
-
         <AppForm
           initialValues={RegisterFormValidation.initialValues}
           validationSchema={RegisterFormValidation.validationSchema}
