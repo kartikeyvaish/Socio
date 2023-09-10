@@ -1,4 +1,5 @@
 // Packages Imports
+import { memo } from "react";
 import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 // Local Imports
@@ -51,7 +52,7 @@ function AppText(props: AppTextProps) {
 }
 
 // exports
-export default AppText;
+export default memo(AppText);
 
 // styles
 const styles = StyleSheet.create({

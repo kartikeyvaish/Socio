@@ -1,5 +1,5 @@
 // Packages Imports
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { StyleSheet } from "react-native";
 
 // Local imports
@@ -24,7 +24,7 @@ function AppContainer(props: AnimatedViewProps) {
 }
 
 // exports
-export default AppContainer;
+export default memo(AppContainer);
 
 // styles
 const styles = StyleSheet.create({
