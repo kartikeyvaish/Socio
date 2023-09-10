@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 
 // Local Imports (components/types/utils)
@@ -18,6 +19,9 @@ export interface RegisterScreenProps {}
 function RegisterScreen(props: RegisterScreenProps) {
   // Destructuring props
   const {} = props;
+
+  // Local States
+  const [usernameError, setUsernameError] = useState<string>("");
 
   const register = async (values: typeof RegisterFormValidation.initialValues) => {
     try {
@@ -52,6 +56,8 @@ function RegisterScreen(props: RegisterScreenProps) {
               placeholder='Username'
               title='username'
               containerStyles={{ marginBottom: 15 }}
+              customError={usernameError}
+              clearCustomError={() => setUsernameError("")}
             />
 
             <AppFormPasswordField
