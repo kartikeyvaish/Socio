@@ -49,7 +49,7 @@ function NewUserSignUpScreen(props: NewUserSignUpScreenProps) {
         />
 
         <AppView style={{ justifyContent: "flex-end" }}>
-          <AppFormSubmitButton title='Create Account' />
+          <AppFormSubmitButton title='Create Account' animatedViewProps={{ layout: undefined }} />
         </AppView>
       </AppForm>
     </AppContainer>
