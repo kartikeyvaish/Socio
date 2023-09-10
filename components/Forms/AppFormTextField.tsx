@@ -12,7 +12,14 @@ import { AppFormTextFieldProps } from "../../types/FormTypes";
 // function component for AppFormTextField
 function AppFormTextField(props: AppFormTextFieldProps) {
   // Destructure props
-  const { title, customError, controlled, containerStyles = {}, ...otherProps } = props;
+  const {
+    title,
+    customError,
+    controlled,
+    containerStyles = {},
+    clearCustomError,
+    ...otherProps
+  } = props;
 
   // Formik Props
   const { touched, errors, setFieldTouched, handleChange, values } = useFormikContext<any>();
@@ -27,7 +34,10 @@ function AppFormTextField(props: AppFormTextFieldProps) {
     <AnimatedView style={containerStyles}>
       <TextFieldInput
         onBlur={() => setFieldTouched(title)}
-        onChangeText={handleChange(title)}
+        onChangeText={text => {
+          handleChange(title)(text);
+          if (clearCustomError) clearCustomError();
+        }}
         controlled={controlled}
         // If controlled is true, then add value to the input otherwise not.
         {...(controlled ? { value: field_value } : {})}
