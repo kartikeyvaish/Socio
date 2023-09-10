@@ -4,7 +4,7 @@ import Animated from "react-native-reanimated";
 
 // Local Imports
 import { FontNamesType } from "../constants/FontNames";
-import { MarginProps } from "./GlobalTypes";
+import { ChildrenProps, MarginProps } from "./GlobalTypes";
 import { ReactNode } from "react";
 import { IconFamilyType } from "../constants/IconNames";
 
@@ -12,6 +12,8 @@ import { IconFamilyType } from "../constants/IconNames";
 export interface AnimatedViewProps extends Animated.AnimateProps<ViewProps> {
     visible?: boolean;
 }
+
+export interface AppViewProps extends ViewProps, ChildrenProps { }
 
 export interface AnimatedTextProps extends Animated.AnimateProps<TextProps>, CustomAppTextProps { }
 
