@@ -8,20 +8,44 @@ import AnimatedView from "../../components/Animated/AnimatedView";
 import AppButton from "../../components/App/AppButton";
 import AppContainer from "../../components/App/AppContainer";
 import AppText from "../../components/App/AppText";
+import ErrorText from "../../components/Text/ErrorText";
+import Messages from "../../constants/Messages";
+
+// Named Imports
+import { AuthScreenProps } from "../../navigation/NavigationTypes";
+import { verifyNewUserSignUpOtpAPI } from "../../api/services/Auth";
 
 // interface for VerifyNewUserOTPScreen component
-export interface VerifyNewUserOTPScreenProps {}
+export interface VerifyLoginOTPScreenProps {}
 
 // functional component for VerifyNewUserOTPScreen
-function VerifyNewUserOTPScreen(props: VerifyNewUserOTPScreenProps) {
+function VerifyNewUserOTPScreen(props: AuthScreenProps<"VerifyNewUserSignUpOTPScreen">) {
   // Destructuring props
-  const {} = props;
+  const { route, navigation } = props;
+  const { params } = route;
 
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
 
   const verifyOtp = async () => {
     try {
-    } catch (error) {}
+      setLoading(true);
+      const apiResponse = await verifyNewUserSignUpOtpAPI({ ...params, otp });
+      setLoading(false);
+
+      if (apiResponse.ok === true) {
+        navigation.replace("RegisterScreen", {
+          email: params.email,
+          verified_id: apiResponse.data.verified_id,
+        });
+      } else if (apiResponse.ok === false) {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setFormError(Messages.serverErrorMessage);
+      setLoading(false);
+    }
   };
 
   // render
@@ -33,11 +57,18 @@ function VerifyNewUserOTPScreen(props: VerifyNewUserOTPScreenProps) {
         margins={{ bottom: 20, top: 20 }}
       />
 
+      <ErrorText error={formError} style={{ textAlign: "center" }} size={15} />
+
       <AnimatedView style={{ justifyContent: "center", flex: 1 }}>
         <AnimatedOTPInput onChange={setOtp} />
       </AnimatedView>
 
-      <AppButton title='Verify' onPress={verifyOtp} />
+      <AppButton
+        title='Verify'
+        onPress={verifyOtp}
+        disabled={loading}
+        animatedViewProps={{ layout: undefined }}
+      />
     </AppContainer>
   );
 }

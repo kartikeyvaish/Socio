@@ -8,22 +8,47 @@ import AppContainer from "../../components/App/AppContainer";
 import AppForm from "../../components/Forms/AppForm";
 import AppFormPasswordField from "../../components/Forms/AppFormPasswordField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
-import RegisterFormValidation from "../../validations/RegisterFormValidation";
+import ResetPasswordValidations from "../../validations/ResetPasswordValidations";
+import ErrorText from "../../components/Text/ErrorText";
+import Messages from "../../constants/Messages";
+
+// Named Imports
+import { AuthScreenProps } from "../../navigation/NavigationTypes";
+import { resetRequestAPI } from "../../api/services/Auth";
+import { showToast } from "../../helpers/toastHelpers";
 
 // interface for ResetPasswordScreen component
 export interface ResetPasswordScreenProps {}
 
 // functional component for ResetPasswordScreen
-function ResetPasswordScreen(props: ResetPasswordScreenProps) {
+function ResetPasswordScreen(props: AuthScreenProps<"ResetPasswordScreen">) {
   // Destructuring props
-  const {} = props;
+  const { route, navigation } = props;
+  const { reset_request_id } = route.params;
 
   // Local States
-  const [usernameError, setUsernameError] = useState<string>("");
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const resetPassword = async (values: typeof RegisterFormValidation.initialValues) => {
+  const resetPassword = async (values: typeof ResetPasswordValidations.initialValues) => {
     try {
-    } catch (error) {}
+      setLoading(true);
+      const apiResponse = await resetRequestAPI({
+        password: values.password,
+        reset_request_id,
+      });
+      setLoading(false);
+
+      if (apiResponse.ok === true) {
+        showToast({ preset: "done", title: apiResponse.data.message });
+        navigation.popToTop();
+      } else if (apiResponse.ok === false) {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setFormError(Messages.serverErrorMessage);
+      setLoading(false);
+    }
   };
 
   // render
@@ -31,10 +56,12 @@ function ResetPasswordScreen(props: ResetPasswordScreenProps) {
     <AppContainer style={styles.container}>
       <ScrollView>
         <AppForm
-          initialValues={RegisterFormValidation.initialValues}
-          validationSchema={RegisterFormValidation.validationSchema}
+          initialValues={ResetPasswordValidations.initialValues}
+          validationSchema={ResetPasswordValidations.validationSchema}
           onSubmit={resetPassword}
         >
+          <ErrorText error={formError} size={15} style={{ marginTop: 20, textAlign: "center" }} />
+
           <AnimatedView style={styles.formComponent}>
             <AppFormPasswordField
               placeholder='New Password'
@@ -48,7 +75,12 @@ function ResetPasswordScreen(props: ResetPasswordScreenProps) {
               containerStyles={{ marginBottom: 15 }}
             />
 
-            <AppFormSubmitButton title='Reset Password' margins={{ top: 20 }} />
+            <AppFormSubmitButton
+              title='Reset Password'
+              margins={{ top: 20 }}
+              animatedViewProps={{ layout: undefined }}
+              disabled={loading}
+            />
           </AnimatedView>
         </AppForm>
       </ScrollView>

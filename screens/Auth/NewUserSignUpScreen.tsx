@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useState } from "react";
 import { StyleSheet } from "react-native";
 
 // Local Imports (components/types/utils)
@@ -9,18 +10,42 @@ import NewUserFormValidation from "../../validations/NewUserFormValidation";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppView from "../../components/App/AppView";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
+import Messages from "../../constants/Messages";
+
+// Named Imports
+import { AuthScreenProps } from "../../navigation/NavigationTypes";
+import { newUserSignUpAPI } from "../../api/services/Auth";
 
 // interface for NewUserSignUpScreen component
 export interface NewUserSignUpScreenProps {}
 
 // functional component for NewUserSignUpScreen
-function NewUserSignUpScreen(props: NewUserSignUpScreenProps) {
+function NewUserSignUpScreen(props: AuthScreenProps<"NewUserSignUpScreen">) {
   // Destructuring props
-  const {} = props;
+  const { navigation } = props;
+
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const newUserSignUp = async (values: typeof NewUserFormValidation.initialValues) => {
     try {
-    } catch (error) {}
+      setFormError(null);
+      setLoading(true);
+      const apiResponse = await newUserSignUpAPI(values);
+      setLoading(false);
+
+      if (apiResponse.ok === true) {
+        navigation.replace("VerifyNewUserSignUpOTPScreen", {
+          ...values,
+          otp_id: apiResponse.data.otp_id.toString(),
+        });
+      } else if (apiResponse.ok === false) {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setLoading(false);
+      setFormError(Messages.serverErrorMessage);
+    }
   };
 
   // render
@@ -43,10 +68,15 @@ function NewUserSignUpScreen(props: NewUserSignUpScreenProps) {
           placeholder='Email'
           autoFocus={true}
           keyboardType='email-address'
+          customError={formError}
         />
 
         <AppView style={{ justifyContent: "flex-end" }}>
-          <AppFormSubmitButton title='Create Account' animatedViewProps={{ layout: undefined }} />
+          <AppFormSubmitButton
+            title='Create Account'
+            animatedViewProps={{ layout: undefined }}
+            disabled={loading}
+          />
         </AppView>
       </AppForm>
     </AppContainer>

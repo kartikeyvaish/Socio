@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useState } from "react";
 import { StyleSheet } from "react-native";
 
 // Local Imports (components/types/utils)
@@ -8,19 +9,40 @@ import AppForm from "../../components/Forms/AppForm";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
 import AppView from "../../components/App/AppView";
+import Messages from "../../constants/Messages";
 import NewUserFormValidation from "../../validations/NewUserFormValidation";
 
-// interface for ForgotPasswordScreen component
-export interface ForgotPasswordScreenProps {}
+// named imports
+import { forgotPasswordAPI } from "../../api/services/Auth";
+import { AuthScreenProps } from "../../navigation/NavigationTypes";
 
 // functional component for ForgotPasswordScreen
-function ForgotPasswordScreen(props: ForgotPasswordScreenProps) {
+function ForgotPasswordScreen(props: AuthScreenProps<"ForgotPasswordScreen">) {
   // Destructuring props
-  const {} = props;
+  const { navigation } = props;
+
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const sendForgotPasswordOTP = async (values: typeof NewUserFormValidation.initialValues) => {
     try {
-    } catch (error) {}
+      setFormError(null);
+      setLoading(true);
+      const apiResponse = await forgotPasswordAPI(values);
+      setLoading(false);
+
+      if (apiResponse.ok === true) {
+        navigation.replace("VerifyForgotPasswordOTPScreen", {
+          ...values,
+          otp_id: apiResponse.data.otp_id.toString(),
+        });
+      } else if (apiResponse.ok === false) {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setLoading(false);
+      setFormError(Messages.serverErrorMessage);
+    }
   };
 
   // render
@@ -43,10 +65,15 @@ function ForgotPasswordScreen(props: ForgotPasswordScreenProps) {
           placeholder='Email'
           autoFocus={true}
           keyboardType='email-address'
+          customError={formError}
         />
 
-        <AppView style={{ justifyContent: "flex-end" }}>
-          <AppFormSubmitButton title='Send OTP' animatedViewProps={{ layout: undefined }} />
+        <AppView style={{ justifyContent: "flex-end" }} layout={undefined}>
+          <AppFormSubmitButton
+            title='Send OTP'
+            animatedViewProps={{ layout: undefined }}
+            disabled={loading}
+          />
         </AppView>
       </AppForm>
     </AppContainer>
