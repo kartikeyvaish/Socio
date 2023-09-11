@@ -18,9 +18,10 @@ export type AuthStackParamsList = {
     NewUserSignUpScreen: undefined;
     VerifyNewUserSignUpOTPScreen: {
         otp_id: string;
+        email: string;
     };
     RegisterScreen: {
-        verified_id: string;
+        verified_id: number;
         email: string;
         first_name?: string;
         last_name?: string;
@@ -29,9 +30,10 @@ export type AuthStackParamsList = {
     ForgotPasswordScreen: undefined;
     VerifyForgotPasswordOTPScreen: {
         otp_id: string;
+        email: string;
     };
     ResetPasswordScreen: {
-        reset_request_id: string;
+        reset_request_id: number;
     };
 }
 
