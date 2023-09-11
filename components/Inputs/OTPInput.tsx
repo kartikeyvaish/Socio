@@ -20,7 +20,7 @@ import useFirstRender from "../../hooks/useFirstRender";
 const DIGIT_SIZE = 70;
 const NUMBERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "VISIBILITY_TOGGLE", "0", "DEL"];
 const SPACING_VERTICAL = 8;
-const OTP_LENGTH = 4;
+const OTP_LENGTH = 6;
 
 interface DigitItemProps {
   /**
