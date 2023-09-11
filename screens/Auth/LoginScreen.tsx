@@ -65,7 +65,7 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
       setLoading(false);
 
       if (apiResponse.ok === true) {
-        navigate("VerifyLoginOTPScreen", { otp_id: apiResponse.data.otp_id.toString() });
+        navigate("VerifyLoginOTPScreen", { otp_id: apiResponse.data.otp_id.toString(), email });
       } else if (apiResponse.ok === false) {
         setFormError(apiResponse.data.errors.base);
       }
