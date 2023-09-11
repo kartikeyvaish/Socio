@@ -1,7 +1,7 @@
 // Packages Imports (from node_modules)
 import { useEffect, useState } from "react";
-import { LayoutChangeEvent, ScrollView, StyleSheet } from "react-native";
-import { FadeIn, Layout } from "react-native-reanimated";
+import { ScrollView, StyleSheet } from "react-native";
+import { Layout } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
 
 // Local Imports (components/types/utils)
@@ -20,7 +20,6 @@ import Messages from "../../constants/Messages";
 
 // Named Imports
 import { AuthScreenProps } from "../../navigation/NavigationTypes";
-import { DEVICE_HEIGHT } from "../../constants/DeviceConstants";
 import { loginAPI } from "../../api/services/Auth";
 
 // functional component for LoginScreen
@@ -33,8 +32,6 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
   const isFocused = useIsFocused();
 
   // Local States
-  const [loginFormVisible, setLoginFormVisible] = useState<boolean>(false);
-  const [initialHeight, setInitialHeight] = useState<number>(0);
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,14 +42,9 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
   }, []);
 
   // handlers
-  const loginPressHandler = async (values?: typeof LoginFormValidations.initialValues) => {
+  const loginPressHandler = async (values: typeof LoginFormValidations.initialValues) => {
     try {
       setFormError(null);
-
-      if (!loginFormVisible) {
-        setLoginFormVisible(true);
-        return;
-      }
 
       if (values === undefined) return;
 
@@ -75,20 +67,11 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
     }
   };
 
-  const layoutHandler = (e: LayoutChangeEvent) => setInitialHeight(e.nativeEvent.layout.height);
-
   // render
   return (
     <AppContainer style={styles.container}>
       <ScrollView>
-        <AnimatedView
-          style={[
-            {
-              marginTop: loginFormVisible ? 100 : (DEVICE_HEIGHT - initialHeight - 100) / 2,
-            },
-          ]}
-          onLayout={layoutHandler}
-        >
+        <AnimatedView style={{ marginTop: 30 }}>
           <AnimatedText
             text='Socio'
             fontFamily='BerkshireSwash'
@@ -105,46 +88,44 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
             resetOnFocus={true}
             isFocused={isFocused}
           >
-            {loginFormVisible ? (
-              <AnimatedView style={styles.loginForm} entering={FadeIn.delay(200)}>
-                <AppFormTextField
-                  title='email'
-                  placeholder='Email'
-                  autoFocus={true}
-                  keyboardType='email-address'
-                  controlled={true}
-                />
+            <AnimatedView style={styles.loginForm}>
+              <AppFormTextField
+                title='email'
+                placeholder='Email'
+                keyboardType='email-address'
+                controlled={true}
+                clearCustomError={() => setFormError(null)}
+              />
 
-                <AppFormPasswordField
-                  title='password'
-                  placeholder='Password'
-                  margins={{ top: 12 }}
-                  controlled={true}
-                />
+              <AppFormPasswordField
+                title='password'
+                placeholder='Password'
+                margins={{ top: 12 }}
+                controlled={true}
+                clearCustomError={() => setFormError(null)}
+              />
 
-                <AppText
-                  size={12}
-                  text='Forgot Password?'
-                  color={ColorPallete.primary}
-                  style={{ textAlign: "right" }}
-                  margins={{ top: 15 }}
-                  onPress={() => navigate("ForgotPasswordScreen")}
-                />
-              </AnimatedView>
-            ) : null}
+              <AppText
+                size={12}
+                text='Forgot Password?'
+                color={ColorPallete.primary}
+                style={{ textAlign: "right" }}
+                margins={{ top: 15 }}
+                onPress={() => navigate("ForgotPasswordScreen")}
+              />
+            </AnimatedView>
 
             <AppFormSubmitButton
               animatedViewProps={{ layout: Layout }}
               title='Log In'
               margins={{ top: 20 }}
-              onPress={loginFormVisible ? undefined : loginPressHandler}
               disabled={loading}
             />
           </AppForm>
 
           <AnimatedText
             text={`Don't Have an account? `}
-            style={{ textAlign: "center", marginTop: loginFormVisible ? 150 : 20 }}
+            style={{ textAlign: "center", marginTop: 100 }}
           >
             <AnimatedText
               text='Sign Up'
