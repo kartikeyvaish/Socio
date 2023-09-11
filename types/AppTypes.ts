@@ -10,3 +10,12 @@ export interface AppThemeProps {
         notification: string;
     }
 }
+
+export interface UserProps {
+    first_name: string;
+    id: number;
+    last_name: string;
+    login_id: number;
+    profile_picture: string;
+    username: string;
+}
