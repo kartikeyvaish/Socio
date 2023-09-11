@@ -13,6 +13,7 @@ export type AuthStackParamsList = {
     LoginScreen: undefined;
     VerifyLoginOTPScreen: {
         otp_id: string;
+        email: string;
     };
     NewUserSignUpScreen: undefined;
     VerifyNewUserSignUpOTPScreen: {
