@@ -5,6 +5,7 @@ import { FadeIn } from "react-native-reanimated";
 
 // Local Imports (components/types/utils)
 import AnimatedView from "../components/Animated/AnimatedView";
+import AppNavigator from "../navigation/AppNavigator";
 import AuthNavigator from "../navigation/AuthNavigator";
 
 // Named Imports
@@ -19,6 +20,7 @@ function NavigationProvider(props: ChildrenProps) {
 
   // get the theme
   const theme = useAppSelector(state => state.theme);
+  const user = useAppSelector(state => state.auth);
 
   // hides the splash screen when the app is ready
   const onAppReady = () => SplashScreeen.hideAsync();
@@ -36,7 +38,7 @@ function NavigationProvider(props: ChildrenProps) {
   return (
     <NavigationContainer theme={theme} linking={linking}>
       <AnimatedView onLayout={onAppReady} style={{ flex: 1 }} entering={FadeIn}>
-        <AuthNavigator />
+        {user ? <AppNavigator /> : <AuthNavigator />}
         {children}
       </AnimatedView>
     </NavigationContainer>
