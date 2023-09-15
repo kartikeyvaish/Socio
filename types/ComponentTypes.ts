@@ -7,6 +7,8 @@ import { FontNamesType } from "../constants/FontNames";
 import { ChildrenProps, MarginProps } from "./GlobalTypes";
 import { ReactNode } from "react";
 import { IconFamilyType } from "../constants/IconNames";
+import { ImageProps } from "expo-image";
+import { ViewStyle } from "react-native";
 
 // interface for AnimatedView
 export interface AnimatedViewProps extends Animated.AnimateProps<ViewProps> {
@@ -27,6 +29,18 @@ export interface AppIconProps {
     style?: StyleProp<TextStyle>;
     margins?: MarginProps
 }
+
+// interface for AppImage
+export interface AppImageProps extends ImageProps {
+    width?: number
+    height?: number
+    containerStyles?: StyleProp<ViewStyle>;
+    margins?: MarginProps
+    childrenContainerStyles?: StyleProp<ViewStyle>;
+    isVisible?: boolean;
+}
+
+
 export interface CustomAppTextProps {
     text?: string;
     size?: number;
