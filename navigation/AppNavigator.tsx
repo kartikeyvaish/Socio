@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/stack";
 
 // Screen imports
-import HomeScreen from "../screens/HomeScreen";
+import AppTabNavigator from "./AppTabNavigator";
 
 // Types/components/Navigators imports
 import { AppStackParamsList } from "./NavigationTypes";
@@ -30,7 +30,7 @@ function AppNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* App Screens */}
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
+      <Stack.Screen name='HomeScreen' component={AppTabNavigator} />
     </Stack.Navigator>
   );
 }

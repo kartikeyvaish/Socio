@@ -1,6 +1,7 @@
 // Packages imports
 import { StackScreenProps, StackNavigationProp } from "@react-navigation/stack";
 import { CompositeNavigationProp } from "@react-navigation/native";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 // App Navigator Screen Params
 export type AppStackParamsList = {
@@ -37,6 +38,16 @@ export type AuthStackParamsList = {
     };
 }
 
+// Tab Navigator Screen Params
+export type TabsParamsList = {
+    // Tab Stack Screens
+    HomeTabScreen: undefined;
+    SearchTabScreen: undefined;
+    NewPostTabScreen: undefined;
+    NotificationsScreen: undefined;
+    ProfileTabScreen: undefined;
+};
+
 // Props for App Navigator's Screens
 export type AppScreenProps<Screen extends keyof AppStackParamsList> = StackScreenProps<
     AppStackParamsList,
@@ -48,6 +59,18 @@ export type AuthScreenProps<Screen extends keyof AuthStackParamsList> = StackScr
     AuthStackParamsList,
     Screen
 >;
+
+// Screen Names types for TabNavigator
+export type TabScreenNamesTypes = {
+    [key in keyof TabsParamsList]: any;
+};
+
+// Props for App Navigator's Screens
+export type TabScreenProps<Screen extends keyof TabsParamsList> = BottomTabScreenProps<
+    TabsParamsList,
+    Screen
+>;
+
 
 export interface StackScreenNavigationProp<T extends keyof AppStackParamsList>
     extends CompositeNavigationProp<
