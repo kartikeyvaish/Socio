@@ -1,6 +1,6 @@
 // Packages Imports (from node_modules)
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { memo } from "react";
+import { StyleProp, StyleSheet, ViewStyle, ActivityIndicator } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 
 // Local Imports (components/types/utils)
@@ -23,6 +23,7 @@ export interface AppButtonProps {
   titleProps?: AppTextProps;
   disabled?: boolean;
   animatedViewProps?: AnimatedViewProps;
+  loading?: boolean;
 }
 
 // functional component for AppButton
@@ -37,6 +38,7 @@ function AppButton(props: AppButtonProps) {
     titleProps,
     disabled = false,
     animatedViewProps,
+    loading = false,
   } = props;
 
   const containerStyles: StyleProp<ViewStyle> = [
@@ -49,10 +51,16 @@ function AppButton(props: AppButtonProps) {
     containerStyle,
   ];
 
+  const onPressHandler = () => {
+    if (loading || disabled) return;
+
+    if (onPress) onPress();
+  };
+
   // render
   return (
     <AnimatedView {...animatedViewProps}>
-      <RectButton onPress={onPress} style={containerStyles}>
+      <RectButton onPress={onPressHandler} style={containerStyles}>
         <AppText
           text={title}
           color={ColorPallete.white}
@@ -60,6 +68,14 @@ function AppButton(props: AppButtonProps) {
           fontWeight='600'
           {...titleProps}
         />
+
+        {loading ? (
+          <ActivityIndicator
+            color={ColorPallete.white}
+            size='small'
+            style={styles.activityIndicator}
+          />
+        ) : null}
       </RectButton>
     </AnimatedView>
   );
@@ -76,5 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
+  },
+  activityIndicator: {
+    position: "absolute",
+    left: 20,
   },
 });
