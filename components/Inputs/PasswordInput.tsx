@@ -7,6 +7,7 @@ import { ZoomIn, ZoomOut } from "react-native-reanimated";
 import AnimatedView from "../Animated/AnimatedView";
 import AppIcon from "../App/AppIcon";
 import TextFieldInput from "./TextFieldInput";
+import useFirstRender from "../../hooks/useFirstRender";
 
 // Named Imports
 import { TextFieldInputProps } from "../../types/ComponentTypes";
@@ -19,6 +20,8 @@ function PasswordInput(props: PasswordInputProps) {
   // Destructuring props
   const { ...restProps } = props;
 
+  const firstRender = useFirstRender();
+
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const RenderIconComponent = useMemo(
@@ -27,7 +30,11 @@ function PasswordInput(props: PasswordInputProps) {
         style={{ padding: 5, borderRadius: 100 }}
         onPress={() => setPasswordVisible(!passwordVisible)}
       >
-        <AnimatedView entering={ZoomIn} exiting={ZoomOut} key={passwordVisible ? "eye" : "eye-off"}>
+        <AnimatedView
+          entering={!firstRender ? ZoomIn : null}
+          exiting={ZoomOut}
+          key={passwordVisible ? "eye" : "eye-off"}
+        >
           <AppIcon family='Feather' name={passwordVisible ? "eye" : "eye-off"} size={20} />
         </AnimatedView>
       </RectButton>
