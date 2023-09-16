@@ -75,7 +75,7 @@ function NewUserSignUpScreen(props: AuthScreenProps<"NewUserSignUpScreen">) {
           <AppFormSubmitButton
             title='Create Account'
             animatedViewProps={{ layout: undefined }}
-            disabled={loading}
+            loading={loading}
           />
         </AppView>
       </AppForm>

@@ -81,7 +81,7 @@ function VerifyLoginOTPScreen(props: AuthScreenProps<"VerifyLoginOTPScreen">) {
       <AppButton
         title='Verify'
         onPress={verifyOtp}
-        disabled={loading}
+        loading={loading}
         animatedViewProps={{ layout: undefined }}
       />
     </AppContainer>

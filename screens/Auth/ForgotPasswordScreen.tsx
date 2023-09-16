@@ -72,7 +72,7 @@ function ForgotPasswordScreen(props: AuthScreenProps<"ForgotPasswordScreen">) {
           <AppFormSubmitButton
             title='Send OTP'
             animatedViewProps={{ layout: undefined }}
-            disabled={loading}
+            loading={loading}
           />
         </AppView>
       </AppForm>

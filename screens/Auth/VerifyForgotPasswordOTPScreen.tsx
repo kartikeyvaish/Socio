@@ -63,7 +63,7 @@ function VerifyForgotPasswordOTPScreen(props: AuthScreenProps<"VerifyForgotPassw
         title='Verify'
         onPress={verifyOtp}
         animatedViewProps={{ layout: undefined }}
-        disabled={loading}
+        loading={loading}
       />
     </AppContainer>
   );

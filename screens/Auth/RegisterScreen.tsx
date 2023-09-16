@@ -117,7 +117,7 @@ function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
               containerStyles={{ marginBottom: 15 }}
             />
 
-            <AppFormSubmitButton title='Register' margins={{ top: 20 }} disabled={loading} />
+            <AppFormSubmitButton title='Register' margins={{ top: 20 }} loading={loading} />
           </AnimatedView>
         </AppForm>
       </ScrollView>

@@ -119,7 +119,7 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
               animatedViewProps={{ layout: Layout }}
               title='Log In'
               margins={{ top: 20 }}
-              disabled={loading}
+              loading={loading}
             />
           </AppForm>
 

@@ -79,7 +79,7 @@ function ResetPasswordScreen(props: AuthScreenProps<"ResetPasswordScreen">) {
               title='Reset Password'
               margins={{ top: 20 }}
               animatedViewProps={{ layout: undefined }}
-              disabled={loading}
+              loading={loading}
             />
           </AnimatedView>
         </AppForm>
