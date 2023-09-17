@@ -16,7 +16,9 @@ import AppText from "../../components/App/AppText";
 import ColorPallete from "../../constants/ColorPallete";
 import ErrorText from "../../components/Text/ErrorText";
 import LoginFormValidations from "../../validations/LoginFormValidations";
+import LoginWithGoogleButton from "../../components/Buttons/LoginWithGoogleButton";
 import Messages from "../../constants/Messages";
+import useGoogleLogin from "../../hooks/useGoogleLogin";
 
 // Named Imports
 import { AuthScreenProps } from "../../navigation/NavigationTypes";
@@ -40,6 +42,8 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
       setFormError(null);
     }
   }, []);
+
+  const { initiateGoogleLogin } = useGoogleLogin();
 
   // handlers
   const loginPressHandler = async (values: typeof LoginFormValidations.initialValues) => {
@@ -122,6 +126,10 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
               loading={loading}
             />
           </AppForm>
+
+          <AppText text='OR' style={{ textAlign: "center" }} margins={{ top: 30, bottom: 30 }} />
+
+          <LoginWithGoogleButton onPress={initiateGoogleLogin} />
 
           <AnimatedText
             text={`Don't Have an account? `}
