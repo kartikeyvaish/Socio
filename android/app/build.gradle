@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.socio"
+    namespace "com.stark.socio"
     defaultConfig {
-        applicationId "com.socio"
+        applicationId "com.stark.socio"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

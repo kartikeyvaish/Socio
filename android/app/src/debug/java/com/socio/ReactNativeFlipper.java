@@ -4,7 +4,7 @@
  * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
  * directory of this source tree.
  */
-package com.socio;
+package com.stark.socio;
 
 import android.content.Context;
 import com.facebook.flipper.android.AndroidFlipperClient;
@@ -29,23 +29,32 @@ import okhttp3.OkHttpClient;
  * flavor of it. Here you can add your own plugins and customize the Flipper setup.
  */
 public class ReactNativeFlipper {
-  public static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
+
+  public static void initializeFlipper(
+    Context context,
+    ReactInstanceManager reactInstanceManager
+  ) {
     if (FlipperUtils.shouldEnableFlipper(context)) {
       final FlipperClient client = AndroidFlipperClient.getInstance(context);
 
-      client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
+      client.addPlugin(
+        new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults())
+      );
       client.addPlugin(new DatabasesFlipperPlugin(context));
       client.addPlugin(new SharedPreferencesFlipperPlugin(context));
       client.addPlugin(CrashReporterPlugin.getInstance());
 
       NetworkFlipperPlugin networkFlipperPlugin = new NetworkFlipperPlugin();
       NetworkingModule.setCustomClientBuilder(
-          new NetworkingModule.CustomClientBuilder() {
-            @Override
-            public void apply(OkHttpClient.Builder builder) {
-              builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
-            }
-          });
+        new NetworkingModule.CustomClientBuilder() {
+          @Override
+          public void apply(OkHttpClient.Builder builder) {
+            builder.addNetworkInterceptor(
+              new FlipperOkhttpInterceptor(networkFlipperPlugin)
+            );
+          }
+        }
+      );
       client.addPlugin(networkFlipperPlugin);
       client.start();
 
@@ -54,19 +63,21 @@ public class ReactNativeFlipper {
       ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
       if (reactContext == null) {
         reactInstanceManager.addReactInstanceEventListener(
-            new ReactInstanceEventListener() {
-              @Override
-              public void onReactContextInitialized(ReactContext reactContext) {
-                reactInstanceManager.removeReactInstanceEventListener(this);
-                reactContext.runOnNativeModulesQueueThread(
-                    new Runnable() {
-                      @Override
-                      public void run() {
-                        client.addPlugin(new FrescoFlipperPlugin());
-                      }
-                    });
-              }
-            });
+          new ReactInstanceEventListener() {
+            @Override
+            public void onReactContextInitialized(ReactContext reactContext) {
+              reactInstanceManager.removeReactInstanceEventListener(this);
+              reactContext.runOnNativeModulesQueueThread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    client.addPlugin(new FrescoFlipperPlugin());
+                  }
+                }
+              );
+            }
+          }
+        );
       } else {
         client.addPlugin(new FrescoFlipperPlugin());
       }
