@@ -3,7 +3,7 @@ import Config from 'react-native-config';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { showToast } from '../helpers/toastHelpers';
 
-GoogleSignin.configure({ webClientId: Config.GOOGLE_LOGIN_CLIENT_ID });
+GoogleSignin.configure({ webClientId: Config.GOOGLE_LOGIN_CLIENT_ID, iosClientId: Config.GOOGLE_CLIENT_IOS_CLIENT_ID });
 
 export default function useGoogleLogin() {
   const initiateGoogleLogin = async () => {
