@@ -1,15 +1,16 @@
 // Packages Imports (from node_modules)
-import { memo } from "react";
-import { StyleProp, StyleSheet, ViewStyle, ActivityIndicator } from "react-native";
+import { ReactNode, memo } from "react";
+import { View, StyleProp, StyleSheet, ViewStyle, ActivityIndicator } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 
 // Local Imports (components/types/utils)
 import AnimatedView from "../Animated/AnimatedView";
+import AppIcon from "./AppIcon";
 import AppText from "./AppText";
 import ColorPallete from "../../constants/ColorPallete";
 
 // Named Imports
-import { AnimatedViewProps, AppTextProps } from "../../types/ComponentTypes";
+import { AnimatedViewProps, AppIconProps, AppTextProps } from "../../types/ComponentTypes";
 import { getMarginStyles } from "../../helpers/utils";
 import { MarginProps } from "../../types/GlobalTypes";
 
@@ -24,6 +25,8 @@ export interface AppButtonProps {
   disabled?: boolean;
   animatedViewProps?: AnimatedViewProps;
   loading?: boolean;
+  leftIcon?: ReactNode;
+  leftIconProps?: AppIconProps | null;
 }
 
 // functional component for AppButton
@@ -39,6 +42,8 @@ function AppButton(props: AppButtonProps) {
     disabled = false,
     animatedViewProps,
     loading = false,
+    leftIconProps = null,
+    leftIcon,
   } = props;
 
   const containerStyles: StyleProp<ViewStyle> = [
@@ -75,7 +80,11 @@ function AppButton(props: AppButtonProps) {
             size='small'
             style={styles.activityIndicator}
           />
-        ) : null}
+        ) : leftIconProps !== undefined && leftIconProps !== null ? (
+          <AppIcon {...leftIconProps} />
+        ) : (
+          <View style={styles.activityIndicator}>{leftIcon}</View>
+        )}
       </RectButton>
     </AnimatedView>
   );
