@@ -3,26 +3,40 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		089D9EC2813948B58D0EB8C1 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B030DD8CC3E64C389533A7CD /* Poppins-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		39BEEF1534434D98A33F73F6 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B126E743803F404384A67112 /* Inter-Bold.ttf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		783AB52EAC734E2D93F620DA /* BerkshireSwash-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27E930F8B5F24AD69036CB31 /* BerkshireSwash-Regular.ttf */; };
+		82134F67C92D49E4BD6F810A /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B49B40E1BD14CF292CED254 /* Poppins-Medium.ttf */; };
+		954546C73E77467F80E9A892 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 826462482E734A17A1EE9699 /* Poppins-Bold.ttf */; };
 		96905EF65AED1B983A6B3ABC /* libPods-socio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-socio.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
+		B30024A928034B679B54ECAC /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4773A4BEE01B4B9AAB88E2BC /* Poppins-Light.ttf */; };
+		B32ADE0397AB4443A98BC788 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2E30B3EECF643CEB32BBDF8 /* Inter-Regular.ttf */; };
+		B9C818B6C64A4EF386B6AB56 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 596394E0E6094D798B4F9D9C /* Poppins-SemiBold.ttf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		AAC5F0E0DF36474F9087D291 /* BerkshireSwash-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 150D2F46F64A4AC989186D2D /* BerkshireSwash-Regular.ttf */; };
-		A5494537666743ECA90FD0AC /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5D2BE5BF234F88BD31F26A /* Inter-Bold.ttf */; };
-		F249FCCD568D4A29BE4E69A9 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 237AF86A155443D98059BA73 /* Inter-Regular.ttf */; };
-		FDE82653B7774F7AAA306AF8 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8304FED3EA954A73A1AC9A03 /* Poppins-Bold.ttf */; };
-		8D0E7BA5A597473CA49EDB48 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A82A8D10BAC4BBF93565B35 /* Poppins-Light.ttf */; };
-		2AD6653906EE4341A6C219C2 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F654D3FA85E5481AB9B284DF /* Poppins-Medium.ttf */; };
-		39AEE22972684BEF9FD9C4AE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 282691634F24451EB389E66A /* Poppins-Regular.ttf */; };
-		2E021A9777E048659E5777F8 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD4C5291937D46C384C8CA26 /* Poppins-SemiBold.ttf */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		C048C54E2AB6F3A000641375 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		13B07F961A680F5B00A75B9A /* socio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = socio.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,21 +45,21 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = socio/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = socio/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = socio/main.m; sourceTree = "<group>"; };
+		1B49B40E1BD14CF292CED254 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		27E930F8B5F24AD69036CB31 /* BerkshireSwash-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BerkshireSwash-Regular.ttf"; path = "../assets/fonts/BerkshireSwash-Regular.ttf"; sourceTree = "<group>"; };
+		4773A4BEE01B4B9AAB88E2BC /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-socio.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-socio.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		596394E0E6094D798B4F9D9C /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-socio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-socio.debug.xcconfig"; path = "Target Support Files/Pods-socio/Pods-socio.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-socio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-socio.release.xcconfig"; path = "Target Support Files/Pods-socio/Pods-socio.release.xcconfig"; sourceTree = "<group>"; };
+		826462482E734A17A1EE9699 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = socio/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B030DD8CC3E64C389533A7CD /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		B126E743803F404384A67112 /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		B2E30B3EECF643CEB32BBDF8 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-socio/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		150D2F46F64A4AC989186D2D /* BerkshireSwash-Regular.ttf */ = {isa = PBXFileReference; name = "BerkshireSwash-Regular.ttf"; path = "../assets/fonts/BerkshireSwash-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EB5D2BE5BF234F88BD31F26A /* Inter-Bold.ttf */ = {isa = PBXFileReference; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		237AF86A155443D98059BA73 /* Inter-Regular.ttf */ = {isa = PBXFileReference; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8304FED3EA954A73A1AC9A03 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4A82A8D10BAC4BBF93565B35 /* Poppins-Light.ttf */ = {isa = PBXFileReference; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F654D3FA85E5481AB9B284DF /* Poppins-Medium.ttf */ = {isa = PBXFileReference; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		282691634F24451EB389E66A /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DD4C5291937D46C384C8CA26 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +97,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		32049528C1A443B1A7146B61 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				27E930F8B5F24AD69036CB31 /* BerkshireSwash-Regular.ttf */,
+				B126E743803F404384A67112 /* Inter-Bold.ttf */,
+				B2E30B3EECF643CEB32BBDF8 /* Inter-Regular.ttf */,
+				826462482E734A17A1EE9699 /* Poppins-Bold.ttf */,
+				4773A4BEE01B4B9AAB88E2BC /* Poppins-Light.ttf */,
+				1B49B40E1BD14CF292CED254 /* Poppins-Medium.ttf */,
+				B030DD8CC3E64C389533A7CD /* Poppins-Regular.ttf */,
+				596394E0E6094D798B4F9D9C /* Poppins-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +128,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
-				85C29715631B44E99419C4E3 /* Resources */,
+				32049528C1A443B1A7146B61 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -148,22 +177,6 @@
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		85C29715631B44E99419C4E3 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				150D2F46F64A4AC989186D2D /* BerkshireSwash-Regular.ttf */,
-				EB5D2BE5BF234F88BD31F26A /* Inter-Bold.ttf */,
-				237AF86A155443D98059BA73 /* Inter-Regular.ttf */,
-				8304FED3EA954A73A1AC9A03 /* Poppins-Bold.ttf */,
-				4A82A8D10BAC4BBF93565B35 /* Poppins-Light.ttf */,
-				F654D3FA85E5481AB9B284DF /* Poppins-Medium.ttf */,
-				282691634F24451EB389E66A /* Poppins-Regular.ttf */,
-				DD4C5291937D46C384C8CA26 /* Poppins-SemiBold.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -173,13 +186,16 @@
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
+				C7043A960AB411D4555B15F6 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+				022071522CBFE081FBCA93D9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
+				C048C54E2AB6F3A000641375 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -227,14 +243,14 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				AAC5F0E0DF36474F9087D291 /* BerkshireSwash-Regular.ttf in Resources */,
-				A5494537666743ECA90FD0AC /* Inter-Bold.ttf in Resources */,
-				F249FCCD568D4A29BE4E69A9 /* Inter-Regular.ttf in Resources */,
-				FDE82653B7774F7AAA306AF8 /* Poppins-Bold.ttf in Resources */,
-				8D0E7BA5A597473CA49EDB48 /* Poppins-Light.ttf in Resources */,
-				2AD6653906EE4341A6C219C2 /* Poppins-Medium.ttf in Resources */,
-				39AEE22972684BEF9FD9C4AE /* Poppins-Regular.ttf in Resources */,
-				2E021A9777E048659E5777F8 /* Poppins-SemiBold.ttf in Resources */,
+				783AB52EAC734E2D93F620DA /* BerkshireSwash-Regular.ttf in Resources */,
+				39BEEF1534434D98A33F73F6 /* Inter-Bold.ttf in Resources */,
+				B32ADE0397AB4443A98BC788 /* Inter-Regular.ttf in Resources */,
+				954546C73E77467F80E9A892 /* Poppins-Bold.ttf in Resources */,
+				B30024A928034B679B54ECAC /* Poppins-Light.ttf in Resources */,
+				82134F67C92D49E4BD6F810A /* Poppins-Medium.ttf in Resources */,
+				089D9EC2813948B58D0EB8C1 /* Poppins-Regular.ttf in Resources */,
+				B9C818B6C64A4EF386B6AB56 /* Poppins-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +270,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios relative | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli')\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
+		};
+		022071522CBFE081FBCA93D9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-socio/Pods-socio-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-socio/Pods-socio-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -285,19 +319,38 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-socio/Pods-socio-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXUpdates.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-socio/Pods-socio-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C7043A960AB411D4555B15F6 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-socio/expo-configure-project.sh\"\n";
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -341,21 +394,28 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5AJXYTPZ4Z;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = socio/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Socio;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.socio;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = stark.app.socio;
 				PRODUCT_NAME = socio;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -370,16 +430,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5AJXYTPZ4Z;
 				INFOPLIST_FILE = socio/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Socio;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.socio;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = stark.app.socio;
 				PRODUCT_NAME = socio;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -418,6 +485,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -434,10 +502,16 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -474,6 +548,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -483,9 +558,15 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
