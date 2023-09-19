@@ -70,7 +70,7 @@ function AppButton(props: AppButtonProps) {
           text={title}
           color={ColorPallete.white}
           size={14}
-          fontWeight='600'
+          fontFamily="InterBold"
           {...titleProps}
         />
 
