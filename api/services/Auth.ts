@@ -9,13 +9,17 @@ import { ErrorResponse, GeneralAPIResponse } from "../types";
 import { authEndpoints, otpEndpoints } from "../endpoints";
 
 // Request Types Imports
-import { LoginRequestProps, RegisterRequestProps, ResetRequestProps, VerifyOTPProps } from "../RequestTypes";
+import { GoogleLoginRequestProps, LoginRequestProps, RegisterRequestProps, ResetRequestProps, VerifyOTPProps } from "../RequestTypes";
 
 // Response Types Imports
-import { LoginResponseProps, LoginVerifyResponseProps, NewUserSignUpVerifyResponseProps, VerifyForgotPasswordResponseProps } from "../ResponseTypes";
+import { GoogleLoginResponseProps, LoginResponseProps, LoginVerifyResponseProps, NewUserSignUpVerifyResponseProps, VerifyForgotPasswordResponseProps } from "../ResponseTypes";
 
 export function loginAPI(body: LoginRequestProps): Promise<ApiResponse<LoginResponseProps, ErrorResponse<LoginRequestProps>>> {
     return baseUnAuthorizedAPIInstance.post(authEndpoints.LOGIN, body);
+}
+
+export function googleLogin(body: GoogleLoginRequestProps): Promise<ApiResponse<GoogleLoginResponseProps, ErrorResponse<LoginRequestProps>>> {
+    return baseUnAuthorizedAPIInstance.post(authEndpoints.GOOGLE_LOGIN, body);
 }
 
 export function verifyLoginOtpAPI(body: VerifyOTPProps): Promise<ApiResponse<LoginVerifyResponseProps, ErrorResponse<VerifyOTPProps>>> {

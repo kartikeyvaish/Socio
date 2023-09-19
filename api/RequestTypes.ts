@@ -1,3 +1,5 @@
+import { PlatformOSType } from "react-native";
+
 export interface LoginRequestProps {
     email: string;
     password: string;
@@ -9,6 +11,11 @@ export interface RegisterRequestProps {
     email: string;
     password: string;
     username: string;
+}
+
+export interface GoogleLoginRequestProps {
+  id_token: string;
+  platform: PlatformOSType;
 }
 
 export interface VerifyOTPProps {

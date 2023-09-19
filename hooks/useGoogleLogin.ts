@@ -1,20 +1,56 @@
 // Packages Imports
-import Config from 'react-native-config';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { showToast } from '../helpers/toastHelpers';
+import Config from "react-native-config";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 
-GoogleSignin.configure({ webClientId: Config.GOOGLE_LOGIN_CLIENT_ID, iosClientId: Config.GOOGLE_CLIENT_IOS_CLIENT_ID });
+// Local Imports
+import { showToast } from "../helpers/toastHelpers";
+import { Platform } from "react-native";
 
-export default function useGoogleLogin() {
+GoogleSignin.configure({
+  iosClientId: Config.GOOGLE_CLIENT_IOS_CLIENT_ID,
+  webClientId:
+    Platform.OS === "ios"
+      ? Config.GOOGLE_CLIENT_IOS_CLIENT_ID
+      : Config.GOOGLE_LOGIN_CLIENT_ID,
+});
+
+export interface GoogleLoginHookProps {
+  onSuccess?: (idToken: string) => void;
+  setLoading?: (loading: boolean) => void;
+}
+
+export default function useGoogleLogin(props: GoogleLoginHookProps) {
+  // Props
+  const { onSuccess, setLoading } = props;
+
   const initiateGoogleLogin = async () => {
     try {
+      if (setLoading !== undefined && typeof setLoading === "function")
+        setLoading(true);
+
       await GoogleSignin.signOut();
 
-      const respose = await GoogleSignin.signIn();
+      const response = await GoogleSignin.signIn();
 
-      console.log(respose);
+      if (setLoading !== undefined && typeof setLoading === "function")
+        setLoading(false);
+
+      if (onSuccess !== undefined && typeof onSuccess === "function") {
+        onSuccess(response.idToken);
+      }
     } catch (error) {
-      showToast({ preset: "error", title: 'No Google accounts found.' });
+      if (setLoading !== undefined && typeof setLoading === "function")
+        setLoading(false);
+
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        return;
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        return;
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        showToast({ preset: "error", title: "No Google accounts found." });
+      } else {
+        showToast({ preset: "error", title: "Failed to log in with Google." });
+      }
     }
   };
 

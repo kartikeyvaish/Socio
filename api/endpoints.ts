@@ -3,6 +3,7 @@ export const AUTH_PREFIX = '/auth';
 
 export const authEndpoints = {
     LOGIN: `${API_VERSION}${AUTH_PREFIX}/login`,
+    GOOGLE_LOGIN: `${API_VERSION}${AUTH_PREFIX}/google-login`,
     NEW_USER_SIGN_UP: `${API_VERSION}${AUTH_PREFIX}/new`,
     REGISTER: `${API_VERSION}${AUTH_PREFIX}/register`,
     FORGOT_PASSWORD: `${API_VERSION}${AUTH_PREFIX}/forgot-password`,

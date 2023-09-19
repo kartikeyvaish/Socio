@@ -9,22 +9,14 @@ import AppForm from "../../components/Forms/AppForm";
 import AppFormTextField from "../../components/Forms/AppFormTextField";
 import AppFormPasswordField from "../../components/Forms/AppFormPasswordField";
 import AppFormSubmitButton from "../../components/Forms/AppFormSubmitButton";
-import authActions from "../../store/auth/actions";
 import ErrorText from "../../components/Text/ErrorText";
-import jwt from "../../helpers/jwt";
 import Messages from "../../constants/Messages";
 import RegisterFormValidation from "../../validations/RegisterFormValidation";
+import useLogin from "../../hooks/useLogin";
 
 // Named Imports
 import { AuthScreenProps } from "../../navigation/NavigationTypes";
 import { registerAPI } from "../../api/services/Auth";
-import { UserProps } from "../../types/AppTypes";
-import { showToast } from "../../helpers/toastHelpers";
-import { setAccessToken, setRefreshToken } from "../../store/tokenStorage";
-import { useAppDispatch } from "../../store/reduxHooks";
-
-// interface for RegisterScreen component
-export interface RegisterScreenProps {}
 
 // functional component for RegisterScreen
 function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
@@ -36,8 +28,8 @@ function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
-
+  const { saveLoginDetails } = useLogin()
+  
   // Refs
   const prefillValues = useRef({
     ...RegisterFormValidation.initialValues,
@@ -54,17 +46,7 @@ function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
       setLoading(false);
 
       if (apiResponse.ok === true) {
-        const payload = jwt.decodeToken<UserProps>(apiResponse.data.access_token);
-
-        if (payload === null) {
-          setFormError(Messages.serverErrorMessage);
-          return;
-        }
-
-        showToast({ preset: "done", title: apiResponse.data.message });
-        setAccessToken(apiResponse.data.access_token);
-        setRefreshToken(apiResponse.data.refresh_token);
-        dispatch(authActions.setUser(payload));
+        saveLoginDetails(apiResponse.data)
       } else if (apiResponse.ok === false) {
         setFormError(apiResponse.data.errors.base);
       }
@@ -90,12 +72,14 @@ function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
               placeholder='First Name'
               title='first_name'
               containerStyles={{ marginBottom: 15 }}
+              controlled={true}
             />
 
             <AppFormTextField
               placeholder='Last Name'
               title='last_name'
               containerStyles={{ marginBottom: 15 }}
+              controlled={true}
             />
 
             <AppFormTextField
@@ -103,6 +87,7 @@ function RegisterScreen(props: AuthScreenProps<"RegisterScreen">) {
               title='username'
               containerStyles={{ marginBottom: 15 }}
               clearCustomError={() => setFormError("")}
+              controlled={true}
             />
 
             <AppFormPasswordField

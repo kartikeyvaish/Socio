@@ -1,6 +1,6 @@
 // Packages Imports (from node_modules)
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { Platform, ScrollView, StyleSheet } from "react-native";
 import { Layout } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -19,10 +19,11 @@ import LoginFormValidations from "../../validations/LoginFormValidations";
 import LoginWithGoogleButton from "../../components/Buttons/LoginWithGoogleButton";
 import Messages from "../../constants/Messages";
 import useGoogleLogin from "../../hooks/useGoogleLogin";
+import useLogin from "../../hooks/useLogin";
 
 // Named Imports
 import { AuthScreenProps } from "../../navigation/NavigationTypes";
-import { loginAPI } from "../../api/services/Auth";
+import { googleLogin, loginAPI } from "../../api/services/Auth";
 
 // functional component for LoginScreen
 function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
@@ -32,10 +33,12 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
   const { navigate } = navigation;
 
   const isFocused = useIsFocused();
+  const { saveLoginDetails } = useLogin();
 
   // Local States
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [googleLoading, setGoogleLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -43,10 +46,42 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
     }
   }, []);
 
-  const { initiateGoogleLogin } = useGoogleLogin();
+  const onGoogleLoginSuccess = async (id_token: string) => {
+    try {
+      const apiResponse = await googleLogin({
+        id_token,
+        platform: Platform.OS,
+      });
+
+      if (apiResponse.ok === true) {
+        if (apiResponse.data.account_exists === true) {
+          saveLoginDetails({  ...apiResponse.data.user_tokens, message: apiResponse.data.message });
+        } else {
+          navigate("RegisterScreen", {
+            email: apiResponse.data.prefill_details.email,
+            first_name: apiResponse.data.prefill_details.first_name,
+            last_name: apiResponse.data.prefill_details.last_name,
+            username: apiResponse.data.prefill_details.username,
+            verified_id: apiResponse.data.verified_id,
+          });
+        }
+      } else {
+        setFormError(apiResponse.data.errors.base);
+      }
+    } catch (error) {
+      setFormError(Messages.serverErrorMessage);
+    }
+  };
+
+  const { initiateGoogleLogin } = useGoogleLogin({
+    onSuccess: onGoogleLoginSuccess,
+    setLoading: setGoogleLoading,
+  });
 
   // handlers
-  const loginPressHandler = async (values: typeof LoginFormValidations.initialValues) => {
+  const loginPressHandler = async (
+    values: typeof LoginFormValidations.initialValues
+  ) => {
     try {
       setFormError(null);
 
@@ -61,7 +96,10 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
       setLoading(false);
 
       if (apiResponse.ok === true) {
-        navigate("VerifyLoginOTPScreen", { otp_id: apiResponse.data.otp_id.toString(), email });
+        navigate("VerifyLoginOTPScreen", {
+          otp_id: apiResponse.data.otp_id.toString(),
+          email,
+        });
       } else if (apiResponse.ok === false) {
         setFormError(apiResponse.data.errors.base);
       }
@@ -77,13 +115,17 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
       <ScrollView>
         <AnimatedView style={{ marginTop: 30 }}>
           <AnimatedText
-            text='Socio'
-            fontFamily='BerkshireSwash'
+            text="Socio"
+            fontFamily="BerkshireSwash"
             size={60}
             style={styles.logoText}
           />
 
-          <ErrorText error={formError} style={{ textAlign: "center" }} margins={{ top: 30 }} />
+          <ErrorText
+            error={formError}
+            style={{ textAlign: "center" }}
+            margins={{ top: 30 }}
+          />
 
           <AppForm
             initialValues={LoginFormValidations.initialValues}
@@ -94,16 +136,16 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
           >
             <AnimatedView style={styles.loginForm}>
               <AppFormTextField
-                title='email'
-                placeholder='Email'
-                keyboardType='email-address'
+                title="email"
+                placeholder="Email"
+                keyboardType="email-address"
                 controlled={true}
                 clearCustomError={() => setFormError(null)}
               />
 
               <AppFormPasswordField
-                title='password'
-                placeholder='Password'
+                title="password"
+                placeholder="Password"
                 margins={{ top: 12 }}
                 controlled={true}
                 clearCustomError={() => setFormError(null)}
@@ -111,7 +153,7 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
 
               <AppText
                 size={12}
-                text='Forgot Password?'
+                text="Forgot Password?"
                 color={ColorPallete.primary}
                 style={{ textAlign: "right" }}
                 margins={{ top: 15 }}
@@ -121,22 +163,31 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
 
             <AppFormSubmitButton
               animatedViewProps={{ layout: Layout }}
-              title='Log In'
+              title="Log In"
               margins={{ top: 20 }}
               loading={loading}
+              disabled={googleLoading || loading}
             />
           </AppForm>
 
-          <AppText text='OR' style={{ textAlign: "center" }} margins={{ top: 30, bottom: 30 }} />
+          <AppText
+            text="OR"
+            style={{ textAlign: "center" }}
+            margins={{ top: 30, bottom: 30 }}
+          />
 
-          <LoginWithGoogleButton onPress={initiateGoogleLogin} />
+          <LoginWithGoogleButton
+            onPress={initiateGoogleLogin}
+            loading={googleLoading}
+            disabled={googleLoading || loading}
+          />
 
           <AnimatedText
             text={`Don't Have an account? `}
             style={{ textAlign: "center", marginTop: 100 }}
           >
             <AnimatedText
-              text='Sign Up'
+              text="Sign Up"
               color={ColorPallete.primary}
               onPress={() => navigation.navigate("NewUserSignUpScreen")}
             />
