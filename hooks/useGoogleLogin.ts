@@ -1,17 +1,20 @@
 // Packages Imports
-import Config from "react-native-config";
-import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 // Local Imports
+import env from "../helpers/env";
 import { showToast } from "../helpers/toastHelpers";
 import { Platform } from "react-native";
 
 GoogleSignin.configure({
-  iosClientId: Config.GOOGLE_CLIENT_IOS_CLIENT_ID,
+  iosClientId: env.GOOGLE_CLIENT_IOS_CLIENT_ID,
   webClientId:
     Platform.OS === "ios"
-      ? Config.GOOGLE_CLIENT_IOS_CLIENT_ID
-      : Config.GOOGLE_LOGIN_CLIENT_ID,
+      ? env.GOOGLE_CLIENT_IOS_CLIENT_ID
+      : env.GOOGLE_LOGIN_CLIENT_ID,
 });
 
 export interface GoogleLoginHookProps {

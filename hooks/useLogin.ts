@@ -1,6 +1,6 @@
 // Local Imports
 import authActions from "../store/auth/actions";
-import JWT from "../helpers/jwt";
+import { decodeToken } from "../helpers/jwt";
 
 // Named Imports
 import { setAccessToken, setRefreshToken } from "../store/tokenStorage";
@@ -23,7 +23,7 @@ export default function useLogin() {
     const { access_token, refresh_token, message = "" } = props;
 
     // Decode Token
-    const payload = JWT.decodeToken<UserProps>(access_token);
+    const payload = decodeToken<UserProps>(access_token);
 
     if (payload === null) return;
 
