@@ -1,51 +1,103 @@
-// Packages Imports
-import { ApiResponse } from "apisauce";
+// Local Imports
+import { apiUnauthorizedCaller } from "../APIConfig";
 
 // API Types Imports
-import { baseUnAuthorizedAPIInstance } from "../APIHandler";
 import { ErrorResponse, GeneralAPIResponse } from "../types";
 
 // Endpoints Imports
 import { authEndpoints, otpEndpoints } from "../endpoints";
 
 // Request Types Imports
-import { GoogleLoginRequestProps, LoginRequestProps, RegisterRequestProps, ResetRequestProps, VerifyOTPProps } from "../RequestTypes";
+import {
+  GoogleLoginRequestProps,
+  LoginRequestProps,
+  RegisterRequestProps,
+  ResetRequestProps,
+  VerifyOTPProps,
+} from "../RequestTypes";
 
 // Response Types Imports
-import { GoogleLoginResponseProps, LoginResponseProps, LoginVerifyResponseProps, NewUserSignUpVerifyResponseProps, VerifyForgotPasswordResponseProps } from "../ResponseTypes";
+import {
+  GoogleLoginResponseProps,
+  LoginResponseProps,
+  LoginVerifyResponseProps,
+  NewUserSignUpVerifyResponseProps,
+  VerifyForgotPasswordResponseProps,
+} from "../ResponseTypes";
 
-export function loginAPI(body: LoginRequestProps): Promise<ApiResponse<LoginResponseProps, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.LOGIN, body);
+export async function loginAPI(body: LoginRequestProps) {
+  return apiUnauthorizedCaller<
+    LoginResponseProps,
+    ErrorResponse<LoginRequestProps>
+  >({
+    method: "POST",
+    url: authEndpoints.LOGIN,
+    body: body,
+  });
 }
 
-export function googleLogin(body: GoogleLoginRequestProps): Promise<ApiResponse<GoogleLoginResponseProps, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.GOOGLE_LOGIN, body);
+export async function googleLogin(body: GoogleLoginRequestProps) {
+  return apiUnauthorizedCaller<GoogleLoginResponseProps>({
+    method: "POST",
+    url: authEndpoints.GOOGLE_LOGIN,
+    body: body,
+  });
 }
 
-export function verifyLoginOtpAPI(body: VerifyOTPProps): Promise<ApiResponse<LoginVerifyResponseProps, ErrorResponse<VerifyOTPProps>>> {
-    return baseUnAuthorizedAPIInstance.post(otpEndpoints.VERIFY_LOGIN_OTP, body);
+export async function verifyLoginOtpAPI(body: VerifyOTPProps) {
+  return apiUnauthorizedCaller<LoginVerifyResponseProps>({
+    method: "POST",
+    url: otpEndpoints.VERIFY_LOGIN_OTP,
+    body: body,
+  });
 }
 
-export function newUserSignUpAPI(body: Pick<LoginRequestProps, 'email'>): Promise<ApiResponse<LoginResponseProps, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.NEW_USER_SIGN_UP, body);
+export async function newUserSignUpAPI(body: Pick<LoginRequestProps, "email">) {
+  return apiUnauthorizedCaller<LoginResponseProps>({
+    method: "POST",
+    url: authEndpoints.NEW_USER_SIGN_UP,
+    body: body,
+  });
 }
 
-export function verifyNewUserSignUpOtpAPI(body: VerifyOTPProps): Promise<ApiResponse<NewUserSignUpVerifyResponseProps, ErrorResponse<VerifyOTPProps>>> {
-    return baseUnAuthorizedAPIInstance.post(otpEndpoints.VERIFY_NEW_USER_SIGN_UP_OTP, body);
+export async function verifyNewUserSignUpOtpAPI(body: VerifyOTPProps) {
+  return apiUnauthorizedCaller<NewUserSignUpVerifyResponseProps>({
+    method: "POST",
+    url: otpEndpoints.VERIFY_NEW_USER_SIGN_UP_OTP,
+    body: body,
+  });
 }
 
-export function registerAPI(body: RegisterRequestProps): Promise<ApiResponse<LoginVerifyResponseProps, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.REGISTER, body);
+export async function registerAPI(body: RegisterRequestProps) {
+  return apiUnauthorizedCaller<LoginVerifyResponseProps>({
+    method: "POST",
+    url: authEndpoints.REGISTER,
+    body: body,
+  });
 }
 
-export function forgotPasswordAPI(body: Pick<LoginRequestProps, 'email'>): Promise<ApiResponse<LoginResponseProps, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.FORGOT_PASSWORD, body);
+export async function forgotPasswordAPI(
+  body: Pick<LoginRequestProps, "email">
+) {
+  return apiUnauthorizedCaller<LoginResponseProps>({
+    method: "POST",
+    url: authEndpoints.FORGOT_PASSWORD,
+    body: body,
+  });
 }
 
-export function verifyForgotPasswordOtpAPI(body: VerifyOTPProps): Promise<ApiResponse<VerifyForgotPasswordResponseProps, ErrorResponse<VerifyOTPProps>>> {
-    return baseUnAuthorizedAPIInstance.post(otpEndpoints.VERIFY_FORGOT_PASSWORD_OTP, body);
+export async function verifyForgotPasswordOtpAPI(body: VerifyOTPProps) {
+  return apiUnauthorizedCaller<VerifyForgotPasswordResponseProps>({
+    method: "POST",
+    url: otpEndpoints.VERIFY_FORGOT_PASSWORD_OTP,
+    body: body,
+  });
 }
 
-export function resetRequestAPI(body: ResetRequestProps): Promise<ApiResponse<GeneralAPIResponse, ErrorResponse<LoginRequestProps>>> {
-    return baseUnAuthorizedAPIInstance.post(authEndpoints.RESET_PASSWORD, body);
+export async function resetRequestAPI(body: ResetRequestProps) {
+  return apiUnauthorizedCaller<GeneralAPIResponse>({
+    method: "POST",
+    url: authEndpoints.RESET_PASSWORD,
+    body: body,
+  });
 }
