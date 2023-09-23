@@ -14,9 +14,7 @@ import { decodeToken } from "../helpers/jwt";
 import env from "../helpers/env";
 
 export const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://192.168.0.106:8000"
-    : env.PROD_BASE_URL;
+  process.env.NODE_ENV === "development" ? env.DEV_BASE_URL : env.PROD_BASE_URL;
 
 const baseAuthorizedAPIInstance = axios.create({
   baseURL: BASE_URL,
