@@ -1,8 +1,10 @@
 // Packages Imports (from node_modules)
+import { StyleSheet } from "react-native";
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
+import { RectButton } from "react-native-gesture-handler";
 
 // Screen imports
 import HomeScreen from "../screens/HomeScreen";
@@ -16,13 +18,24 @@ import AppIcon from "../components/App/AppIcon";
 import AppImage from "../components/App/AppImage";
 
 // Named Imports
+import { AppIconProps } from "../types/ComponentTypes";
 import { TabsParamsList } from "./NavigationTypes";
 import { useAppSelector } from "../store/reduxHooks";
 
 // Create TabNavigator
 const Tab = createBottomTabNavigator<TabsParamsList>();
 
-// Local Imports (components/types/utils)
+export interface TabItemProps extends AppIconProps {}
+
+function TabItem(props: TabItemProps) {
+  const { onPress, ...restProps } = props;
+
+  return (
+    <RectButton style={styles.tabItemContainer} onPress={onPress}>
+      <AppIcon {...restProps} />
+    </RectButton>
+  );
+}
 
 // functional component for AppTabNavigator
 function AppTabNavigator() {
@@ -41,17 +54,19 @@ function AppTabNavigator() {
     tabBarActiveBackgroundColor: colors.background,
     tabBarInactiveBackgroundColor: colors.background,
     tabBarShowLabel: false,
+    tabBarStyle: { height: 60 },
+    tabBarItemStyle: { height: 60 },
   };
 
   // render
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name='HomeTabScreen'
+        name="HomeTabScreen"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
+            <TabItem
               family={"Ionicons"}
               name={focused ? "home" : "home-outline"}
               color={color}
@@ -61,41 +76,58 @@ function AppTabNavigator() {
         }}
       />
       <Tab.Screen
-        name='SearchTabScreen'
+        name="SearchTabScreen"
         component={SearchScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <AppIcon family={"Feather"} name={"search"} color={color} size={24} />
+            <TabItem
+              family={"Feather"}
+              name={"search"}
+              color={color}
+              size={24}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name='NewPostTabScreen'
+        name="NewPostTabScreen"
         component={NewPostScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <AppIcon family={"Ionicons"} name={"people-outline"} color={color} size={24} />
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              family={"AntDesign"}
+              name={focused ? "pluscircle" : "pluscircleo"}
+              color={color}
+              size={24}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name='NotificationsScreen'
+        name="NotificationsScreen"
         component={NotificationsScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <AppIcon family={"Ionicons"} name={"people-outline"} color={color} size={24} />
+            <TabItem
+              family={"Ionicons"}
+              name={"people-outline"}
+              color={color}
+              size={24}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name='ProfileTabScreen'
+        name="ProfileTabScreen"
         component={ProfileScreen}
         options={{
           tabBarIcon: () => (
-            <AppImage
-              source={{ uri: user.profile_picture }}
-              style={{ width: 24, height: 24, borderRadius: 24 }}
-            />
+            <RectButton style={styles.tabItemContainer}>
+              <AppImage
+                source={{ uri: user.profile_picture }}
+                style={{ width: 24, height: 24, borderRadius: 24 }}
+              />
+            </RectButton>
           ),
         }}
       />
@@ -105,3 +137,12 @@ function AppTabNavigator() {
 
 // exports
 export default AppTabNavigator;
+
+const styles = StyleSheet.create({
+  tabItemContainer: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
