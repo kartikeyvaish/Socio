@@ -55,7 +55,10 @@ function LoginScreen(props: AuthScreenProps<"LoginScreen">) {
 
       if (apiResponse.ok === true) {
         if (apiResponse.data.account_exists === true) {
-          saveLoginDetails({  ...apiResponse.data.user_tokens, message: apiResponse.data.message });
+          saveLoginDetails({
+            ...apiResponse.data.user_tokens,
+            message: apiResponse.data.message,
+          });
         } else {
           navigate("RegisterScreen", {
             email: apiResponse.data.prefill_details.email,
