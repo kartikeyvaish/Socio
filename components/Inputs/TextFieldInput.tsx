@@ -1,6 +1,13 @@
 // Packages Imports (from node_modules)
 import { memo } from "react";
-import { StyleSheet, StyleProp, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import {
+  StyleSheet,
+  StyleProp,
+  TextInput,
+  TextStyle,
+  View,
+  ViewStyle
+} from "react-native";
 
 // Local Imports (components/types/utils)
 import AnimatedView from "../Animated/AnimatedView";
@@ -14,11 +21,14 @@ import { useAppSelector } from "../../store/reduxHooks";
 // functional component for TextFieldInput
 function TextFieldInput(props: TextFieldInputProps) {
   // Destructuring props
-  const { margins, iconComponent, ...restProps } = props;
+  const { margins, iconComponent, style, ...restProps } = props;
 
   const { colors, dark } = useAppSelector(state => state.theme);
 
-  const containerStyle: StyleProp<ViewStyle> = [styles.container, getMarginStyles(margins)];
+  const containerStyle: StyleProp<ViewStyle> = [
+    styles.container,
+    getMarginStyles(margins),
+  ];
 
   const textInputStyles: StyleProp<TextStyle> = [
     styles.textInput,
@@ -29,6 +39,7 @@ function TextFieldInput(props: TextFieldInputProps) {
       color: dark ? colors.text : ColorPallete.inputTextColorLight,
       paddingRight: iconComponent ? 32 : 16,
     },
+    style,
   ];
 
   const placeholderTextColor = dark
@@ -45,7 +56,9 @@ function TextFieldInput(props: TextFieldInputProps) {
           {...restProps}
         />
 
-        {iconComponent ? <View style={styles.iconContainer}>{iconComponent}</View> : null}
+        {iconComponent ? (
+          <View style={styles.iconContainer}>{iconComponent}</View>
+        ) : null}
       </AnimatedView>
     </AnimatedView>
   );
