@@ -2,30 +2,18 @@
 import { memo } from "react";
 import { ActivityIndicator } from "react-native";
 
-// Icons Imports
-import { AntDesign } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Fontisto } from "@expo/vector-icons";
-import { Foundation } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
-
-// Configs/Constants and Types
-import { AppIconProps } from "../../types/ComponentTypes";
+// Local Imports
 import IconNames from "../../constants/IconNames";
+
+// Named Imports
+import { AppIconProps } from "../../types/ComponentTypes";
 import { useAppSelector } from "../../store/reduxHooks";
 
 // Icon component
 function AppIcon(props: AppIconProps) {
   // Destructuring props
-  const { family, style, onPress, loading, color, margins, ...otherProps } = props;
+  const { family, style, onPress, loading, color, margins, ...otherProps } =
+    props;
 
   // Holds the Redux State
   const theme = useAppSelector(state => state.theme);
@@ -54,38 +42,73 @@ function AppIcon(props: AppIconProps) {
   if (loading)
     return (
       <>
-        <ActivityIndicator color={IconColor} size={"small"} style={seperateMargins} />
+        <ActivityIndicator
+          color={IconColor}
+          size={"small"}
+          style={seperateMargins}
+        />
       </>
     );
 
   // return the icon component based on the name
   switch (family) {
-    case IconNames.AntDesign:
+    case IconNames.AntDesign: {
+      // Lazy Loading
+      const AntDesign = require("@expo/vector-icons/AntDesign").default;
       return <AntDesign {...finalProps} />;
-    case IconNames.Entypo:
+    }
+    case IconNames.Entypo: {
+      // Lazy Loading
+      const Entypo = require("@expo/vector-icons/Entypo").default;
       return <Entypo {...finalProps} />;
-    case IconNames.EvilIcons:
+    }
+    case IconNames.EvilIcons: {
+      // Lazy Loading
+      const EvilIcons = require("@expo/vector-icons/EvilIcons").default;
       return <EvilIcons {...finalProps} />;
-    case IconNames.Feather:
+    }
+    case IconNames.Feather: {
+      const Feather = require("@expo/vector-icons/Feather").default;
       return <Feather {...finalProps} />;
-    case IconNames.FontAwesome:
+    }
+    case IconNames.FontAwesome: {
+      const FontAwesome = require("@expo/vector-icons/FontAwesome").default;
       return <FontAwesome {...finalProps} />;
-    case IconNames.FontAwesome5:
+    }
+    case IconNames.FontAwesome5: {
+      const FontAwesome5 = require("@expo/vector-icons/FontAwesome5").default;
       return <FontAwesome5 {...finalProps} />;
-    case IconNames.Ionicons:
+    }
+    case IconNames.Ionicons: {
+      const Ionicons = require("@expo/vector-icons/Ionicons").default;
       return <Ionicons {...finalProps} />;
-    case IconNames.MaterialCommunityIcons:
+    }
+    case IconNames.MaterialCommunityIcons: {
+      const MaterialCommunityIcons =
+        require("@expo/vector-icons/MaterialCommunityIcons").default;
       return <MaterialCommunityIcons {...finalProps} />;
-    case IconNames.MaterialIcons:
+    }
+    case IconNames.MaterialIcons: {
+      const MaterialIcons = require("@expo/vector-icons/MaterialIcons").default;
       return <MaterialIcons {...finalProps} />;
-    case IconNames.Octicons:
+    }
+    case IconNames.Octicons: {
+      const Octicons = require("@expo/vector-icons/Octicons").default;
       return <Octicons {...finalProps} />;
-    case IconNames.SimpleLineIcons:
+    }
+    case IconNames.SimpleLineIcons: {
+      const SimpleLineIcons =
+        require("@expo/vector-icons/SimpleLineIcons").default;
       return <SimpleLineIcons {...finalProps} />;
-    case IconNames.Fontisto:
+    }
+    case IconNames.Fontisto: {
+      const Fontisto = require("@expo/vector-icons/Fontisto").default;
       return <Fontisto {...finalProps} />;
-    case IconNames.Foundation:
+    }
+    case IconNames.Foundation: {
+      const Foundation = require("@expo/vector-icons/Foundation").default;
       return <Foundation {...finalProps} />;
+    }
     default:
       return null;
   }
