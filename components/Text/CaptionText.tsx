@@ -40,7 +40,7 @@ function CaptionText(props: CaptionTextProps) {
   // render
   return (
     <AnimatedView>
-      <AppText text={textToDisplay} margins={{ top: 5, left: 10 }}>
+      <AppText text={textToDisplay} margins={{ top: 5 }}>
         {shouldShowReadMore ? (
           <AppText
             text={`.......read ${expanded ? "less" : "more"}`}

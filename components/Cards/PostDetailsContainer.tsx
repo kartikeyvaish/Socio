@@ -55,7 +55,7 @@ function PostDetailsContainer(props: PostDetailsContainerProps) {
         <AppText
           text={get_likes_words(likes_count)}
           size={13}
-          margins={{ top: 12, left: 10 }}
+          margins={{ top: 12 }}
           fontFamily="InterBold"
         />
       ) : null}
@@ -65,7 +65,7 @@ function PostDetailsContainer(props: PostDetailsContainerProps) {
       {comments_count !== undefined ? (
         <AppText
           text={get_comment_count_words(comments_count)}
-          margins={{ top: 12, left: 10 }}
+          margins={{ top: 12 }}
           size={13}
         />
       ) : null}
@@ -80,8 +80,8 @@ export default memo(PostDetailsContainer);
 const styles = StyleSheet.create({
   container: {
     paddingTop: 12,
+    paddingRight: 10,
+    paddingLeft: 10,
   },
-  iconContainer: {
-    paddingLeft: 15,
-  },
+  iconContainer: {},
 });

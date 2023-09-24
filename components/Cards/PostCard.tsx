@@ -20,14 +20,14 @@ export interface PostCardProps {
 // functional component for PostCard
 function PostCard(props: PostCardProps) {
   // Destructuring props
-  const { post } = props;
+  const { post, inView } = props;
 
   // render
   return (
     <AnimatedView style={styles.container}>
       <PostCardHeader user={post.user} location={post.location} />
 
-      <PostFileCarousel />
+      <PostFileCarousel files={post.files} inView={inView} />
 
       <PostDetailsContainer
         caption={post.caption}
