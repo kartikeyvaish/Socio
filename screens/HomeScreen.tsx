@@ -1,6 +1,7 @@
 // Packages Imports (from node_modules)
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 // Local Imports (components/types/utils)
 import AppContainer from "../components/App/AppContainer";
@@ -9,32 +10,34 @@ import PostCard from "../components/Cards/PostCard";
 import useFlatList from "../hooks/useFlatlist";
 
 // Named Imports
+import { AppScreenProps } from "../navigation/NavigationTypes";
 import { getFeed } from "../api/services/Feed";
 import { PostProps } from "../types/AppTypes";
 
-// interface for HomeScreen component
-export interface HomeScreenProps {}
-
 // functional component for HomeScreen
-function HomeScreen(props: HomeScreenProps) {
-  // Destructuring props
-  const {} = props;
-
+function HomeScreen(props: AppScreenProps<"HomeScreen">) {
+  // Helper Hook for Flatlist
   const { flatListRef, onViewRef, viewConfigRef, viewableItem } = useFlatList();
 
+  // Local States
   const [posts, setPosts] = useState<Array<PostProps>>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  // to check if the screen is focused
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     initialCall();
   }, []);
 
+  // Initial API Call to get feed
   const initialCall = async () => {
     try {
       if (!posts.length) await getFeedAPI();
     } catch (error) {}
   };
 
+  // API Call to fetch feed for current user
   const getFeedAPI = async () => {
     try {
       const apiResponse = await getFeed();
@@ -49,9 +52,13 @@ function HomeScreen(props: HomeScreenProps) {
 
   const renderItem = useCallback(
     ({ item: post, index }: { item: PostProps; index: number }) => (
-      <PostCard key={post.id} post={post} inView={index === viewableItem} />
+      <PostCard
+        key={post.id}
+        post={post}
+        inView={isFocused && index === viewableItem}
+      />
     ),
-    [viewableItem]
+    [viewableItem, isFocused]
   );
 
   // onRefresh

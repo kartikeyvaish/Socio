@@ -60,7 +60,7 @@ function PostFileCarousel(props: PostFileCarouselProps) {
         );
       }
     },
-    [viewableItem, muted]
+    [viewableItem, muted, inView]
   );
 
   // render
