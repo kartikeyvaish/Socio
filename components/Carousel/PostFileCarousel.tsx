@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useCallback } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
 // Local Imports (components/types/utils)
@@ -37,30 +38,39 @@ function PostFileCarousel(props: PostFileCarouselProps) {
     }
   };
 
+  const keyExtractor = useCallback(
+    (_: PostProps["files"][0], index: number) => index.toString(),
+    []
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: PostProps["files"][0]; index: number }) => {
+      if (item.file_type === "image") {
+        return <PostImageCard key={index.toString()} {...item} />;
+      } else {
+        return (
+          <PostVideoCard
+            shouldPlay={inView && index === viewableItem}
+            onVideoPress={onVideoPress}
+            isMuted={muted}
+            {...item}
+          />
+        );
+      }
+    },
+    [viewableItem, muted]
+  );
+
   // render
   return (
     <AnimatedView style={styles.container}>
       <FlatList
         ref={flatListRef}
         data={files}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={keyExtractor}
         onViewableItemsChanged={onViewRef.current}
         viewabilityConfig={viewConfigRef}
-        renderItem={({ item, index }: any) => {
-          if (item.file_type === "image") {
-            return <PostImageCard key={index.toString()} {...item} />;
-          } else {
-            return (
-              <PostVideoCard
-                shouldPlay={inView && index === viewableItem}
-                onVideoPress={onVideoPress}
-                isMuted={muted}
-                // shouldPlay={false}
-                {...item}
-              />
-            );
-          }
-        }}
+        renderItem={renderItem}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         horizontal
