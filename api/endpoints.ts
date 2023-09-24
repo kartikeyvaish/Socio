@@ -26,6 +26,8 @@ export const otpEndpoints = {
 export const postEndpoints = {
   // Post Endpoints
   CREATE_POST: `${API_VERSION}/posts`,
+  LIKE_A_POST: (id: number) => `${API_VERSION}/posts/${id}/like`,
+  UNLIKE_A_POST: (id: number) => `${API_VERSION}/posts/${id}/unlike`,
 };
 
 export const feedEndpoints = {
