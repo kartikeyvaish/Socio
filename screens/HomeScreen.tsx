@@ -9,8 +9,8 @@ import PostCard from "../components/Cards/PostCard";
 import useFlatList from "../hooks/useFlatlist";
 
 // Named Imports
-import { PostProps } from "../types/AppTypes";
 import { getFeed } from "../api/services/Feed";
+import { PostProps } from "../types/AppTypes";
 
 // interface for HomeScreen component
 export interface HomeScreenProps {}
@@ -23,6 +23,7 @@ function HomeScreen(props: HomeScreenProps) {
   const { flatListRef, onViewRef, viewConfigRef, viewableItem } = useFlatList();
 
   const [posts, setPosts] = useState<Array<PostProps>>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     initialCall();
@@ -53,6 +54,17 @@ function HomeScreen(props: HomeScreenProps) {
     [viewableItem]
   );
 
+  // onRefresh
+  const onRefresh = async () => {
+    try {
+      setRefreshing(true);
+      await getFeedAPI();
+      setRefreshing(false);
+    } catch (error) {
+      setRefreshing(false);
+    }
+  };
+
   // render
   return (
     <AppContainer style={styles.container}>
@@ -60,10 +72,16 @@ function HomeScreen(props: HomeScreenProps) {
         ref={flatListRef}
         data={posts}
         onViewableItemsChanged={onViewRef.current}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
         viewabilityConfig={viewConfigRef}
         ListHeaderComponent={<HomeScreenCard />}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
+        initialNumToRender={5}
+        onEndReachedThreshold={0.5}
+        maxToRenderPerBatch={5}
+        showsVerticalScrollIndicator={false}
       />
     </AppContainer>
   );
