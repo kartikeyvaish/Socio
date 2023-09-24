@@ -72,3 +72,7 @@ export interface CloudinaryUploadResponseProps {
 export interface NewPostResponseProps extends GeneralAPIResponse {
   post: PostProps;
 }
+
+export interface FeedResponseProps extends GeneralAPIResponse {
+  posts: PostProps[];
+}

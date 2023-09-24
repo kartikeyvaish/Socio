@@ -27,3 +27,8 @@ export const postEndpoints = {
   // Post Endpoints
   CREATE_POST: `${API_VERSION}/posts`,
 };
+
+export const feedEndpoints = {
+  // Feed Endpoints
+  GET_FEED: `${API_VERSION}/feed`,
+};
