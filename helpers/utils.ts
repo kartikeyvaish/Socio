@@ -32,6 +32,47 @@ export function getMarginStyles(margins: MarginProps = {}) {
   };
 }
 
+// function to abbreviate a string
+// 2500 becomes 2.5K
+// 250000 becomes 2.5M
+// 99 becomes 99
+// 1500 becomes 1.5K
+export function abbreviate_number(number: number) {
+  if (!number) return "0";
+
+  if (number < 1000) return number;
+
+  if (number < 1000000) {
+    return `${(number / 1000).toFixed(0)}K`;
+  } else {
+    return `${(number / 1000000).toFixed(0)}M`;
+  }
+}
+
+export function commaSeperatedNumber(number: number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function get_comment_count_words(count: number) {
+  if (count === 0) {
+    return "No comments";
+  } else if (count === 1) {
+    return `View ${count} comment`;
+  } else {
+    return `View all ${commaSeperatedNumber(count)} comments`;
+  }
+}
+
+export function get_likes_words(likes: number) {
+  if (likes === 0) {
+    return "No likes";
+  } else if (likes === 1) {
+    return `1 like`;
+  } else {
+    return `${commaSeperatedNumber(likes)} likes`;
+  }
+}
+
 export function getMimeTypeFromURL(fileUrl: string): string | null {
   const extension = fileUrl.split(".").pop();
 
