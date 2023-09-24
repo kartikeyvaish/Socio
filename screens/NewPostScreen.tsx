@@ -106,6 +106,8 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
       let fileUploads = [];
 
       for (let i = 0; i < files.length; i++) {
+        let fileItem = {};
+
         const timeStamp = new Date().getTime();
         const folderName = `users/${userId}/posts/${timeStamp}${i}`;
         const thumbNailFolderName = `users/${userId}/posts/thumbnails/${timeStamp}${i}`;
@@ -116,6 +118,8 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
           showErrorToast("Error uploading file");
           return;
         }
+
+        fileItem = { ...fileItem, ...fileUploadResponse.file_details };
 
         if (files[i].fileType === "video") {
           if (!files[i].thumbnail) {
@@ -133,13 +137,13 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
             return;
           }
 
-          fileUploads.push({
-            ...fileUploadResponse.file_details,
-            thumbnail: thumbnailUploadResponse.file_details.url,
-          });
+          fileItem = {
+            ...fileItem,
+            thumbnail_url: thumbnailUploadResponse.file_details.url,
+          };
         }
 
-        fileUploads.push(fileUploadResponse.file_details);
+        fileUploads.push(fileItem);
       }
 
       let payload: any = { files: fileUploads };
