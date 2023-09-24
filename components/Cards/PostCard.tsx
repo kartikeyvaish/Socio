@@ -30,6 +30,8 @@ function PostCard(props: PostCardProps) {
   // Like Post API call
   const likePost = async () => {
     try {
+      if (isLiked) return;
+
       let initialState = { isLiked, likesCount };
 
       setLikesCount(initialState.likesCount + 1);
@@ -47,6 +49,8 @@ function PostCard(props: PostCardProps) {
   // Unlike Post API call
   const unlikePost = async () => {
     try {
+      if (!isLiked) return;
+
       let initialState = { isLiked, likesCount };
 
       setLikesCount(initialState.likesCount - 1);
@@ -66,7 +70,11 @@ function PostCard(props: PostCardProps) {
     <AnimatedView style={styles.container}>
       <PostCardHeader user={post.user} location={post.location} />
 
-      <PostFileCarousel files={post.files} inView={inView} />
+      <PostFileCarousel
+        files={post.files}
+        inView={inView}
+        onLikePress={likePost}
+      />
 
       <PostDetailsContainer
         caption={post.caption}

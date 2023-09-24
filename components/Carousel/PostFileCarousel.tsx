@@ -1,6 +1,7 @@
 // Packages Imports (from node_modules)
 import { useCallback } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { TapGestureHandler } from "react-native-gesture-handler";
 
 // Local Imports (components/types/utils)
 import AnimatedView from "../Animated/AnimatedView";
@@ -17,12 +18,13 @@ import { useAppDispatch, useAppSelector } from "../../store/reduxHooks";
 export interface PostFileCarouselProps {
   files: PostProps["files"];
   inView?: boolean;
+  onLikePress?: () => void;
 }
 
 // functional component for PostFileCarousel
 function PostFileCarousel(props: PostFileCarouselProps) {
   // Destructuring props
-  const { files = [], inView = false } = props;
+  const { files = [], inView = false, onLikePress } = props;
 
   const { flatListRef, onViewRef, viewConfigRef, viewableItem } = useFlatList();
 
@@ -64,17 +66,19 @@ function PostFileCarousel(props: PostFileCarouselProps) {
   // render
   return (
     <AnimatedView style={styles.container}>
-      <FlatList
-        ref={flatListRef}
-        data={files}
-        keyExtractor={keyExtractor}
-        onViewableItemsChanged={onViewRef.current}
-        viewabilityConfig={viewConfigRef}
-        renderItem={renderItem}
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      />
+      <TapGestureHandler numberOfTaps={2} onActivated={onLikePress}>
+        <FlatList
+          ref={flatListRef}
+          data={files}
+          keyExtractor={keyExtractor}
+          onViewableItemsChanged={onViewRef.current}
+          viewabilityConfig={viewConfigRef}
+          renderItem={renderItem}
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          horizontal
+        />
+      </TapGestureHandler>
     </AnimatedView>
   );
 }
