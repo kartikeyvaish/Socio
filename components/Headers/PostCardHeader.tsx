@@ -1,6 +1,7 @@
 // Packages Imports (from node_modules)
 import { memo } from "react";
 import { View, StyleSheet } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 
 // Local Imports (components/types/utils)
 import AnimatedView from "../Animated/AnimatedView";
@@ -15,12 +16,13 @@ import { PostProps } from "../../types/AppTypes";
 export interface PostCardHeaderProps {
   user: PostProps["user"];
   location?: PostProps["location"];
+  onMoreOptionsPress?: () => void;
 }
 
 // functional component for PostCardHeader
 function PostCardHeader(props: PostCardHeaderProps) {
   // Destructuring props
-  const { user, location } = props;
+  const { user, location, onMoreOptionsPress } = props;
 
   return (
     <AnimatedView style={styles.container}>
@@ -37,7 +39,12 @@ function PostCardHeader(props: PostCardHeaderProps) {
         </View>
       </View>
 
-      <AppIcon family="Entypo" size={20} name="dots-three-vertical" />
+      <RectButton
+        style={styles.moreOptionsContainer}
+        onPress={onMoreOptionsPress}
+      >
+        <AppIcon family="Entypo" size={20} name="dots-three-vertical" />
+      </RectButton>
     </AnimatedView>
   );
 }
@@ -53,5 +60,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 8,
+  },
+  moreOptionsContainer: {
+    width: 35,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 35 / 2,
   },
 });
