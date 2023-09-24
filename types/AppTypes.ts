@@ -53,6 +53,7 @@ export interface PostProps {
     file_type: string;
     width: number;
     height: number;
+    blurhash: string;
   }[];
   is_edited: boolean;
   likes_count: number;
