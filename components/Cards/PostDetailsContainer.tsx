@@ -80,7 +80,7 @@ function PostDetailsContainer(props: PostDetailsContainerProps) {
         />
       ) : null}
 
-      <CaptionText caption={caption} />
+      {caption?.length ? <CaptionText caption={caption} /> : null}
 
       {comments_count !== undefined ? (
         <AppText

@@ -54,6 +54,7 @@ export interface PostProps {
     width: number;
     height: number;
     blurhash: string;
+    asset_id: string;
   }[];
   is_edited: boolean;
   likes_count: number;

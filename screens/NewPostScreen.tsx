@@ -1,8 +1,8 @@
 // Packages Imports (from node_modules)
 import { useState } from "react";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import Animated from "react-native-reanimated";
+import * as ImagePicker from "expo-image-picker";
 
 // Local Imports (components/types/utils)
 import AppButton from "../components/App/AppButton";
@@ -19,6 +19,7 @@ import TextFieldInput from "../components/Inputs/TextFieldInput";
 import { createPostAPI } from "../api/services/Post";
 import {
   generateUniqueId,
+  getBlurhash,
   getFileNameFromURL,
   getFileType,
   getMimeTypeFromURL,
@@ -119,13 +120,24 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
           return;
         }
 
-        fileItem = { ...fileItem, ...fileUploadResponse.file_details };
+        let blurhash = null;
+
+        if (files[i].fileType === "image")
+          blurhash = await getBlurhash(files[i].uri);
+
+        fileItem = {
+          ...fileItem,
+          ...fileUploadResponse.file_details,
+          blurhash,
+        };
 
         if (files[i].fileType === "video") {
           if (!files[i].thumbnail) {
             showErrorToast("Error uploading video 1 file");
             return;
           }
+
+          blurhash = await getBlurhash(files[i].thumbnail.uri);
 
           let thumbnailUploadResponse = await uploadFile({
             ...files[i].thumbnail,
@@ -140,12 +152,13 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
           fileItem = {
             ...fileItem,
             thumbnail_url: thumbnailUploadResponse.file_details.url,
+            blurhash,
           };
         }
 
         fileUploads.push(fileItem);
       }
-
+      
       let payload: any = { files: fileUploads };
 
       if (location) payload = { ...payload, location };

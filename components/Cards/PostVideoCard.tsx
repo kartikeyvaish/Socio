@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import { TouchableWithoutFeedback, View, StyleSheet } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { ResizeMode, Video } from "expo-av";
+import { ResizeMode } from "expo-av";
 import { ZoomIn, ZoomOut } from "react-native-reanimated";
 
 // Component Imports
 import AnimatedView from "../Animated/AnimatedView";
 import AppIcon from "../App/AppIcon";
+import AppVideo from "../App/AppVideo";
 import ColorPallete from "../../constants/ColorPallete";
 import Layout from "../../constants/Layout";
 import useFirstRender from "../../hooks/useFirstRender";
@@ -22,6 +23,7 @@ export interface PostVideoCardProps {
   shouldPlay?: boolean;
   isMuted?: boolean;
   onVideoPress?: () => void;
+  asset_id?: string;
 }
 
 // function component for PostVideoCard
@@ -34,6 +36,7 @@ function PostVideoCard(props: PostVideoCardProps) {
     shouldPlay = false,
     onVideoPress,
     isMuted,
+    asset_id
   } = props;
 
   // refs
@@ -63,14 +66,16 @@ function PostVideoCard(props: PostVideoCardProps) {
   // render
   return (
     <TouchableWithoutFeedback onPress={onVideoPress}>
-      <View>
-        <Video
-          source={{ uri: url }}
+      <AnimatedView>
+        <AppVideo
+          videoSource={{ uri: url }}
+          uniqueCacheKey={asset_id}
           resizeMode={ResizeMode.CONTAIN}
           isLooping
           shouldPlay={shouldPlay}
           isMuted={isMuted}
-          style={{ width: cardWidth, height: cardHeight }}
+          containerStyle={{ width: cardWidth, height: cardHeight }}
+          style={{ flex: 1 }}
           rate={1.0}
         />
 
@@ -90,7 +95,7 @@ function PostVideoCard(props: PostVideoCardProps) {
             </AnimatedView>
           </RectButton>
         ) : null}
-      </View>
+      </AnimatedView>
     </TouchableWithoutFeedback>
   );
 }

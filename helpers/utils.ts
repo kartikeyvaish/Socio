@@ -1,4 +1,5 @@
 // Packages Imports
+import { Blurhash } from "react-native-blurhash";
 import * as VideoThumbnails from "expo-video-thumbnails";
 
 // Local Imports
@@ -171,5 +172,15 @@ export async function uploadFile(props: UploadFileProps) {
       ok: false,
       error: "Error uploading file",
     };
+  }
+}
+
+export async function getBlurhash(uri: string) {
+  try {
+    const blurhash = await Blurhash.encode(uri, 4, 3);
+
+    return blurhash;
+  } catch (error) {
+    return "";
   }
 }
