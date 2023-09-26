@@ -30,7 +30,7 @@ function AppVideo(props: AppVideoProps) {
     ...restProps
   } = props;
 
-  const { hookPlaybackUpdate, isReady, source,cacheReady } = useVideoCache({
+  const { hookPlaybackUpdate, isReady, source, cacheReady } = useVideoCache({
     uniqueCacheKey,
     videoSource,
   });
@@ -47,7 +47,7 @@ function AppVideo(props: AppVideoProps) {
         hookPlaybackUpdate(playbackStatus);
       });
     }
-  }, [isReady, cacheReady]);
+  }, [isReady, cacheReady, shouldPlay]);
 
   const videoRef = useRef<Video>(null);
 
@@ -57,10 +57,9 @@ function AppVideo(props: AppVideoProps) {
       <Video
         ref={videoRef}
         {...restProps}
+        progressUpdateIntervalMillis={100}
         source={source}
         shouldPlay={isReady && shouldPlay}
-        progressUpdateIntervalMillis={100}
-        useNativeControls
       />
 
       {!isReady ? (
