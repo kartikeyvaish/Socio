@@ -44,6 +44,9 @@ const postsReducer = (
       return { ...state, feedPosts: filteredFeedPosts };
     }
 
+    case actionTypes.CLEAR_FEED_POSTS:
+      return { ...state, feedPosts: [] };
+
     case actionTypes.PREPEND_USER_POST: {
       let currentUsersPosts = [...state.usersPosts];
 
@@ -72,6 +75,9 @@ const postsReducer = (
 
       return { ...state, usersPosts: filteredUsersPosts };
     }
+
+    case actionTypes.CLEAR_USERS_POSTS:
+      return { ...state, usersPosts: [] };
 
     default:
       return state;

@@ -42,6 +42,12 @@ function removeFeedPost(
   };
 }
 
+function clearFeedPosts(): ActionProps<PostsActionPayloadProps> {
+  return {
+    type: actionTypes.CLEAR_FEED_POSTS,
+  };
+}
+
 function setUsersPosts(
   usersPosts: Array<PostProps>
 ): ActionProps<PostsActionPayloadProps> {
@@ -78,6 +84,12 @@ function removeUserPost(
   };
 }
 
+function clearUsersPosts(): ActionProps<PostsActionPayloadProps> {
+  return {
+    type: actionTypes.CLEAR_USERS_POSTS,
+  };
+}
+
 const postsActions = {
   setFeedPosts,
   prependFeedPost,
@@ -87,6 +99,8 @@ const postsActions = {
   removeUserPost,
   appendFeedPost,
   appendUserPost,
+  clearFeedPosts,
+  clearUsersPosts,
 };
 
 export default postsActions;
