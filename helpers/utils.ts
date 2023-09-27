@@ -39,15 +39,12 @@ export function getMarginStyles(margins: MarginProps = {}) {
 // 99 becomes 99
 // 1500 becomes 1.5K
 export function abbreviate_number(number: number) {
-  if (!number) return "0";
-
-  if (number < 1000) return number;
-
-  if (number < 1000000) {
-    return `${(number / 1000).toFixed(0)}K`;
-  } else {
-    return `${(number / 1000000).toFixed(0)}M`;
-  }
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  })
+    .format(number)
+    .toUpperCase();
 }
 
 export function commaSeperatedNumber(number: number) {
