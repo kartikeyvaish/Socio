@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "socio.app"
-               BlueprintName = "Socio"
+               BuildableName = "Socio.app"
+               BlueprintName = "socio"
                ReferencedContainer = "container:socio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -41,7 +41,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -55,8 +55,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "socio.app"
-            BlueprintName = "Socio"
+            BuildableName = "Socio.app"
+            BlueprintName = "socio"
             ReferencedContainer = "container:socio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -72,8 +72,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "socio.app"
-            BlueprintName = "Socio"
+            BuildableName = "Socio.app"
+            BlueprintName = "socio"
             ReferencedContainer = "container:socio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
