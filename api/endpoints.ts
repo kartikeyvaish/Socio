@@ -30,6 +30,11 @@ export const postEndpoints = {
   UNLIKE_A_POST: (id: number) => `${API_VERSION}/posts/${id}/unlike`,
 };
 
+export const profileEndpoints = {
+  // Profile Endpoints
+  GET_USER_PROFILE: (id: number) => `${API_VERSION}/users/${id}/profile`,
+};
+
 export const feedEndpoints = {
   // Feed Endpoints
   GET_FEED: `${API_VERSION}/feed`,

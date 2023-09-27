@@ -76,3 +76,19 @@ export interface NewPostResponseProps extends GeneralAPIResponse {
 export interface FeedResponseProps extends GeneralAPIResponse {
   posts: PostProps[];
 }
+
+export interface UserProfileResponseProps extends GeneralAPIResponse {
+  user: {
+    id: number;
+    first_name: string;
+    last_name: string;
+    username: string;
+    profile_picture: string;
+    bio: string;
+    posts_count: number;
+    followers_count: number;
+    following_count: number;
+    is_self: boolean;
+  };
+  posts: PostProps[];
+}
