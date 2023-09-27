@@ -13,6 +13,7 @@ import ColorPallete from "../constants/ColorPallete";
 import Messages from "../constants/Messages";
 import NewPostInitialButton from "../components/Buttons/NewPostInitialButton";
 import PickedFileItem from "../components/Cards/PickedFileItem";
+import postsActions from "../store/posts/actions";
 import TextFieldInput from "../components/Inputs/TextFieldInput";
 
 // Named Imports
@@ -29,7 +30,7 @@ import {
 import { PickedFileProps } from "../types/AppTypes";
 import { showErrorToast, showToast } from "../helpers/toastHelpers";
 import { TabScreenProps } from "../navigation/NavigationTypes";
-import { useAppSelector } from "../store/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../store/reduxHooks";
 
 // interface for NewPostScreen component
 export interface NewPostScreenProps {}
@@ -43,6 +44,9 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
 
   const { id: userId } = useAppSelector(state => state.auth);
 
+  const dispatch = useAppDispatch();
+
+  // Local States
   const [caption, setCaption] = useState<string>("");
   const [files, setFiles] = useState<Array<PickedFileProps>>([]);
   const [location, setLocation] = useState<string>("");
@@ -158,7 +162,7 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
 
         fileUploads.push(fileItem);
       }
-      
+
       let payload: any = { files: fileUploads };
 
       if (location) payload = { ...payload, location };
@@ -168,8 +172,11 @@ function NewPostScreen(props: TabScreenProps<"NewPostTabScreen">) {
       setLoading(false);
 
       if (postApiResponse.ok) {
+        dispatch(postsActions.appendUserPost(postApiResponse.data.post));
+        dispatch(postsActions.appendFeedPost(postApiResponse.data.post));
         showToast({ preset: "done", title: "Post created successfully" });
         resetForm();
+        navigation.reset({ index: 0, routes: [{ name: "HomeTabScreen" }] });
       } else {
         showErrorToast("Error while creating post");
       }

@@ -6,6 +6,7 @@ import { useIsFocused } from "@react-navigation/native";
 // Local Imports (components/types/utils)
 import AppContainer from "../components/App/AppContainer";
 import HomeScreenCard from "../components/Headers/HomeScreenCard";
+import postsActions from "../store/posts/actions";
 import PostCard from "../components/Cards/PostCard";
 import useFlatList from "../hooks/useFlatlist";
 
@@ -13,18 +14,22 @@ import useFlatList from "../hooks/useFlatlist";
 import { AppScreenProps } from "../navigation/NavigationTypes";
 import { getFeed } from "../api/services/Feed";
 import { PostProps } from "../types/AppTypes";
+import { useAppDispatch, useAppSelector } from "../store/reduxHooks";
 
 // functional component for HomeScreen
 function HomeScreen(props: AppScreenProps<"HomeScreen">) {
   // Helper Hook for Flatlist
   const { flatListRef, onViewRef, viewConfigRef, viewableItem } = useFlatList();
 
+  const { feedPosts } = useAppSelector(state => state.posts);
+
   // Local States
-  const [posts, setPosts] = useState<Array<PostProps>>([]);
+  const [posts, setPosts] = useState<Array<PostProps>>(feedPosts);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   // to check if the screen is focused
   const isFocused = useIsFocused();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     initialCall();
@@ -33,7 +38,7 @@ function HomeScreen(props: AppScreenProps<"HomeScreen">) {
   // Initial API Call to get feed
   const initialCall = async () => {
     try {
-      if (!posts.length) await getFeedAPI();
+      await getFeedAPI();
     } catch (error) {}
   };
 
@@ -44,6 +49,7 @@ function HomeScreen(props: AppScreenProps<"HomeScreen">) {
 
       if (apiResponse.ok === true) {
         setPosts(apiResponse.data.posts);
+        dispatch(postsActions.setFeedPosts(apiResponse.data.posts));
       }
     } catch (error) {}
   };
