@@ -5,10 +5,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
 
 export default function App() {
+  const apiUrl = process.env.EXPO_PUBLIC_DEV_SERVER_BASE_URL;
+
   return (
     <ErrorBoundary>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Text>{apiUrl}</Text>
       </View>
     </ErrorBoundary>
   );
