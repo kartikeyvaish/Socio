@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 
 // Local imports
-import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from './src/components/ErrorBoundary';
 
 // Named Imports
 import { persistor, store } from './src/store';
