@@ -1,13 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+// Packages Imports
 import { StyleSheet, Text, View } from 'react-native';
+
+// Local imports
+import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ErrorBoundary>
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
+      </View>
+    </ErrorBoundary>
   );
 }
 
