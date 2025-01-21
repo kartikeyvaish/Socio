@@ -1,9 +1,9 @@
 // Packages Imports
 import { Text, StyleProp, TextStyle } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 
-// Local Imports
+// Named Imports
 import { AppTextProps } from '../../types/components';
+import { useAppSelector } from '../../store/storeHooks';
 
 // function component for AppText
 function AppText(props: AppTextProps) {
@@ -22,7 +22,7 @@ function AppText(props: AppTextProps) {
     ...otherProps
   } = props;
 
-  const { colors } = useTheme();
+  const { colors } = useAppSelector((state) => state.theme);
 
   // Assemble textStyles
   const finalStyles: StyleProp<TextStyle> = [
