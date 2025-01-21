@@ -12,21 +12,21 @@ import {
 } from 'redux-persist';
 
 // Local Imports
-import authSlice from './feature/authSlice';
+import authReducer from './feature/authSlice';
 import reduxStorageEngine from './reduxStoreEngine';
+import themeReducer from './feature/themeSlice';
 
 // Combining all the reducers and exporting
 const rootReducer = combineReducers({
-  // auth reducer
-  auth: authSlice
+  auth: authReducer,
+  theme: themeReducer
 });
 
 // Create a final persisted reducer
 const persistedReducer = persistReducer(
   {
     key: 'root',
-    storage: reduxStorageEngine,
-    blacklist: ['modal']
+    storage: reduxStorageEngine
   },
   rootReducer
 );
