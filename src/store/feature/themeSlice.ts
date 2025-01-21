@@ -1,4 +1,5 @@
 // Packages Imports
+import { ColorSchemeName } from 'react-native';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -23,6 +24,13 @@ export const themeSlice = createSlice({
       }
 
       return darkTheme;
+    },
+    toggleThemeByColorScheme: (_, action: PayloadAction<ColorSchemeName>) => {
+      if (action.payload === 'dark') {
+        return darkTheme;
+      }
+
+      return lightTheme;
     },
     reset: () => {
       return lightTheme;
