@@ -1,12 +1,14 @@
 // Packages Imports
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 
 // Local imports
+import Container from './src/components/Container';
 import ErrorBoundary from './src/components/ErrorBoundary';
+import ThemedLayout from './src/layouts/ThemedLayout';
 
 // Named Imports
 import { persistor, store } from './src/store';
@@ -21,9 +23,11 @@ export default function App() {
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1 }}>
               <GestureHandlerRootView style={{ flex: 1 }}>
-                <View style={styles.container}>
-                  <Text>{apiUrl}</Text>
-                </View>
+                <ThemedLayout>
+                  <Container style={styles.container}>
+                    <Text>{apiUrl}</Text>
+                  </Container>
+                </ThemedLayout>
               </GestureHandlerRootView>
             </SafeAreaView>
           </SafeAreaProvider>
