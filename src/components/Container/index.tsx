@@ -1,6 +1,5 @@
 // Packages Imports (from node_modules)
-import { ViewProps } from 'react-native';
-import Animated, {
+import {
   useDerivedValue,
   useAnimatedStyle,
   interpolateColor,
@@ -8,17 +7,18 @@ import Animated, {
 } from 'react-native-reanimated';
 
 // Local Imports (components/types/utils)
-import { darkTheme, lightTheme } from '../../configs/themes';
-import { useAppSelector } from '../../store/storeHooks';
+import AnimatedView from '../AnimatedView';
 
-// interface for Container component
-export interface ContainerProps extends ViewProps {}
+// Named Imports
+import { darkTheme, lightTheme } from '../../configs/themes';
+import { FlexViewProps } from '../../types/components';
+import { useAppSelector } from '../../store/storeHooks';
 
 const darkBackground = darkTheme.colors.background;
 const lightBackground = lightTheme.colors.background;
 
 // functional component for Container
-function Container(props: ContainerProps) {
+function Container(props: FlexViewProps) {
   // Destructuring props
   const { style, ...restProps } = props;
 
@@ -43,7 +43,7 @@ function Container(props: ContainerProps) {
   });
 
   // render
-  return <Animated.View style={[animatedStyles, style]} {...restProps} />;
+  return <AnimatedView style={[animatedStyles, style]} {...restProps} />;
 }
 
 // exports

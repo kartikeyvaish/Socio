@@ -1,12 +1,11 @@
 // Packages Imports (from node_modules)
-import { ViewProps } from 'react-native';
-import Animated, { AnimatedProps, LinearTransition } from 'react-native-reanimated';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 
 // interface for AnimatedView component
-export interface AnimatedViewProps extends AnimatedProps<ViewProps> {}
+import { FlexViewProps } from '../../types/components';
 
 // functional component for AnimatedView
-function AnimatedView(props: AnimatedViewProps) {
+function AnimatedView(props: FlexViewProps) {
   // Destructuring props
   const { ...restProps } = props;
 
