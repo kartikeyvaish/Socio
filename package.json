@@ -23,6 +23,8 @@
     "dayjs": "^1.11.13",
     "expo": "~52.0.26",
     "expo-av": "~15.0.2",
+    "expo-camera": "~16.0.13",
+    "expo-document-picker": "~13.0.2",
     "expo-haptics": "~14.0.1",
     "expo-image": "~2.0.4",
     "expo-linear-gradient": "~14.0.2",
@@ -30,7 +32,10 @@
     "expo-navigation-bar": "~4.0.7",
     "expo-splash-screen": "~0.29.21",
     "expo-status-bar": "~2.0.1",
+    "expo-video": "~2.0.5",
+    "expo-video-thumbnails": "~9.0.3",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "react": "18.3.1",
     "react-native": "0.76.6",
     "react-native-blurhash": "^2.1.0",
@@ -43,8 +48,8 @@
     "react-native-svg": "15.8.0",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
-    "yup": "^1.6.1",
-    "expo-video": "~2.0.5"
+    "socket.io-client": "^4.8.1",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
