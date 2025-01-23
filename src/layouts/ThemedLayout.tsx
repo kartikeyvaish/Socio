@@ -1,6 +1,7 @@
 // Packages Imports
 import React, { useEffect } from 'react';
 import { Appearance, Platform, StatusBar, StatusBarStyle } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 import * as NavigationBar from 'expo-navigation-bar';
 
 // Local Imports
@@ -56,7 +57,7 @@ function ThemedLayout(props: ChildrenProps) {
     <>
       <StatusBar barStyle={barStyle} backgroundColor={barBackgroundColor} animated={true} />
 
-      {children}
+      <PaperProvider theme={theme}>{children}</PaperProvider>
     </>
   );
 }
