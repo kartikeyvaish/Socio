@@ -3,6 +3,7 @@ import { Text, StyleProp, TextStyle } from 'react-native';
 
 // Named Imports
 import { AppTextProps } from '../../types/components';
+import { fontFamilies } from '../../constants/ui';
 import { useAppSelector } from '../../store/storeHooks';
 
 // function component for AppText
@@ -29,12 +30,13 @@ function AppText(props: AppTextProps) {
     {
       color: color ? color : colors.text,
       fontSize: size,
-      fontFamily: family,
+      fontFamily: family ? family : fontFamilies.Poppins.regular,
       marginLeft,
       marginBottom,
       marginRight,
       marginTop,
-      margin
+      margin,
+      includeFontPadding: false
     },
     style
   ];

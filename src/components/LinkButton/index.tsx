@@ -5,6 +5,9 @@ import Animated from 'react-native-reanimated';
 // Local Imports (components/types/utils)
 import colorPallete from '../../constants/colorPallete';
 
+// Named Imports
+import { fontFamilies } from '../../constants/ui';
+
 // interface for LinkButton component
 export interface LinkButtonProps extends TextProps {
   label: string;
@@ -30,6 +33,8 @@ export default LinkButton;
 // styles for LinkButton
 const styles = StyleSheet.create({
   textStyles: {
-    fontWeight: '400'
+    fontWeight: '400',
+    includeFontPadding: false,
+    fontFamily: fontFamilies.Poppins.regular
   }
 });

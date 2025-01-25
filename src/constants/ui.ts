@@ -82,3 +82,23 @@ export const IconNames = {
 };
 
 export type IconFamilyType = keyof typeof IconNames;
+
+export const fontFamilies = {
+  Poppins: {
+    light: 'Poppins-Light',
+    regular: 'Poppins-Regular',
+    medium: 'Poppins-Medium',
+    bold: 'Poppins-Bold'
+  },
+  BerkshireSwash: {
+    regular: 'BerkshireSwash'
+  },
+  Inter: {
+    light: 'Inter-Light',
+    regular: 'Inter-Regular',
+    bold: 'Inter-Bold'
+  },
+  Helvetica: {
+    regular: 'Helvetica'
+  }
+};

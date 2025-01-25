@@ -17,7 +17,7 @@ import Icon from '../Icon';
 // Named Imports
 import { AppIconProps } from '../../types/components';
 import { useAppSelector } from '../../store/storeHooks';
-import { variables } from '../../constants/ui';
+import { fontFamilies, variables } from '../../constants/ui';
 
 // interface for Input component
 export interface InputProps extends TextInputProps {
@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
   },
   inputStyles: {
     flex: 1,
-    fontSize: variables.fontSize.medium
+    fontSize: variables.fontSize.medium,
+    fontFamily: fontFamilies.Poppins.regular,
+    fontStyle: 'normal',
+    includeFontPadding: false
   }
 });
