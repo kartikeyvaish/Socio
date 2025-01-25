@@ -33,8 +33,7 @@ export default LinkButton;
 // styles for LinkButton
 const styles = StyleSheet.create({
   textStyles: {
-    fontWeight: '400',
     includeFontPadding: false,
-    fontFamily: fontFamilies.Poppins.regular
+    fontFamily: fontFamilies.Poppins.medium
   }
 });
