@@ -6,5 +6,5 @@ export default {
   danger: '#FF4C58',
   success: '#22bb33',
   warning: '#FFB259',
-  grey: '#ACACAC'
+  grey98: '#FAFAFA'
 };
