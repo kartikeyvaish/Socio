@@ -1,5 +1,6 @@
 // Packages Imports
-import { Text, StyleProp, TextStyle } from 'react-native';
+import { StyleProp, TextStyle } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 
 // Named Imports
 import { AppTextProps } from '../../types/components';
@@ -46,9 +47,9 @@ function AppText(props: AppTextProps) {
 
   // render
   return (
-    <Text style={finalStyles} {...otherProps}>
+    <Animated.Text layout={LinearTransition} style={finalStyles} {...otherProps}>
       {text}
-    </Text>
+    </Animated.Text>
   );
 }
 
