@@ -14,16 +14,17 @@ import { variables } from '../../constants/ui';
 export interface ButtonProps extends RectButtonProps {
   label?: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 // functional component for Button
 function Button(props: ButtonProps) {
   // Destructuring props
-  const { label, loading, ...restProps } = props;
+  const { label, loading, disabled, ...restProps } = props;
 
   // render
   return (
-    <RectButton style={styles.container} {...restProps}>
+    <RectButton style={[styles.container, disabled && styles.disabled]} {...restProps}>
       {loading ? (
         <AnimatedView>
           <ActivityIndicator animating={loading} color={colorPallete.white} />
@@ -51,5 +52,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: variables.gap.small
+  },
+  disabled: {
+    opacity: 0.6
   }
 });
