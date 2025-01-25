@@ -1,5 +1,14 @@
-import { TextProps, ViewProps } from 'react-native';
+import {
+  ColorValue,
+  GestureResponderEvent,
+  StyleProp,
+  TextProps,
+  TextStyle,
+  ViewProps
+} from 'react-native';
 import { AnimatedProps } from 'react-native-reanimated';
+import { IconFamilyType } from '../constants/ui';
+import { MarginProps } from './global';
 
 export interface AppTextProps extends TextProps {
   text: string;
@@ -21,4 +30,21 @@ export interface FlexViewProps extends AnimatedViewProps {
   justify?: 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around';
   row?: boolean;
   gap?: number;
+}
+
+// AppIcon props interface
+export interface AppIconProps {
+  name?: any;
+  family?: IconFamilyType;
+  color?: ColorValue;
+  size?: number;
+  onPress?: ((event: GestureResponderEvent) => void) | any;
+  loading?: boolean;
+  style?: StyleProp<TextStyle>;
+  margins?: MarginProps;
+  themeColors?: {
+    dark: string;
+    light: string;
+  };
+  onLayout?: any;
 }
