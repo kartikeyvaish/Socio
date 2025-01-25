@@ -30,6 +30,7 @@ export interface FlexViewProps extends AnimatedViewProps {
   justify?: 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around';
   row?: boolean;
   gap?: number;
+  margins?: MarginProps;
 }
 
 // AppIcon props interface
