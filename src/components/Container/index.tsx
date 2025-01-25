@@ -7,7 +7,7 @@ import {
 } from 'react-native-reanimated';
 
 // Local Imports (components/types/utils)
-import AnimatedView from '../AnimatedView';
+import Flex from '../Flex';
 
 // Named Imports
 import { darkTheme, lightTheme } from '../../configs/themes';
@@ -43,7 +43,7 @@ function Container(props: FlexViewProps) {
   });
 
   // render
-  return <AnimatedView style={[animatedStyles, style]} {...restProps} />;
+  return <Flex style={[animatedStyles, style]} {...restProps} />;
 }
 
 // exports
