@@ -8,7 +8,7 @@ import AnimatedView from '../AnimatedView';
 import colorPallete from '../../constants/colorPallete';
 
 // Named Imports
-import { variables } from '../../constants/ui';
+import { fontFamilies, variables } from '../../constants/ui';
 
 // interface for Button component
 export interface ButtonProps extends Omit<RectButtonProps, 'onPress'> {
@@ -16,17 +16,18 @@ export interface ButtonProps extends Omit<RectButtonProps, 'onPress'> {
   loading?: boolean;
   disabled?: boolean;
   onPress?: () => void;
+  ghost?: boolean;
 }
 
 // functional component for Button
 function Button(props: ButtonProps) {
   // Destructuring props
-  const { label, loading, disabled, onPress, ...restProps } = props;
+  const { label, loading, disabled, onPress, style, ghost = false, ...restProps } = props;
 
   // render
   return (
     <RectButton
-      style={[styles.container, disabled && styles.disabled]}
+      style={[styles.container, disabled && styles.disabled, ghost && styles.ghost, style]}
       onPress={onPress}
       {...restProps}
     >
@@ -37,7 +38,12 @@ function Button(props: ButtonProps) {
       ) : null}
 
       <AnimatedView>
-        <AppText text={label} color={colorPallete.white} size={16} />
+        <AppText
+          text={label}
+          color={ghost ? colorPallete.primary : colorPallete.white}
+          size={16}
+          family={ghost ? fontFamilies.Poppins.medium : undefined}
+        />
       </AnimatedView>
     </RectButton>
   );
@@ -60,5 +66,10 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.6
+  },
+  ghost: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: colorPallete.primary
   }
 });
