@@ -3,6 +3,7 @@ import { createStackNavigator, StackNavigationOptions } from '@react-navigation/
 import { useTheme } from '@react-navigation/native';
 
 // Screen imports
+import EmailSignUpScreen from '../screens/auth/EmailSignUpScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 
 // Types/components/Navigators imports
@@ -24,6 +25,7 @@ function AuthNavigator() {
   return (
     <Stack.Navigator id="auth" screenOptions={screenOptions}>
       <Stack.Screen name={'LoginScreen'} component={LoginScreen} />
+      <Stack.Screen name={'EmailSignUpScreen'} component={EmailSignUpScreen} />
     </Stack.Navigator>
   );
 }
