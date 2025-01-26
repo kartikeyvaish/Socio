@@ -49,7 +49,10 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
         marginBottom={40}
       />
 
-      <LoginForm onSubmit={onLoginFormSubmit} />
+      <LoginForm
+        onSubmit={onLoginFormSubmit}
+        onForgotPasswordPress={() => navigation.navigate('InitiateResetPasswordScreen')}
+      />
 
       <Flex row gap={8} flex={1} align="flex-end" justify="center" layout={undefined}>
         <AppText text="Don't Have an Account?" layout={undefined} />

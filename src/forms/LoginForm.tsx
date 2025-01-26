@@ -23,6 +23,7 @@ export interface FormValues extends AppFormValues {
 export interface LoginFormProps extends FormSubmitProps<FormValues> {
   disabled?: boolean;
   showForgotPassword?: boolean;
+  onForgotPasswordPress?: () => void;
 }
 
 const LoginSchema = Yup.object().shape({
@@ -33,7 +34,7 @@ const LoginSchema = Yup.object().shape({
 // functional component for LoginForm
 function LoginForm(props: LoginFormProps) {
   // Destructuring props
-  const { onSubmit, disabled, showForgotPassword = true } = props;
+  const { onSubmit, disabled, showForgotPassword = true, onForgotPasswordPress } = props;
 
   // render
   return (
@@ -74,7 +75,7 @@ function LoginForm(props: LoginFormProps) {
               margins={{ top: 5, bottom: 5 }}
               layout={undefined}
             >
-              <LinkButton label="Forgot Password?" />
+              <LinkButton label="Forgot Password?" onPress={onForgotPasswordPress} />
             </Flex>
           ) : null}
 

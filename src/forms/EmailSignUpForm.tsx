@@ -18,7 +18,9 @@ export interface FormValues extends AppFormValues {
 }
 
 // interface for EmailSignUpForm component
-export interface EmailSignUpFormProps extends FormSubmitProps<FormValues> {}
+export interface EmailSignUpFormProps extends FormSubmitProps<FormValues> {
+  submitButtonLabel?: string;
+}
 
 const EmailSignUpSchema = Yup.object().shape({
   email: Yup.string().email('Must be a valid email address').required('Email is required')
@@ -27,7 +29,7 @@ const EmailSignUpSchema = Yup.object().shape({
 // functional component for EmailSignUpForm
 function EmailSignUpForm(props: EmailSignUpFormProps) {
   // Destructuring props
-  const { onSubmit } = props;
+  const { onSubmit, submitButtonLabel = 'Create Account' } = props;
 
   // render
   return (
@@ -42,7 +44,7 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
 
           <FormError />
 
-          <FormSubmitButton label="Create Account" />
+          <FormSubmitButton label={submitButtonLabel} />
         </Flex>
       </Form>
     </AnimatedView>
