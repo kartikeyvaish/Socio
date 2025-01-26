@@ -1,14 +1,15 @@
 // Packages Imports
-import { StyleProp, TextStyle } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
+import Animated, { AnimatedProps, LinearTransition } from 'react-native-reanimated';
 
 // Named Imports
 import { AppTextProps } from '../../types/components';
 import { fontFamilies } from '../../constants/ui';
 import { useAppSelector } from '../../store/storeHooks';
 
+interface Props extends AnimatedProps<AppTextProps> {}
+
 // function component for AppText
-function AppText(props: AppTextProps) {
+function AppText(props: Props) {
   // Destructuring props
   const {
     text,
@@ -27,7 +28,7 @@ function AppText(props: AppTextProps) {
   const { colors } = useAppSelector((state) => state.theme);
 
   // Assemble textStyles
-  const finalStyles: StyleProp<TextStyle> = [
+  const finalStyles: Props['style'] = [
     {
       color: color ? color : colors.text,
       fontSize: size,
