@@ -1,12 +1,18 @@
 // Packages Imports
-import Animated, { AnimatedProps, LinearTransition } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native';
+import Animated, { AnimatedProps, FadeIn, LinearTransition } from 'react-native-reanimated';
+
+// Local Imports
+import colorPallete from '../../constants/colorPallete';
 
 // Named Imports
 import { AppTextProps } from '../../types/components';
 import { fontFamilies } from '../../constants/ui';
 import { useAppSelector } from '../../store/storeHooks';
 
-interface Props extends AnimatedProps<AppTextProps> {}
+interface Props extends AnimatedProps<AppTextProps> {
+  type?: 'text' | 'error';
+}
 
 // function component for AppText
 function AppText(props: Props) {
@@ -22,16 +28,19 @@ function AppText(props: Props) {
     marginRight,
     marginTop,
     margin,
+    type = 'text',
     ...otherProps
   } = props;
 
   const { colors } = useAppSelector((state) => state.theme);
 
+  const errorStyles: Props['style'] = type === 'error' ? styles.errorStyles : {};
+
   // Assemble textStyles
   const finalStyles: Props['style'] = [
     {
-      color: color ? color : colors.text,
-      fontSize: size,
+      color: type === 'text' ? (color ? color : colors.text) : colorPallete.danger,
+      fontSize: type === 'text' ? size : 12,
       fontFamily: family ? family : fontFamilies.Poppins.regular,
       marginLeft,
       marginBottom,
@@ -40,6 +49,7 @@ function AppText(props: Props) {
       margin,
       includeFontPadding: false
     },
+    errorStyles,
     style
   ];
 
@@ -48,7 +58,12 @@ function AppText(props: Props) {
 
   // render
   return (
-    <Animated.Text layout={LinearTransition} style={finalStyles} {...otherProps}>
+    <Animated.Text
+      entering={type === 'error' ? FadeIn : undefined}
+      layout={LinearTransition}
+      style={finalStyles}
+      {...otherProps}
+    >
       {text}
     </Animated.Text>
   );
@@ -56,3 +71,10 @@ function AppText(props: Props) {
 
 // exports
 export default AppText;
+
+const styles = StyleSheet.create({
+  errorStyles: {
+    marginTop: 4,
+    marginLeft: 2
+  }
+});
