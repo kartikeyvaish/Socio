@@ -6,6 +6,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 export type AuthStackParamsList = {
   LoginScreen: undefined;
   EmailSignUpScreen: undefined;
+  VerifyOTPScreen: { resource: string; otp_id: string };
 };
 
 // App Navigator Screen Params

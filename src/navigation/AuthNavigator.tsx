@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 // Screen imports
 import EmailSignUpScreen from '../screens/auth/EmailSignUpScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
+import VerifyOTPScreen from '../screens/auth/VerifyOTPScreen';
 
 // Types/components/Navigators imports
 import { AuthStackParamsList } from './types';
@@ -23,9 +24,10 @@ function AuthNavigator() {
 
   // Render
   return (
-    <Stack.Navigator id="auth" screenOptions={screenOptions}>
+    <Stack.Navigator id="auth" initialRouteName="VerifyOTPScreen" screenOptions={screenOptions}>
       <Stack.Screen name={'LoginScreen'} component={LoginScreen} />
       <Stack.Screen name={'EmailSignUpScreen'} component={EmailSignUpScreen} />
+      <Stack.Screen name={'VerifyOTPScreen'} component={VerifyOTPScreen} />
     </Stack.Navigator>
   );
 }
