@@ -43,7 +43,7 @@ function Container(props: FlexViewProps) {
   });
 
   // render
-  return <Flex style={[animatedStyles, style]} {...restProps} />;
+  return <Flex flex={1} style={[animatedStyles, style]} {...restProps} />;
 }
 
 // exports
