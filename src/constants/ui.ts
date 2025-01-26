@@ -102,3 +102,8 @@ export const fontFamilies = {
     regular: 'Helvetica'
   }
 };
+
+export const TOKENS = {
+  ACCESS_TOKEN: 'authaccesstoken',
+  REFRESH_TOKEN: 'authrefreshtoken'
+};

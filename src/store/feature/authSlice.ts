@@ -5,6 +5,7 @@ import reduxStorageEngine from '../reduxStoreEngine';
 
 // Named Imports
 import { User } from '../../types/model';
+import { TOKENS } from '../../constants/ui';
 
 export interface AuthState {
   user: User | null;
@@ -26,16 +27,16 @@ export const authSlice = createSlice({
     reset: (state) => {
       state.user = null;
 
-      reduxStorageEngine.removeItem('authaccesstoken');
-      reduxStorageEngine.removeItem('authrefreshtoken');
+      reduxStorageEngine.removeItem(TOKENS.ACCESS_TOKEN);
+      reduxStorageEngine.removeItem(TOKENS.REFRESH_TOKEN);
 
       return state;
     },
     logout: (state) => {
       state.user = null;
 
-      reduxStorageEngine.removeItem('authaccesstoken');
-      reduxStorageEngine.removeItem('authrefreshtoken');
+      reduxStorageEngine.removeItem(TOKENS.ACCESS_TOKEN);
+      reduxStorageEngine.removeItem(TOKENS.REFRESH_TOKEN);
 
       return;
     }

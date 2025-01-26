@@ -2,9 +2,16 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 // Local Imports
+import endpoints from './endpoints';
+import reduxStorageEngine from '../store/reduxStoreEngine';
 
 // Named Imports
+import { authSlice } from '../store/feature/authSlice';
 import { ErrorResponse, getErrorMessage, getSuccessMessage, SuccessResponse } from './types';
+import { isTimeStampExpired } from '../helpers/common';
+import { jwtDecode } from 'jwt-decode';
+import { store } from '../store';
+import { TOKENS } from '../constants/ui';
 
 // Base URL for the API service that will be called
 export const BASE_URL =
@@ -28,9 +35,52 @@ export interface ApiResponse<SuccessResponse, ErrorResponse> {
   errorText: string | null;
 }
 
-axiosInstance.interceptors.request.use(function (config) {
-  // const token = store.getState().auth?.user;
-  const token = 'token';
+async function refreshToken() {
+  try {
+    let refresh_token = (await reduxStorageEngine.getItem(TOKENS.REFRESH_TOKEN)) || '';
+
+    let newResponse = await fetch(`${BASE_URL}${endpoints.auth.refresh_session}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        refreshtoken: refresh_token
+      }
+    });
+
+    if (newResponse.status === 200) {
+      const newData = await newResponse.json();
+
+      return newData;
+    }
+
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
+axiosInstance.interceptors.request.use(async function (config) {
+  let authState = store.getState().auth;
+
+  if (!authState.user) return config;
+
+  let token = (await reduxStorageEngine.getItem(TOKENS.ACCESS_TOKEN)) || '';
+
+  if (!token) store.dispatch(authSlice.actions.logout());
+
+  let decoded = jwtDecode(token);
+
+  if (!decoded) store.dispatch(authSlice.actions.logout());
+
+  if (isTimeStampExpired(decoded.exp)) {
+    const refreshResponse = await refreshToken();
+
+    if (refreshResponse !== null) {
+      token = refreshResponse.access_token;
+      await reduxStorageEngine.setItem(TOKENS.ACCESS_TOKEN, token);
+      await reduxStorageEngine.setItem(TOKENS.REFRESH_TOKEN, refreshResponse.refresh_token);
+    }
+  }
 
   if (token) config.headers['accesstoken'] = token;
 
@@ -58,7 +108,7 @@ export async function executeApiCall<ResponseProps = SuccessResponse, Error = Er
     if (error.response) {
       const errorMessage = getErrorMessage(error.response.data);
 
-      // if (error.response.status === 401) store.dispatch(authActions.logoutUser());
+      if (error.response.status === 401) store.dispatch(authSlice.actions.logout());
 
       return { ok: false, error, data: null, errorText: errorMessage, successText: null };
     } else {
