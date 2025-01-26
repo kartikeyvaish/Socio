@@ -30,7 +30,12 @@ function Input(props: InputProps) {
   // Local States
   const [valueVisible, setValueVisible] = useState(!secureTextEntry);
 
-  const inputStyles: StyleProp<TextStyle> = [styles.inputStyles, {}];
+  const inputStyles: StyleProp<TextStyle> = [
+    styles.inputStyles,
+    {
+      color: colors.text
+    }
+  ];
 
   const containerStyles: StyleProp<ViewStyle> = [
     styles.container,

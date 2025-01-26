@@ -5,7 +5,7 @@ import endpoints from '../endpoints';
 import { executeApiCall } from '../index';
 
 // Request/Response Types
-import { LoginBodyProps, LoginResponseProps } from './types';
+import { LoginBodyProps, LoginResponseProps, SuccessLoginResponseProps } from './types';
 
 class Auth {
   login = async (body: LoginBodyProps) => {
@@ -13,6 +13,14 @@ class Auth {
       method: 'POST',
       data: body,
       url: endpoints.auth.login
+    });
+  };
+
+  verifyLoginOtp = async (body: { otp: string; otp_id: string; email: string }) => {
+    return executeApiCall<SuccessLoginResponseProps>({
+      method: 'POST',
+      data: body,
+      url: endpoints.auth.verify_login_otp
     });
   };
 }

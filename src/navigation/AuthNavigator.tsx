@@ -24,7 +24,7 @@ function AuthNavigator() {
 
   // Render
   return (
-    <Stack.Navigator id="auth" initialRouteName="VerifyOTPScreen" screenOptions={screenOptions}>
+    <Stack.Navigator id="auth" screenOptions={screenOptions}>
       <Stack.Screen name={'LoginScreen'} component={LoginScreen} />
       <Stack.Screen name={'EmailSignUpScreen'} component={EmailSignUpScreen} />
       <Stack.Screen name={'VerifyOTPScreen'} component={VerifyOTPScreen} />

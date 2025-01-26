@@ -29,7 +29,10 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
       if (apiResponse.ok && apiResponse.data) {
         navigation.navigate('VerifyOTPScreen', {
           resource: values.email,
-          otp_id: apiResponse.data.otp_id
+          otp_id: apiResponse.data.otp_id,
+          verifyMode: 'login',
+          subtitle: 'A code has been sent to your email',
+          title: 'Verify OTP'
         });
       } else {
         return { ok: false, error: apiResponse.errorText };

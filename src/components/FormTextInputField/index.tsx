@@ -17,7 +17,7 @@ export interface FormTextInputFieldProps extends InputProps {
 // functional component for FormTextInputField
 function FormTextInputField(props: FormTextInputFieldProps) {
   // Destructuring props
-  const { fieldName, controlled = false, ...resrProps } = props;
+  const { fieldName, controlled = false, ...restProps } = props;
 
   const { handleBlur, handleChange, touched, errors, values } = useFormikContext();
 
@@ -29,7 +29,7 @@ function FormTextInputField(props: FormTextInputFieldProps) {
         onBlur={handleBlur(fieldName)}
         {...(controlled ? { value: values[fieldName] } : {})}
         controlled={controlled}
-        {...resrProps}
+        {...restProps}
       />
 
       {touched[fieldName] && errors[fieldName] ? (
