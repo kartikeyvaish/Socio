@@ -8,6 +8,7 @@ import { useTheme } from '@react-navigation/native';
 
 // Screen imports
 import EmailSignUpScreen from '../screens/auth/EmailSignUpScreen';
+import InitiateResetPasswordScreen from '../screens/auth/InitiateResetPasswordScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 import UserBasicDetailsScreen from '../screens/auth/UserBasicDetailsScreen';
@@ -39,6 +40,7 @@ function AuthNavigator() {
       <Stack.Screen name={'UsernameSignUpScreen'} component={UsernameSignUpScreen} />
       <Stack.Screen name={'UserBasicDetailsScreen'} component={UserBasicDetailsScreen} />
       <Stack.Screen name={'SignUpScreen'} component={SignUpScreen} />
+      <Stack.Screen name={'InitiateResetPasswordScreen'} component={InitiateResetPasswordScreen} />
     </Stack.Navigator>
   );
 }

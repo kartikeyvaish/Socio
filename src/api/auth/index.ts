@@ -60,6 +60,14 @@ class Auth {
       url: endpoints.auth.signup
     });
   };
+
+  initiateResetPassword = async (body: { email: string }) => {
+    return executeApiCall<{ otp_id: string }>({
+      method: 'POST',
+      data: body,
+      url: endpoints.auth.initiateResetPassword
+    });
+  };
 }
 
 const authApi = new Auth();

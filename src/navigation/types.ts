@@ -29,6 +29,7 @@ export type AuthStackParamsList = {
     first_name: string;
     last_name: string;
   };
+  InitiateResetPasswordScreen: undefined;
 };
 
 // App Navigator Screen Params

@@ -5,6 +5,7 @@ const auth = {
   verify_email_sign_up_otp: '/auth/verify-email-otp',
   verify_username: '/auth/verify-username',
   signup: '/auth/signup',
+  initiateResetPassword: '/auth/initiate-reset-password',
   refresh_session: '/auth/refresh'
 };
 
