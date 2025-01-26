@@ -11,20 +11,25 @@ import colorPallete from '../../constants/colorPallete';
 import { variables } from '../../constants/ui';
 
 // interface for Button component
-export interface ButtonProps extends RectButtonProps {
+export interface ButtonProps extends Omit<RectButtonProps, 'onPress'> {
   label?: string;
   loading?: boolean;
   disabled?: boolean;
+  onPress?: () => void;
 }
 
 // functional component for Button
 function Button(props: ButtonProps) {
   // Destructuring props
-  const { label, loading, disabled, ...restProps } = props;
+  const { label, loading, disabled, onPress, ...restProps } = props;
 
   // render
   return (
-    <RectButton style={[styles.container, disabled && styles.disabled]} {...restProps}>
+    <RectButton
+      style={[styles.container, disabled && styles.disabled]}
+      onPress={onPress}
+      {...restProps}
+    >
       {loading ? (
         <AnimatedView>
           <ActivityIndicator animating={loading} color={colorPallete.white} />
