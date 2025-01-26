@@ -13,9 +13,6 @@ import { AuthScreenProps } from '../../navigation/types';
 import { FormValues } from '../../forms/UserBasicDetailsForm';
 import { fontFamilies } from '../../constants/ui';
 
-// interface for UserBasicDetailsScreen component
-export interface LoginScreenProps {}
-
 // functional component for UserBasicDetailsScreen
 function UserBasicDetailsScreen(props: AuthScreenProps<'UserBasicDetailsScreen'>) {
   // Destructuring props

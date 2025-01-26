@@ -17,9 +17,6 @@ import { getAuthPayload } from '../../helpers/auth';
 import { authSlice } from '../../store/feature/authSlice';
 import { useAppDispatch } from '../../store/storeHooks';
 
-// interface for SignUpScreen component
-export interface LoginScreenProps {}
-
 // functional component for SignUpScreen
 function SignUpScreen(props: AuthScreenProps<'SignUpScreen'>) {
   // Destructuring props

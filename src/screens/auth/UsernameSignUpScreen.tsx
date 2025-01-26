@@ -14,9 +14,6 @@ import { AuthScreenProps } from '../../navigation/types';
 import { FormValues } from '../../forms/UsernameSignUpForm';
 import { fontFamilies } from '../../constants/ui';
 
-// interface for UsernameSignUpScreen component
-export interface LoginScreenProps {}
-
 // functional component for UsernameSignUpScreen
 function UsernameSignUpScreen(props: AuthScreenProps<'UsernameSignUpScreen'>) {
   // Destructuring props

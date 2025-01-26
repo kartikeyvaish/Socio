@@ -14,9 +14,6 @@ import { AuthScreenProps } from '../../navigation/types';
 import { FormValues } from '../../forms/EmailSignUpForm';
 import { fontFamilies } from '../../constants/ui';
 
-// interface for EmailSignUpScreen component
-export interface LoginScreenProps {}
-
 // functional component for EmailSignUpScreen
 function EmailSignUpScreen(props: AuthScreenProps<'EmailSignUpScreen'>) {
   // Destructuring props

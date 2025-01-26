@@ -13,12 +13,6 @@ import { FormValues } from '../../forms/VerifyOTPForm';
 import { getAuthPayload } from '../../helpers/auth';
 import { useAppDispatch } from '../../store/storeHooks';
 
-// interface for VerifyOTPScreen component
-export interface VerifyOTPScreenProps {
-  title?: string;
-  subtitle?: string;
-}
-
 // functional component for VerifyOTPScreen
 function VerifyOTPScreen(props: AuthScreenProps<'VerifyOTPScreen'>) {
   // Destructuring props
