@@ -1,9 +1,9 @@
 // Packages Imports (from node_modules)
-import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports (components/types/utils)
 import AppText from '../../components/AppText';
+import authApi from '../../api/auth';
 import Container from '../../components/Container';
 import Flex from '../../components/Flex';
 import LinkButton from '../../components/LinkButton';
@@ -22,13 +22,21 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
   // Destructuring props
   const { navigation } = props;
 
-  // Local States
-  const [loading, setLoading] = useState(false);
-
   const onLoginFormSubmit = async (values: FormValues) => {
     try {
-      console.log(values);
-    } catch (error) {}
+      const apiResponse = await authApi.login(values);
+
+      if (apiResponse.ok && apiResponse.data) {
+        navigation.navigate('VerifyOTPScreen', {
+          resource: values.email,
+          otp_id: apiResponse.data.otp_id
+        });
+      } else {
+        return { ok: false, error: apiResponse.errorText };
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // render
@@ -41,7 +49,7 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
         marginBottom={40}
       />
 
-      <LoginForm onSubmit={onLoginFormSubmit} loading={loading} />
+      <LoginForm onSubmit={onLoginFormSubmit} />
 
       <Flex row gap={8} flex={1} align="flex-end" justify="center" layout={undefined}>
         <AppText text="Don't Have an Account?" layout={undefined} />
