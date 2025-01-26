@@ -14,18 +14,22 @@ import Flex from '../components/Flex';
 import { AppFormValues } from '../types/global';
 
 export interface FormValues extends AppFormValues {
-  email: string;
+  password: string;
+  confirm_password: string;
 }
 
-// interface for EmailSignUpForm component
-export interface EmailSignUpFormProps extends FormSubmitProps<FormValues> {}
+// interface for CreatePasswordForm component
+export interface CreatePasswordFormProps extends FormSubmitProps<FormValues> {}
 
-const EmailSignUpSchema = Yup.object().shape({
-  email: Yup.string().email('Must be a valid email address').required('Email is required')
+const PasswordCreateSchema = Yup.object().shape({
+  password: Yup.string().required('Password is required'),
+  confirm_password: Yup.string()
+    .required('Confirm Password is required')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
 });
 
-// functional component for EmailSignUpForm
-function EmailSignUpForm(props: EmailSignUpFormProps) {
+// functional component for CreatePasswordForm
+function CreatePasswordForm(props: CreatePasswordFormProps) {
   // Destructuring props
   const { onSubmit } = props;
 
@@ -33,12 +37,18 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
   return (
     <AnimatedView style={styles.container}>
       <Form<FormValues>
-        initialValues={{ email: '' }}
+        initialValues={{ password: '', confirm_password: '' }}
         onSubmit={onSubmit}
-        validationSchema={EmailSignUpSchema}
+        validationSchema={PasswordCreateSchema}
       >
         <Flex gap={12}>
-          <FormTextInputField placeholder="Email" fieldName="email" keyboardType="email-address" />
+          <FormTextInputField placeholder="Password" secureTextEntry fieldName="password" />
+
+          <FormTextInputField
+            placeholder="Confirm Password"
+            secureTextEntry
+            fieldName="confirm_password"
+          />
 
           <FormError />
 
@@ -50,9 +60,9 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
 }
 
 // exports
-export default EmailSignUpForm;
+export default CreatePasswordForm;
 
-// styles for EmailSignUpForm
+// styles for CreatePasswordForm
 const styles = StyleSheet.create({
   container: {
     width: '100%'

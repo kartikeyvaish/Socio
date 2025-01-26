@@ -49,6 +49,7 @@ function LoginForm(props: LoginFormProps) {
             appIconProps={{ family: 'FontAwesome', name: 'user-circle-o', size: 21 }}
             disabled={disabled}
             fieldName="email"
+            keyboardType="email-address"
           />
 
           <FormTextInputField

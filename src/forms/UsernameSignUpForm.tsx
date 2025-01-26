@@ -14,18 +14,18 @@ import Flex from '../components/Flex';
 import { AppFormValues } from '../types/global';
 
 export interface FormValues extends AppFormValues {
-  email: string;
+  username: string;
 }
 
-// interface for EmailSignUpForm component
-export interface EmailSignUpFormProps extends FormSubmitProps<FormValues> {}
+// interface for UsernameSignUpForm component
+export interface UsernameSignUpFormProps extends FormSubmitProps<FormValues> {}
 
-const EmailSignUpSchema = Yup.object().shape({
-  email: Yup.string().email('Must be a valid email address').required('Email is required')
+const UsernameSignUpSchema = Yup.object().shape({
+  username: Yup.string().required('Username is required')
 });
 
-// functional component for EmailSignUpForm
-function EmailSignUpForm(props: EmailSignUpFormProps) {
+// functional component for UsernameSignUpForm
+function UsernameSignUpForm(props: UsernameSignUpFormProps) {
   // Destructuring props
   const { onSubmit } = props;
 
@@ -33,16 +33,16 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
   return (
     <AnimatedView style={styles.container}>
       <Form<FormValues>
-        initialValues={{ email: '' }}
+        initialValues={{ username: '' }}
         onSubmit={onSubmit}
-        validationSchema={EmailSignUpSchema}
+        validationSchema={UsernameSignUpSchema}
       >
         <Flex gap={12}>
-          <FormTextInputField placeholder="Email" fieldName="email" keyboardType="email-address" />
+          <FormTextInputField placeholder="Username" fieldName="username" />
 
           <FormError />
 
-          <FormSubmitButton label="Create Account" />
+          <FormSubmitButton label="Proceed" />
         </Flex>
       </Form>
     </AnimatedView>
@@ -50,9 +50,9 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
 }
 
 // exports
-export default EmailSignUpForm;
+export default UsernameSignUpForm;
 
-// styles for EmailSignUpForm
+// styles for UsernameSignUpForm
 const styles = StyleSheet.create({
   container: {
     width: '100%'

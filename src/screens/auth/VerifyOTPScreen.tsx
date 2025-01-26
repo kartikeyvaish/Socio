@@ -39,6 +39,10 @@ function VerifyOTPScreen(props: AuthScreenProps<'VerifyOTPScreen'>) {
           return await verifyLoginOtp(values);
         }
 
+        case 'verify_email_signup': {
+          return await verifyEmailSignUpOtp(values);
+        }
+
         default:
           break;
       }
@@ -61,6 +65,27 @@ function VerifyOTPScreen(props: AuthScreenProps<'VerifyOTPScreen'>) {
         }
 
         return { error: 'Failed to verify OTP', ok: false };
+      }
+
+      return { error: apiResponse.errorText, ok: false };
+    } catch (error) {
+      return { error: 'Failed to verify OTP', ok: false };
+    }
+  };
+
+  const verifyEmailSignUpOtp = async (values: FormValues) => {
+    try {
+      const { otp } = values;
+
+      const apiResponse = await authApi.verifyEmailSignUpOtp({ otp, otp_id, email: resource });
+
+      if (apiResponse.ok && apiResponse.data) {
+        navigation.replace('UsernameSignUpScreen', {
+          email: resource,
+          verified_id: apiResponse.data.verified_id
+        });
+
+        return { ok: true };
       }
 
       return { error: apiResponse.errorText, ok: false };

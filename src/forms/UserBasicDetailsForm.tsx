@@ -14,18 +14,20 @@ import Flex from '../components/Flex';
 import { AppFormValues } from '../types/global';
 
 export interface FormValues extends AppFormValues {
-  email: string;
+  first_name: string;
+  last_name: string;
 }
 
-// interface for EmailSignUpForm component
-export interface EmailSignUpFormProps extends FormSubmitProps<FormValues> {}
+// interface for UserBasicDetailsForm component
+export interface UserBasicDetailsFormProps extends FormSubmitProps<FormValues> {}
 
-const EmailSignUpSchema = Yup.object().shape({
-  email: Yup.string().email('Must be a valid email address').required('Email is required')
+const UserBasicDetailsSchema = Yup.object().shape({
+  first_name: Yup.string().required('First Name is required'),
+  last_name: Yup.string()
 });
 
-// functional component for EmailSignUpForm
-function EmailSignUpForm(props: EmailSignUpFormProps) {
+// functional component for UserBasicDetailsForm
+function UserBasicDetailsForm(props: UserBasicDetailsFormProps) {
   // Destructuring props
   const { onSubmit } = props;
 
@@ -33,16 +35,17 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
   return (
     <AnimatedView style={styles.container}>
       <Form<FormValues>
-        initialValues={{ email: '' }}
+        initialValues={{ first_name: '', last_name: '' }}
         onSubmit={onSubmit}
-        validationSchema={EmailSignUpSchema}
+        validationSchema={UserBasicDetailsSchema}
       >
         <Flex gap={12}>
-          <FormTextInputField placeholder="Email" fieldName="email" keyboardType="email-address" />
+          <FormTextInputField placeholder="First Name" fieldName="first_name" />
+          <FormTextInputField placeholder="Last Name" fieldName="last_name" />
 
           <FormError />
 
-          <FormSubmitButton label="Create Account" />
+          <FormSubmitButton label="Proceed" />
         </Flex>
       </Form>
     </AnimatedView>
@@ -50,9 +53,9 @@ function EmailSignUpForm(props: EmailSignUpFormProps) {
 }
 
 // exports
-export default EmailSignUpForm;
+export default UserBasicDetailsForm;
 
-// styles for EmailSignUpForm
+// styles for UserBasicDetailsForm
 const styles = StyleSheet.create({
   container: {
     width: '100%'

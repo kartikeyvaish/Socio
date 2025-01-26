@@ -38,7 +38,7 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
         return { ok: false, error: apiResponse.errorText };
       }
     } catch (error) {
-      console.log(error);
+      return { ok: false, error: 'Failed to Login' };
     }
   };
 

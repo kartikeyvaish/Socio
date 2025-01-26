@@ -2,7 +2,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 
 // Local Imports (components/types/utils)
-import AppNavigator from './Appnavigator';
+import AppNavigator from './AppNavigator';
 import AuthNavigator from './AuthNavigator';
 
 // Named Imports

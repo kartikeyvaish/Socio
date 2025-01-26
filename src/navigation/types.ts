@@ -11,7 +11,23 @@ export type AuthStackParamsList = {
     otp_id: string;
     title?: string;
     subtitle?: string;
-    verifyMode: 'login';
+    verifyMode: 'login' | 'verify_email_signup';
+  };
+  UsernameSignUpScreen: {
+    email: string;
+    verified_id: string;
+  };
+  UserBasicDetailsScreen: {
+    email: string;
+    username: string;
+    verified_id: string;
+  };
+  SignUpScreen: {
+    email: string;
+    username: string;
+    verified_id: string;
+    first_name: string;
+    last_name: string;
   };
 };
 
