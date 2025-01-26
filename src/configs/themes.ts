@@ -10,7 +10,8 @@ export const darkTheme: ThemeProps = {
     card: colorPallete.black,
     border: colorPallete.black,
     primary: colorPallete.primary,
-    text: colorPallete.white
+    text: colorPallete.white,
+    notification: colorPallete.primary
   }
 };
 
@@ -22,6 +23,7 @@ export const lightTheme: ThemeProps = {
     card: colorPallete.white,
     border: colorPallete.white,
     primary: colorPallete.primary,
-    text: colorPallete.black
+    text: colorPallete.black,
+    notification: colorPallete.primary
   }
 };
