@@ -1,6 +1,7 @@
 // Packages Imports
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import reduxStorageEngine from '../reduxStoreEngine';
 
 // Named Imports
 import { User } from '../../types/model';
@@ -25,10 +26,16 @@ export const authSlice = createSlice({
     reset: (state) => {
       state.user = null;
 
+      reduxStorageEngine.removeItem('authaccesstoken');
+      reduxStorageEngine.removeItem('authrefreshtoken');
+
       return state;
     },
     logout: (state) => {
       state.user = null;
+
+      reduxStorageEngine.removeItem('authaccesstoken');
+      reduxStorageEngine.removeItem('authrefreshtoken');
 
       return;
     }
