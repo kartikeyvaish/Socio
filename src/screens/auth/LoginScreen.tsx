@@ -9,19 +9,20 @@ import LinkButton from '../../components/LinkButton';
 import LoginForm from '../../forms/LoginForm';
 
 // Named Imports
+import { AuthScreenProps } from '../../navigation/types';
 import { fontFamilies } from '../../constants/ui';
 
 // interface for LoginScreen component
 export interface LoginScreenProps {}
 
 // functional component for LoginScreen
-function LoginScreen(props: LoginScreenProps) {
+function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
   // Destructuring props
   const {} = props;
 
   // render
   return (
-    <Container style={styles.container} flex={1} justify="center" align="center">
+    <Container style={styles.container} flex={1}>
       <AppText
         text="Socio"
         family={fontFamilies.BerkshireSwash.regular}
@@ -31,8 +32,8 @@ function LoginScreen(props: LoginScreenProps) {
 
       <LoginForm />
 
-      <Flex row gap={8} margins={{ top: 40 }}>
-        <AppText text="Don't Have an Account?" />
+      <Flex row gap={8} flex={1} align="flex-end" justify="center">
+        <AppText text="Don't Have an Account?" layout={undefined} />
         <LinkButton label="Sign Up" />
       </Flex>
     </Container>
