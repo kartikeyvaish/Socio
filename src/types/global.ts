@@ -6,6 +6,7 @@ export interface ThemeProps {
     border: string;
     primary: string;
     text: string;
+    notification: string;
   };
 }
 

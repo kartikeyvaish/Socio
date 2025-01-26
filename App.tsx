@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 // Local imports
 import ErrorBoundary from './src/components/ErrorBoundary';
-import LoginScreen from './src/screens/auth/LoginScreen';
+import Navigation from './src/navigation/Navigation';
 import ThemedLayout from './src/layouts/ThemedLayout';
 
 // Named Imports
@@ -21,7 +21,7 @@ export default function App() {
             <SafeAreaView style={{ flex: 1 }}>
               <GestureHandlerRootView style={{ flex: 1 }}>
                 <ThemedLayout>
-                  <LoginScreen />
+                  <Navigation />
                 </ThemedLayout>
               </GestureHandlerRootView>
             </SafeAreaView>
