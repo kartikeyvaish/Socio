@@ -2,6 +2,7 @@ import {
   ColorValue,
   GestureResponderEvent,
   StyleProp,
+  TextInputProps,
   TextProps,
   TextStyle,
   ViewProps
@@ -48,4 +49,11 @@ export interface AppIconProps {
     light: string;
   };
   onLayout?: any;
+}
+
+export interface InputProps extends TextInputProps {
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  appIconProps?: AppIconProps;
+  controlled?: boolean;
 }
