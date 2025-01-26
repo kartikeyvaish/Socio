@@ -1,13 +1,6 @@
 // Packages Imports
 import { useState } from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  TextInput,
-  TextInputProps,
-  ViewStyle
-} from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, TextInput, ViewStyle } from 'react-native';
 
 // Local Imports
 import colorPallete from '../../constants/colorPallete';
@@ -15,16 +8,9 @@ import Flex from '../Flex';
 import Icon from '../Icon';
 
 // Named Imports
-import { AppIconProps } from '../../types/components';
+import { InputProps } from '../../types/components';
 import { useAppSelector } from '../../store/storeHooks';
 import { fontFamilies, variables } from '../../constants/ui';
-
-// interface for Input component
-export interface InputProps extends TextInputProps {
-  icon?: React.ReactNode;
-  disabled?: boolean;
-  appIconProps?: AppIconProps;
-}
 
 // functional component for Input
 function Input(props: InputProps) {
@@ -34,6 +20,8 @@ function Input(props: InputProps) {
     secureTextEntry = false,
     disabled,
     appIconProps = null,
+    controlled = false,
+    value,
     ...restProps
   } = props;
 
@@ -65,6 +53,7 @@ function Input(props: InputProps) {
         selectionHandleColor={colors.primary}
         secureTextEntry={secureTextEntry && !valueVisible}
         editable={!disabled}
+        {...(controlled ? { value } : {})}
         {...restProps}
       />
 

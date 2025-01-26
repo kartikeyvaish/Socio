@@ -4,11 +4,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 // Local Imports (components/types/utils)
-import AppText from '../components/AppText';
 import AnimatedView from '../components/AnimatedView';
-import Button from '../components/Button';
+import FormSubmitButton from '../components/FormSubmitButton';
+import FormTextInputField from '../components/FormTextInputField';
 import Flex from '../components/Flex';
-import Input from '../components/Input';
 import LinkButton from '../components/LinkButton';
 
 // interface for LoginForm component
@@ -42,54 +41,34 @@ function LoginForm(props: LoginFormProps) {
         onSubmit={onSubmit}
         validationSchema={LoginSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, touched, errors }) => (
-          <Flex gap={12}>
-            <Flex>
-              <Input
-                placeholder="Email"
-                appIconProps={{ family: 'FontAwesome', name: 'user-circle-o', size: 21 }}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                disabled={disabled}
-              />
+        <Flex gap={12}>
+          <FormTextInputField
+            placeholder="Email"
+            appIconProps={{ family: 'FontAwesome', name: 'user-circle-o', size: 21 }}
+            disabled={disabled}
+            fieldName="email"
+          />
 
-              {touched.email && errors.email ? <AppText text={errors.email} type="error" /> : null}
+          <FormTextInputField
+            placeholder="Password"
+            secureTextEntry
+            appIconProps={{
+              family: 'MaterialCommunityIcons',
+              name: 'form-textbox-password',
+              size: 21
+            }}
+            disabled={disabled}
+            fieldName="password"
+          />
+
+          {showForgotPassword ? (
+            <Flex row align="flex-end" justify="flex-end" margins={{ top: 5, bottom: 5 }}>
+              <LinkButton label="Forgot Password?" />
             </Flex>
+          ) : null}
 
-            <Flex>
-              <Input
-                placeholder="Password"
-                secureTextEntry
-                appIconProps={{
-                  family: 'MaterialCommunityIcons',
-                  name: 'form-textbox-password',
-                  size: 21
-                }}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                disabled={disabled}
-              />
-
-              {touched.password && errors.password ? (
-                <AppText text={errors.password} type="error" />
-              ) : null}
-            </Flex>
-
-            {showForgotPassword ? (
-              <Flex
-                row
-                align="flex-end"
-                justify="flex-end"
-                margins={{ top: 5, bottom: 5 }}
-                layout={undefined}
-              >
-                <LinkButton label="Forgot Password?" />
-              </Flex>
-            ) : null}
-
-            <Button label="Log In" onPress={handleSubmit} disabled={disabled} loading={loading} />
-          </Flex>
-        )}
+          <FormSubmitButton label="Log In" disabled={disabled} loading={loading} />
+        </Flex>
       </Formik>
     </AnimatedView>
   );
