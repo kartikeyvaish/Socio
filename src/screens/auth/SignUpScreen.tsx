@@ -72,6 +72,8 @@ function SignUpScreen(props: AuthScreenProps<'SignUpScreen'>) {
           family={fontFamilies.Poppins.medium}
           style={{ textAlign: 'center' }}
         />
+
+        <AppText text={'Almost Done!'} size={14} style={{ textAlign: 'center' }} />
       </Flex>
 
       <CreatePasswordForm onSubmit={onSubmit} />

@@ -1,5 +1,9 @@
 // Packages Imports
-import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+  StackNavigationOptions
+} from '@react-navigation/stack';
 import { useTheme } from '@react-navigation/native';
 
 // Screen imports
@@ -22,7 +26,8 @@ function AuthNavigator() {
 
   const screenOptions: StackNavigationOptions = {
     headerStyle: { backgroundColor: colors.background },
-    headerShown: false
+    headerShown: false,
+    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
   };
 
   // Render
