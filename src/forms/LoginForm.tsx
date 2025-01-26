@@ -1,26 +1,28 @@
 // Packages Imports (from node_modules)
 import { StyleSheet } from 'react-native';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 // Local Imports (components/types/utils)
 import AnimatedView from '../components/AnimatedView';
+import Form, { FormSubmitProps } from '../components/Form';
+import FormError from '../components/FormError';
 import FormSubmitButton from '../components/FormSubmitButton';
 import FormTextInputField from '../components/FormTextInputField';
 import Flex from '../components/Flex';
 import LinkButton from '../components/LinkButton';
 
-// interface for LoginForm component
-export interface LoginFormProps {
-  onSubmit?: (values: FormValues) => void;
-  disabled?: boolean;
-  loading?: boolean;
-  showForgotPassword?: boolean;
-}
+// Named Imports
+import { AppFormValues } from '../types/global';
 
-export interface FormValues {
+export interface FormValues extends AppFormValues {
   email: string;
   password: string;
+}
+
+// interface for LoginForm component
+export interface LoginFormProps extends FormSubmitProps<FormValues> {
+  disabled?: boolean;
+  showForgotPassword?: boolean;
 }
 
 const LoginSchema = Yup.object().shape({
@@ -31,12 +33,12 @@ const LoginSchema = Yup.object().shape({
 // functional component for LoginForm
 function LoginForm(props: LoginFormProps) {
   // Destructuring props
-  const { onSubmit, disabled, loading, showForgotPassword = true } = props;
+  const { onSubmit, disabled, showForgotPassword = true } = props;
 
   // render
   return (
     <AnimatedView style={styles.container}>
-      <Formik<FormValues>
+      <Form<FormValues>
         initialValues={{ email: '', password: '' }}
         onSubmit={onSubmit}
         validationSchema={LoginSchema}
@@ -61,15 +63,23 @@ function LoginForm(props: LoginFormProps) {
             fieldName="password"
           />
 
+          <FormError />
+
           {showForgotPassword ? (
-            <Flex row align="flex-end" justify="flex-end" margins={{ top: 5, bottom: 5 }}>
+            <Flex
+              row
+              align="flex-end"
+              justify="flex-end"
+              margins={{ top: 5, bottom: 5 }}
+              layout={undefined}
+            >
               <LinkButton label="Forgot Password?" />
             </Flex>
           ) : null}
 
-          <FormSubmitButton label="Log In" disabled={disabled} loading={loading} />
+          <FormSubmitButton label="Log In" />
         </Flex>
-      </Formik>
+      </Form>
     </AnimatedView>
   );
 }

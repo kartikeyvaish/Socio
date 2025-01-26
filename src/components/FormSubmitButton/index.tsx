@@ -19,16 +19,18 @@ function FormSubmitButton(props: FormSubmitButtonProps) {
   const { dismissKeyboardOnSubmit = true } = props;
 
   // useFormikContext hook
-  const { handleSubmit } = useFormikContext();
+  const { handleSubmit, isSubmitting } = useFormikContext();
 
   const handleButtonPress = () => {
+    if (isSubmitting) return;
+
     if (handleSubmit) handleSubmit();
 
     if (dismissKeyboardOnSubmit) Keyboard.dismiss();
   };
 
   // render
-  return <Button onPress={handleButtonPress} {...props} />;
+  return <Button onPress={handleButtonPress} loading={isSubmitting} {...props} />;
 }
 
 // exports

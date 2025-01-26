@@ -21,3 +21,7 @@ export interface MarginProps {
   left?: number;
   right?: number;
 }
+
+export interface AppFormValues {
+  formError?: string;
+}
