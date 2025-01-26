@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports (components/types/utils)
@@ -10,6 +11,7 @@ import LoginForm from '../../forms/LoginForm';
 
 // Named Imports
 import { AuthScreenProps } from '../../navigation/types';
+import { FormValues } from '../../forms/LoginForm';
 import { fontFamilies } from '../../constants/ui';
 
 // interface for LoginScreen component
@@ -19,6 +21,15 @@ export interface LoginScreenProps {}
 function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
   // Destructuring props
   const { navigation } = props;
+
+  // Local States
+  const [loading, setLoading] = useState(false);
+
+  const onLoginFormSubmit = async (values: FormValues) => {
+    try {
+      console.log(values);
+    } catch (error) {}
+  };
 
   // render
   return (
@@ -30,9 +41,9 @@ function LoginScreen(props: AuthScreenProps<'LoginScreen'>) {
         marginBottom={40}
       />
 
-      <LoginForm />
+      <LoginForm onSubmit={onLoginFormSubmit} loading={loading} />
 
-      <Flex row gap={8} flex={1} align="flex-end" justify="center">
+      <Flex row gap={8} flex={1} align="flex-end" justify="center" layout={undefined}>
         <AppText text="Don't Have an Account?" layout={undefined} />
         <LinkButton label="Sign Up" onPress={() => navigation.navigate('EmailSignUpScreen')} />
       </Flex>
