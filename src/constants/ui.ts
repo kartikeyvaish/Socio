@@ -131,3 +131,6 @@ export const TOKENS = {
   ACCESS_TOKEN: 'authaccesstoken',
   REFRESH_TOKEN: 'authrefreshtoken'
 };
+
+export const DEFAULT_USER_IMAGE =
+  'https://res.cloudinary.com/kartikeyvaish/image/upload/v1737980386/socio_assets/bmsrt6cvqb0igvqacd91.png';

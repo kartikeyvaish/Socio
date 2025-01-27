@@ -1,4 +1,5 @@
 // Packages Imports
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { AnimatedProps, FadeIn, LinearTransition } from 'react-native-reanimated';
 
@@ -29,6 +30,7 @@ function AppText(props: Props) {
     marginTop,
     margin,
     type = 'text',
+    children,
     ...otherProps
   } = props;
 
@@ -64,7 +66,10 @@ function AppText(props: Props) {
       style={finalStyles}
       {...otherProps}
     >
-      {text}
+      <>
+        {text as any}
+        {children as any}
+      </>
     </Animated.Text>
   );
 }
