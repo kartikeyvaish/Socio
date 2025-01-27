@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 /**
  * A collection of design variables used throughout the application.
  * Provides a consistent set of values for padding, border radius, gap, font size, and margin.
@@ -83,7 +85,27 @@ export const IconNames = {
 
 export type IconFamilyType = keyof typeof IconNames;
 
-export const fontFamilies = {
+const iosFonts = {
+  Poppins: {
+    light: 'Poppins-Light',
+    regular: 'Poppins-Regular',
+    medium: 'Poppins-Medium',
+    bold: 'Poppins-Bold'
+  },
+  BerkshireSwash: {
+    regular: 'Berkshire Swash'
+  },
+  Inter: {
+    light: 'Inter-Light',
+    regular: 'Inter-Regular',
+    bold: 'Inter-Bold'
+  },
+  Helvetica: {
+    regular: 'Helvetica'
+  }
+};
+
+export const androidFonts = {
   Poppins: {
     light: 'PoppinsLight',
     regular: 'PoppinsRegular',
@@ -102,6 +124,8 @@ export const fontFamilies = {
     regular: 'Helvetica'
   }
 };
+
+export const fontFamilies = Platform.select({ ios: iosFonts, android: androidFonts });
 
 export const TOKENS = {
   ACCESS_TOKEN: 'authaccesstoken',
