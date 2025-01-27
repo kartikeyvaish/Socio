@@ -49,5 +49,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>InterBold.otf</string>
+		<string>InterLight.otf</string>
+		<string>InterRegular.otf</string>
+		<string>BerkshireSwash.ttf</string>
+		<string>Helvetica.ttf</string>
+		<string>PoppinsBold.ttf</string>
+		<string>PoppinsLight.ttf</string>
+		<string>PoppinsMedium.ttf</string>
+		<string>PoppinsRegular.ttf</string>
+	</array>
 </dict>
 </plist>

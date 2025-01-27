@@ -1,0 +1,41 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/BerkshireSwash.ttf",
+      "sha1": "4933b65f1c14116bb597d6af28029d1051e402e2"
+    },
+    {
+      "path": "src/assets/fonts/Helvetica.ttf",
+      "sha1": "53cb59bdb997dd39dc70b95d50133583e66ebdcb"
+    },
+    {
+      "path": "src/assets/fonts/InterBold.otf",
+      "sha1": "9a8f4c33e0d0c1d40803471cd22d1f3567a5012b"
+    },
+    {
+      "path": "src/assets/fonts/InterLight.otf",
+      "sha1": "083faafdb31a25d1c0f468e35b76ed650fba0179"
+    },
+    {
+      "path": "src/assets/fonts/InterRegular.otf",
+      "sha1": "09656d6e99ab197db567c423125f533aaf3772a3"
+    },
+    {
+      "path": "src/assets/fonts/PoppinsBold.ttf",
+      "sha1": "875cf0cecd647bcf22e79d633d868c1b1ec98dfa"
+    },
+    {
+      "path": "src/assets/fonts/PoppinsLight.ttf",
+      "sha1": "e247a92158e112f8bf7b638c8d95381d66b00dbb"
+    },
+    {
+      "path": "src/assets/fonts/PoppinsMedium.ttf",
+      "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
+    },
+    {
+      "path": "src/assets/fonts/PoppinsRegular.ttf",
+      "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
+    }
+  ]
+}
