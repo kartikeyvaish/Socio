@@ -1,9 +1,10 @@
 export interface User {
-  email: string;
+  email?: string;
   first_name: string;
   last_name: string;
   username: string;
-  profile_image?: string | null;
+  bio: string | null;
+  profile_picture: string | null;
 }
 
 export interface FileAttachment {
@@ -12,9 +13,9 @@ export interface FileAttachment {
   format: 'jpg' | 'mp4';
   resource_type: 'image' | 'video';
   secure_url: string;
-  thumbhash: string;
+  blurhash: string;
   playback_url: string | null;
-  thumbnail_url: string | null;
+  thumbnail: string | null;
 }
 
 export interface Post {
@@ -22,8 +23,13 @@ export interface Post {
   location: string;
   caption: string;
   is_edited: boolean;
+  is_archieved: boolean;
   comments_enabled: boolean;
   created_at: string;
   files: Array<FileAttachment>;
   user: User;
+  total_likes: number;
+  is_liked: boolean;
+  total_comments: number;
+  is_saved: boolean;
 }

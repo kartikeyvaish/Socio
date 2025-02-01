@@ -62,7 +62,7 @@ function AppText(props: Props) {
   return (
     <Animated.Text
       entering={type === 'error' ? FadeIn : undefined}
-      layout={LinearTransition}
+      layout={undefined}
       style={finalStyles}
       {...otherProps}
     >
