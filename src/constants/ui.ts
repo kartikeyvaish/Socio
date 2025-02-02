@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 /**
  * A collection of design variables used throughout the application.
@@ -134,3 +134,6 @@ export const TOKENS = {
 
 export const DEFAULT_USER_IMAGE =
   'https://res.cloudinary.com/kartikeyvaish/image/upload/v1737980386/socio_assets/bmsrt6cvqb0igvqacd91.png';
+
+export const SCREEN_WIDTH = Dimensions.get('screen').width;
+export const SCREEN_HEIGHT = Dimensions.get('screen').height;
