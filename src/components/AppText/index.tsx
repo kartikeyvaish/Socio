@@ -1,7 +1,7 @@
 // Packages Imports
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
-import Animated, { AnimatedProps, FadeIn, LinearTransition } from 'react-native-reanimated';
+import Animated, { AnimatedProps, FadeIn } from 'react-native-reanimated';
 
 // Local Imports
 import colorPallete from '../../constants/colorPallete';
@@ -75,7 +75,7 @@ function AppText(props: Props) {
 }
 
 // exports
-export default AppText;
+export default memo(AppText, (prevProps, nextProps) => prevProps.text === nextProps.text);
 
 const styles = StyleSheet.create({
   errorStyles: {
