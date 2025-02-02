@@ -94,4 +94,10 @@ function Icon(props: AppIconProps): JSX.Element {
 }
 
 // Exports
-export default memo(Icon);
+export default memo(Icon, (prevProps, nextProps) => {
+  return (
+    prevProps.loading === nextProps.loading ||
+    prevProps.color === nextProps.color ||
+    prevProps.margins === nextProps.margins
+  );
+});
