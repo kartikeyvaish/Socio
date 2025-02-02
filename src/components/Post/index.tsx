@@ -1,5 +1,12 @@
 // Packages Imports (from node_modules)
-import { View, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  NativeScrollEvent,
+  NativeSyntheticEvent
+} from 'react-native';
 import { Image } from 'expo-image';
 import dayjs from 'dayjs';
 
@@ -9,15 +16,21 @@ import AppText from '../AppText';
 import Icon from '../Icon';
 import LikeButton from '../LikeButton';
 import TruncateText from '../TruncateText';
+import Video from './Video';
 
 // Named Imports
-import { DEFAULT_USER_IMAGE, fontFamilies } from '../../constants/ui';
-import type { Post as PostModel } from '../../types/model';
+import { DEFAULT_USER_IMAGE, fontFamilies, SCREEN_WIDTH } from '../../constants/ui';
+import { Post as PostModel } from '../../types/model';
+import { useAppSelector } from '../../store/storeHooks';
 
 const PROFILE_IMAGE_SIZE = 32;
 
 // interface for Post component
-export interface PostProps extends PostModel {}
+export interface PostProps extends PostModel {
+  inView: boolean;
+  isMuted: boolean;
+  onMediaPress?: () => void;
+}
 
 // functional component for Post
 function Post(props: PostProps) {
@@ -33,8 +46,28 @@ function Post(props: PostProps) {
     is_liked,
     is_saved,
     total_comments,
-    total_likes
+    total_likes,
+    inView,
+    isMuted,
+    onMediaPress
   } = props;
+
+  const { user: currentUser } = useAppSelector((state) => state.auth);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [canCache, setCanCache] = useState(false);
+
+  useEffect(() => {
+    if (inView) {
+      if (!canCache) setCanCache(true);
+    }
+  }, [inView]);
+
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    let currentIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+
+    if (currentIndex !== activeIndex) setActiveIndex(currentIndex);
+  };
 
   // render
   return (
@@ -53,10 +86,42 @@ function Post(props: PostProps) {
           <AppText text={location} family={fontFamilies.Poppins.regular} size={11} />
         </View>
 
-        <Icon family="MaterialCommunityIcons" name="dots-vertical" size={20} />
+        {currentUser.username === user.username ? (
+          <Icon family="MaterialCommunityIcons" name="dots-vertical" size={20} />
+        ) : null}
       </View>
 
-      <View style={{ height: 300, backgroundColor: 'pink' }}></View>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        scrollEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={onScroll}
+      >
+        {files.map((file, index) =>
+          file.resource_type === 'image' ? (
+            <Image
+              key={file.id}
+              source={{ uri: file.secure_url }}
+              placeholder={{ blurhash: file.blurhash }}
+              style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
+              contentFit="cover"
+              transition={{ duration: 200, effect: 'cross-dissolve', timing: 'ease-in-out' }}
+              onTouchEnd={onMediaPress}
+            />
+          ) : file.resource_type === 'video' ? (
+            <Video
+              {...file}
+              key={file.id}
+              style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
+              shouldPlay={inView && activeIndex === index}
+              canCache={inView && activeIndex === index && canCache}
+              muted={isMuted}
+              onPress={onMediaPress}
+            />
+          ) : null
+        )}
+      </ScrollView>
 
       {/* Post Details Section */}
       <View style={styles.postDetailsContainer}>
@@ -157,7 +222,7 @@ const styles = StyleSheet.create({
   operationsButtonsFirstContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 12
   },
   operationIconContainer: {
     flexDirection: 'row',

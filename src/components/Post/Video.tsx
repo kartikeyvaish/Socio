@@ -22,6 +22,7 @@ export interface VideoProps extends FileAttachment, Omit<VideoViewProps, 'id' | 
   shouldPlay?: boolean;
   muted?: boolean;
   onPress?: () => void;
+  canCache?: boolean;
   style?: StyleProp<any>;
 }
 
@@ -39,10 +40,11 @@ function Video(props: VideoProps) {
     style,
     width,
     height,
+    canCache,
     ...restProps
   } = props;
 
-  const { cachedUrls } = useVideoCache([props]);
+  const { cachedUrls } = useVideoCache([{ id, secure_url }], canCache);
 
   const [videoSource, setVideoSource] = useState(null);
 

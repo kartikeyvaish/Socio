@@ -47,17 +47,26 @@ async function createDownloadableObject(
 
 type CacheMap = Record<string, string>;
 
-export default function useVideoCache(urls: Array<FileAttachment>) {
+export default function useVideoCache(
+  urls: Array<Pick<FileAttachment, 'id' | 'secure_url'>>,
+  canCache: boolean = false
+) {
   const [cachedUrls, setCachedUrls] = useState<CacheMap>({});
 
   useEffect(() => {
-    urls.forEach((url) => {
-      downloadVideo(url.secure_url, url.id);
-    });
-  }, [JSON.stringify(urls)]);
+    if (canCache) {
+      urls.forEach((url) => {
+        downloadVideo(url.secure_url, url.id);
+      });
+    }
+  }, [JSON.stringify(urls), canCache]);
 
   async function downloadVideo(url: string, uniqueCacheKey: string | number) {
     try {
+      if (cachedUrls[uniqueCacheKey.toString()]) {
+        return { uri: cachedUrls[uniqueCacheKey.toString()] };
+      }
+
       let filename = getFileNameFromUrl(url, uniqueCacheKey.toString());
 
       let mmkvStorageKey = `cachedUrls_${uniqueCacheKey}`;
