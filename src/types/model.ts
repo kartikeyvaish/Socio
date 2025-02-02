@@ -8,6 +8,7 @@ export interface User {
 }
 
 export interface FileAttachment {
+  id: number;
   width: number;
   height: number;
   format: 'jpg' | 'mp4';
