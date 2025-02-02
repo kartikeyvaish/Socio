@@ -1,9 +1,13 @@
 // Packages Imports (from node_modules)
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Image } from 'expo-image';
-import { Video as VideoView, ResizeMode, AVPlaybackStatus } from 'expo-av';
+import {
+  Video as VideoView,
+  VideoProps as VideoViewProps,
+  ResizeMode,
+  AVPlaybackStatus
+} from 'expo-av';
 
 // Local Imports
 import reduxStorageEngine from '../../store/reduxStoreEngine';
@@ -14,16 +18,29 @@ import { FileAttachment } from '../../types/model';
 import { PlaybackStates } from '../../types/components';
 
 // interface for Video component
-export interface VideoProps extends FileAttachment {
+export interface VideoProps extends FileAttachment, Omit<VideoViewProps, 'id' | 'style'> {
   shouldPlay?: boolean;
   muted?: boolean;
   onPress?: () => void;
+  style?: StyleProp<any>;
 }
 
 // functional component for Video
 function Video(props: VideoProps) {
   // Destructuring props
-  const { id, blurhash, secure_url, thumbnail, shouldPlay = false, muted = true, onPress } = props;
+  const {
+    id,
+    blurhash,
+    secure_url,
+    thumbnail,
+    shouldPlay = false,
+    muted = true,
+    onPress,
+    style,
+    width,
+    height,
+    ...restProps
+  } = props;
 
   const { cachedUrls } = useVideoCache([props]);
 
@@ -98,49 +115,27 @@ function Video(props: VideoProps) {
 
   // render
   return (
-    <Animated.View style={styles.container}>
-      {!shouldPlay ? (
-        <Image
-          source={{ uri: thumbnail }}
-          style={styles.videoView}
-          placeholder={{ blurhash }}
-          transition={{ duration: 200, effect: 'cross-dissolve', timing: 'ease-in-out' }}
-          onTouchEnd={onPress}
-        />
-      ) : (
-        <VideoView
-          ref={playerRef}
-          source={{ uri: videoSource }}
-          useNativeControls={false}
-          style={styles.videoView}
-          posterSource={{ uri: thumbnail }}
-          posterStyle={styles.videoView}
-          usePoster={true}
-          isLooping
-          shouldPlay
-          isMuted={muted}
-          onTouchEnd={onPress}
-          resizeMode={ResizeMode.COVER}
-          onPlaybackStatusUpdate={updatePlaybackCallback}
-        />
-      )}
+    <Animated.View style={style}>
+      <VideoView
+        ref={playerRef}
+        source={{ uri: videoSource }}
+        useNativeControls={false}
+        style={{ flex: 1, backgroundColor: 'black' }}
+        posterSource={{ uri: thumbnail }}
+        posterStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        usePoster={true}
+        isLooping
+        shouldPlay={shouldPlay}
+        isMuted={muted}
+        onTouchEnd={onPress}
+        resizeMode={ResizeMode.COVER}
+        rate={1.0}
+        onPlaybackStatusUpdate={updatePlaybackCallback}
+        {...restProps}
+      />
     </Animated.View>
   );
 }
 
 // exports
 export default Video;
-
-// styles for Video
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'black'
-  },
-  videoView: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  }
-});
