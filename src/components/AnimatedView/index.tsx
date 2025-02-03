@@ -10,7 +10,7 @@ function AnimatedView(props: FlexViewProps) {
   const { ...restProps } = props;
 
   // render
-  return <Animated.View layout={LinearTransition} {...restProps} />;
+  return <Animated.View {...restProps} />;
 }
 
 // exports
