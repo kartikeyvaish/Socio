@@ -75,7 +75,7 @@ function AppText(props: Props) {
 }
 
 // exports
-export default memo(AppText, (prevProps, nextProps) => prevProps.text === nextProps.text);
+export default memo(AppText);
 
 const styles = StyleSheet.create({
   errorStyles: {

@@ -1,10 +1,11 @@
 // Packages Imports (from node_modules)
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 // Local Imports (components/types/utils)
 import Container from '../components/Container';
+import Flex from '../components/Flex';
 import Post from '../components/Post';
 import useFlatList from '../hooks/useFlatlist';
 
@@ -14,6 +15,8 @@ import { Post as PostType } from '../types/model';
 // interface for HomeScreen component
 export interface HomeScreenProps {}
 
+let interval: any;
+
 // functional component for HomeScreen
 function HomeScreen(props: HomeScreenProps) {
   // Destructuring props
@@ -21,7 +24,18 @@ function HomeScreen(props: HomeScreenProps) {
 
   const { flatListRef, onViewRef, viewConfigRef, viewableItem } = useFlatList(FEED[0].id);
 
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isMuteVisible, setIsMuteVisible] = useState(false);
+
+  useEffect(() => {
+    interval = setTimeout(() => {
+      setIsMuteVisible(false);
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isMuted]);
 
   const isFocused = useIsFocused();
 
@@ -33,10 +47,14 @@ function HomeScreen(props: HomeScreenProps) {
         {...post}
         inView={isFocused && post.id === viewableItem}
         isMuted={isMuted}
-        onMediaPress={() => setIsMuted(!isMuted)}
+        onMediaPress={() => {
+          setIsMuted(!isMuted);
+          setIsMuteVisible(true);
+        }}
+        showMuteIcon={isMuteVisible}
       />
     ),
-    [viewableItem, isFocused, isMuted]
+    [viewableItem, isFocused, isMuted, isMuteVisible]
   );
 
   // render
@@ -53,6 +71,7 @@ function HomeScreen(props: HomeScreenProps) {
         onEndReachedThreshold={0.5}
         maxToRenderPerBatch={5}
         showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <Flex style={{ height: 10 }} />}
       />
     </Container>
   );

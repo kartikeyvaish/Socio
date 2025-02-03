@@ -34,11 +34,11 @@ function TruncateText(props: CaptionTextProps) {
     if (expanded) return text;
 
     return text.slice(0, maxCollapsedLength);
-  }, [expanded, text.length]);
+  }, [expanded, text]);
 
   // render
   return (
-    <AppText text={textToDisplay} {...restProps}>
+    <AppText text={` ${textToDisplay}`} {...restProps}>
       {shouldShowReadMore ? (
         <AppText
           text={`.......read ${expanded ? 'less' : 'more'}`}

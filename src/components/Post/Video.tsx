@@ -1,6 +1,7 @@
 // Packages Imports (from node_modules)
+import { Image } from 'expo-image';
 import { useEffect, useRef, useState } from 'react';
-import { StyleProp } from 'react-native';
+import { Pressable, StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import {
   Video as VideoView,
@@ -117,25 +118,40 @@ function Video(props: VideoProps) {
 
   // render
   return (
-    <Animated.View style={style}>
-      <VideoView
-        ref={playerRef}
-        source={{ uri: videoSource }}
-        useNativeControls={false}
-        style={{ flex: 1, backgroundColor: 'black' }}
-        posterSource={{ uri: thumbnail }}
-        posterStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        usePoster={true}
-        isLooping
-        shouldPlay={shouldPlay}
-        isMuted={muted}
-        onTouchEnd={onPress}
-        resizeMode={ResizeMode.COVER}
-        rate={1.0}
-        onPlaybackStatusUpdate={updatePlaybackCallback}
-        {...restProps}
-      />
-    </Animated.View>
+    <Pressable onPress={onPress} style={style}>
+      <Animated.View style={style}>
+        <VideoView
+          ref={playerRef}
+          source={{ uri: videoSource }}
+          useNativeControls={false}
+          style={{ flex: 1, backgroundColor: 'transparent', zIndex: 2 }}
+          posterSource={{ uri: thumbnail }}
+          posterStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          usePoster={true}
+          isLooping
+          shouldPlay={shouldPlay}
+          isMuted={muted}
+          resizeMode={ResizeMode.CONTAIN}
+          rate={1.0}
+          onPlaybackStatusUpdate={updatePlaybackCallback}
+          {...restProps}
+        />
+
+        <Image
+          placeholder={{ blurhash }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 1
+          }}
+        />
+      </Animated.View>
+    </Pressable>
   );
 }
 

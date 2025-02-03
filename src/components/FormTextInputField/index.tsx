@@ -23,7 +23,7 @@ function FormTextInputField(props: FormTextInputFieldProps) {
 
   // render
   return (
-    <Flex>
+    <Flex layout={undefined}>
       <Input
         onChangeText={handleChange(fieldName)}
         onBlur={handleBlur(fieldName)}

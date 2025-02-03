@@ -4,9 +4,6 @@ import { Appearance, Platform, StatusBar, StatusBarStyle } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import * as NavigationBar from 'expo-navigation-bar';
 
-// Local Imports
-import useAppFocus from '../hooks/useAppFocus';
-
 // Named imports
 import { ChildrenProps } from '../types/global';
 import { themeSlice } from '../store/feature/themeSlice';
@@ -35,22 +32,18 @@ function ThemedLayout(props: ChildrenProps) {
     if (Platform.OS === 'android') NavigationBar.setBackgroundColorAsync(theme.colors.background);
   }, [theme]);
 
-  const appFocused = useAppFocus();
-
   // Light/Dark mode change listener
   useEffect(() => {
     // Subscribe to changes
     const subscription = Appearance.addChangeListener((preferences) => {
-      if (appFocused === 'active') {
-        dispatcher(themeSlice.actions.toggleThemeByColorScheme(preferences.colorScheme));
-      }
+      dispatcher(themeSlice.actions.toggleThemeByColorScheme(preferences.colorScheme));
     });
 
     // on unmount remove the listener
     return () => {
       if (typeof subscription.remove === 'function') subscription.remove();
     };
-  }, [appFocused]);
+  }, []);
 
   // render
   return (

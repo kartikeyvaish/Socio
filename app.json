@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "plugins": [
       "expo-video"
-    ]
+    ],
+    "ios": {
+      "appleTeamId": "5AJXYTPZ4Z"
+    }
   }
 }

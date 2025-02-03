@@ -1,5 +1,5 @@
 // Packages Imports
-import { ColorSchemeName } from 'react-native';
+import { Appearance, ColorSchemeName } from 'react-native';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -9,7 +9,7 @@ import { ThemeProps } from '../../types/global';
 
 export interface ThemeState extends ThemeProps {}
 
-const initialState: ThemeState = lightTheme;
+const initialState: ThemeState = Appearance.getColorScheme() === 'light' ? lightTheme : darkTheme;
 
 export const themeSlice = createSlice({
   name: 'theme',

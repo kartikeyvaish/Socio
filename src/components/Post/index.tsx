@@ -5,14 +5,17 @@ import {
   StyleSheet,
   ScrollView,
   NativeScrollEvent,
-  NativeSyntheticEvent
+  NativeSyntheticEvent,
+  Pressable
 } from 'react-native';
+import { FadeIn, FadeOut } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import dayjs from 'dayjs';
 
 // Local Imports (components/types/utils)
 import AnimatedView from '../AnimatedView';
 import AppText from '../AppText';
+import colorPallete from '../../constants/colorPallete';
 import Icon from '../Icon';
 import LikeButton from '../LikeButton';
 import TruncateText from '../TruncateText';
@@ -30,6 +33,7 @@ export interface PostProps extends PostModel {
   inView: boolean;
   isMuted: boolean;
   onMediaPress?: () => void;
+  showMuteIcon?: boolean;
 }
 
 // functional component for Post
@@ -49,7 +53,8 @@ function Post(props: PostProps) {
     total_likes,
     inView,
     isMuted,
-    onMediaPress
+    onMediaPress,
+    showMuteIcon
   } = props;
 
   const { user: currentUser } = useAppSelector((state) => state.auth);
@@ -91,37 +96,59 @@ function Post(props: PostProps) {
         ) : null}
       </View>
 
-      <ScrollView
-        horizontal
-        pagingEnabled
-        scrollEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={onScroll}
-      >
-        {files.map((file, index) =>
-          file.resource_type === 'image' ? (
-            <Image
-              key={file.id}
-              source={{ uri: file.secure_url }}
-              placeholder={{ blurhash: file.blurhash }}
-              style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
-              contentFit="cover"
-              transition={{ duration: 200, effect: 'cross-dissolve', timing: 'ease-in-out' }}
-              onTouchEnd={onMediaPress}
+      <View>
+        <ScrollView
+          horizontal
+          pagingEnabled
+          scrollEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={onScroll}
+        >
+          {files.map((file, index) =>
+            file.resource_type === 'image' ? (
+              <Pressable onPress={onMediaPress} key={file.id}>
+                <Image
+                  source={{ uri: file.secure_url }}
+                  placeholder={{ blurhash: file.blurhash }}
+                  style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
+                  contentFit="cover"
+                  transition={{ duration: 200, effect: 'cross-dissolve', timing: 'ease-in-out' }}
+                />
+              </Pressable>
+            ) : file.resource_type === 'video' ? (
+              <Video
+                {...file}
+                key={file.id}
+                style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
+                shouldPlay={inView && activeIndex === index}
+                canCache={inView && activeIndex === index && canCache}
+                muted={isMuted}
+                onPress={onMediaPress}
+              />
+            ) : null
+          )}
+        </ScrollView>
+
+        {showMuteIcon ? (
+          <AnimatedView entering={FadeIn} exiting={FadeOut} style={styles.muteIconContainer}>
+            {isMuted ? (
+              <Icon family="Octicons" name="mute" size={14} color={colorPallete.white} />
+            ) : (
+              <Icon family="Octicons" name="unmute" size={14} color={colorPallete.white} />
+            )}
+          </AnimatedView>
+        ) : null}
+
+        {files.length > 1 ? (
+          <AnimatedView entering={FadeIn} exiting={FadeOut} style={styles.paginationCountContainer}>
+            <AppText
+              text={`${activeIndex + 1}/${files.length}`}
+              size={12}
+              color={colorPallete.white}
             />
-          ) : file.resource_type === 'video' ? (
-            <Video
-              {...file}
-              key={file.id}
-              style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
-              shouldPlay={inView && activeIndex === index}
-              canCache={inView && activeIndex === index && canCache}
-              muted={isMuted}
-              onPress={onMediaPress}
-            />
-          ) : null
-        )}
-      </ScrollView>
+          </AnimatedView>
+        ) : null}
+      </View>
 
       {/* Post Details Section */}
       <View style={styles.postDetailsContainer}>
@@ -163,7 +190,7 @@ function Post(props: PostProps) {
 
         {caption ? (
           <AppText text={user.username} family={fontFamilies.Inter.bold}>
-            <TruncateText text={caption ? ` ${caption.repeat(100)}` : ''} />
+            <TruncateText text={caption.trim()} />
           </AppText>
         ) : null}
 
@@ -209,8 +236,8 @@ const styles = StyleSheet.create({
     borderRadius: PROFILE_IMAGE_SIZE / 2
   },
   postDetailsContainer: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 8,
+    paddingRight: 8,
     paddingTop: 10,
     gap: 8
   },
@@ -228,5 +255,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8
+  },
+  muteIconContainer: {
+    width: 30,
+    height: 30,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+    borderRadius: 15
+  },
+  paginationCountContainer: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 8,
+    top: 8
   }
 });
