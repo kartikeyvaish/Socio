@@ -8,10 +8,24 @@ import { executeApiCall } from '../index';
 import { PostDetailsResponse } from './types';
 
 class Post {
-  getPostDetails = async (post_id: string) => {
+  getPostDetails = async (post_id: number) => {
     return executeApiCall<PostDetailsResponse>({
       method: 'GET',
       url: endpoints.posts.show(post_id)
+    });
+  };
+
+  likeAPost = async (post_id: number) => {
+    return executeApiCall({
+      method: 'POST',
+      url: endpoints.posts.like(post_id)
+    });
+  };
+
+  unLikeAPost = async (post_id: number) => {
+    return executeApiCall({
+      method: 'POST',
+      url: endpoints.posts.unlike(post_id)
     });
   };
 }

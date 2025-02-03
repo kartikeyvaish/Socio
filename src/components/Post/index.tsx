@@ -18,6 +18,7 @@ import AppText from '../AppText';
 import colorPallete from '../../constants/colorPallete';
 import Icon from '../Icon';
 import LikeButton from '../LikeButton';
+import postsApi from '../../api/posts';
 import TruncateText from '../TruncateText';
 import Video from './Video';
 
@@ -61,6 +62,7 @@ function Post(props: PostProps) {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [canCache, setCanCache] = useState(false);
+  const [likesCount, setLikesCount] = useState(total_likes);
 
   useEffect(() => {
     if (inView) {
@@ -72,6 +74,20 @@ function Post(props: PostProps) {
     let currentIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
 
     if (currentIndex !== activeIndex) setActiveIndex(currentIndex);
+  };
+
+  const onLikePress = async () => {
+    try {
+      setLikesCount((prev) => prev + 1);
+      await postsApi.likeAPost(id);
+    } catch (error) {}
+  };
+
+  const onUnlikePress = async () => {
+    try {
+      setLikesCount((prev) => prev - 1);
+      await postsApi.unLikeAPost(id);
+    } catch (error) {}
   };
 
   // render
@@ -155,13 +171,14 @@ function Post(props: PostProps) {
         <View style={styles.operationsButtonsContainer}>
           <View style={styles.operationsButtonsFirstContainer}>
             <View style={styles.operationIconContainer}>
-              <LikeButton isLiked={is_liked} size={26} />
-              {total_likes ? (
-                <AppText
-                  text={total_likes?.toString()}
-                  family={fontFamilies.Inter.bold}
-                  size={13}
-                />
+              <LikeButton
+                isLiked={is_liked}
+                size={26}
+                onLikePress={onLikePress}
+                onUnLikePress={onUnlikePress}
+              />
+              {likesCount ? (
+                <AppText text={likesCount?.toString()} family={fontFamilies.Inter.bold} size={13} />
               ) : null}
             </View>
 

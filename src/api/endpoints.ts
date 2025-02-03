@@ -10,7 +10,9 @@ const auth = {
 };
 
 const posts = {
-  show: (post_id: string) => `/posts/${post_id}`
+  show: (post_id: number) => `/posts/${post_id}`,
+  like: (post_id: number) => `/posts/${post_id}/like`,
+  unlike: (post_id: number) => `/posts/${post_id}/unlike`
 };
 
 const endpoints = {
