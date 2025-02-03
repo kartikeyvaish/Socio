@@ -10,6 +10,7 @@ import BottomSheet, { BottomSheetFlatList, BottomSheetTextInput } from '@gorhom/
 import AppText from '../components/AppText';
 import colorPallete from '../constants/colorPallete';
 import CommentItem from '../components/CommentItem';
+import ContentLoader from '../components/ContentLoader';
 import Flex from '../components/Flex';
 import Icon from '../components/Icon';
 import postsApi from '../api/posts';
@@ -36,13 +37,13 @@ function CommentsDetailsProvider(props: CommentsDetailsProviderProps) {
   const { children } = props;
 
   const [currentPostId, setCurrentPostId] = useState<number | null>(null);
-  const [comments, setComments] = useState<Array<Comment>>(SAMPLE_POSTS);
+  const [comments, setComments] = useState<Array<Comment>>([]);
   const [commentInput, setCommentInput] = useState('');
   const [sendCommentLoading, setSendCommentLoading] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // getCommentsApi();
+    getCommentsApi();
   }, [currentPostId]);
 
   const safeAreaInsets = useSafeAreaInsets();
@@ -158,11 +159,20 @@ function CommentsDetailsProvider(props: CommentsDetailsProviderProps) {
               />
 
               <Flex flex={1}>
-                <BottomSheetFlatList
-                  data={comments}
-                  keyExtractor={(i, index) => index.toString()}
-                  renderItem={({ item }) => <CommentItem {...item} />}
-                />
+                {comments.length === 0 && loading ? (
+                  <ContentLoader loadingText="Fetching Comments..." />
+                ) : comments.length === 0 && !loading ? (
+                  <Flex flex={1} justify="center" align="center">
+                    <AppText text="No Comments" />
+                  </Flex>
+                ) : (
+                  <BottomSheetFlatList
+                    data={comments}
+                    keyExtractor={(i, index) => index.toString()}
+                    renderItem={({ item }) => <CommentItem {...item} />}
+                    showsVerticalScrollIndicator={false}
+                  />
+                )}
               </Flex>
 
               <Flex
@@ -245,44 +255,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-
-const SAMPLE_POSTS = [
-  {
-    id: 4,
-    content: 'some content',
-    created_at: '2025-01-31T13:38:32.290824+00:00',
-    user: {
-      bio: null,
-      username: 'tonystark',
-      last_name: 'Stark',
-      first_name: 'Tony',
-      profile_picture: null
-    }
-  },
-  {
-    id: 9,
-    content: 'This is a comment',
-    created_at: '2025-02-03T11:37:16.937562+00:00',
-    user: {
-      bio: 'Some Bio',
-      username: 'kartikey',
-      last_name: 'Vaish',
-      first_name: 'Kartikey',
-      profile_picture:
-        'https://res.cloudinary.com/kartikeyvaish/image/upload/v1738392973/socio_assets/users_1/profile_picture/ujmlfrhjvy20leclpqn1.jpg'
-    }
-  },
-  {
-    id: 10,
-    content: 'This is a comment',
-    created_at: '2025-02-03T11:40:42.122838+00:00',
-    user: {
-      bio: 'Some Bio',
-      username: 'kartikey',
-      last_name: 'Vaish',
-      first_name: 'Kartikey',
-      profile_picture:
-        'https://res.cloudinary.com/kartikeyvaish/image/upload/v1738392973/socio_assets/users_1/profile_picture/ujmlfrhjvy20leclpqn1.jpg'
-    }
-  }
-];

@@ -1,4 +1,5 @@
 // Packages Imports (from node_modules)
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import dayjs from 'dayjs';
@@ -18,44 +19,62 @@ export interface CommentItemProps extends Comment {}
 // functional component for CommentItem
 function CommentItem(props: CommentItemProps) {
   // Destructuring props
-  const { content, user, created_at, id } = props;
+  const { content, user, created_at, id, comment_replies_count } = props;
+
+  const renderCommentReplyCount = useMemo(() => {
+    if (comment_replies_count === 1) return 'View 1 Reply';
+
+    return `View ${comment_replies_count} Replies`;
+  }, [comment_replies_count]);
 
   // render
   return (
-    <Flex row style={styles.container}>
-      <Image
-        source={{ uri: user.profile_picture || DEFAULT_USER_IMAGE }}
-        style={{ width: 32, height: 32, borderRadius: 16, marginTop: 2 }}
-      />
+    <Flex style={{ paddingBottom: 12 }}>
+      <Flex row style={styles.container}>
+        <Image
+          source={{ uri: user.profile_picture || DEFAULT_USER_IMAGE }}
+          style={{ width: 32, height: 32, borderRadius: 16, marginTop: 2 }}
+        />
 
-      <Flex gap={2}>
-        <Flex align="center" row gap={4}>
-          <AppText text={user.username} family={fontFamilies.Poppins.medium} size={14} />
-          <AppText
-            text={dayjs(created_at).format('DD MMM, YYYY hh:mm A')}
-            size={11}
-            family={fontFamilies.Poppins.regular}
-          />
+        <Flex gap={2}>
+          <Flex align="center" row gap={4}>
+            <AppText text={user.username} family={fontFamilies.Poppins.medium} size={14} />
+            <AppText
+              text={dayjs(created_at).format('DD MMM, YYYY hh:mm A')}
+              size={11}
+              family={fontFamilies.Poppins.regular}
+            />
+          </Flex>
+
+          <AppText text={content} size={13} />
+          <AppText text="Reply" size={12} family={fontFamilies.Poppins.bold} />
         </Flex>
 
-        <AppText text={content} size={13} />
-        <AppText text="Reply" size={12} family={fontFamilies.Poppins.bold} />
+        <Flex
+          style={{
+            flex: 1,
+            alignItems: 'flex-end',
+            gap: 4,
+            alignSelf: 'center',
+            paddingRight: 8
+          }}
+          align="center"
+          justify="center"
+        >
+          <LikeButton isLiked={false} size={14} />
+          {/* <AppText text={dayjs(created_at).format('DD MMM, YYYY hh:mm A')} size={11} /> */}
+        </Flex>
       </Flex>
 
-      <Flex
-        style={{
-          flex: 1,
-          alignItems: 'flex-end',
-          gap: 4,
-          alignSelf: 'center',
-          paddingRight: 8
-        }}
-        align="center"
-        justify="center"
-      >
-        <LikeButton isLiked={false} size={14} />
-        {/* <AppText text={dayjs(created_at).format('DD MMM, YYYY hh:mm A')} size={11} /> */}
-      </Flex>
+      {comment_replies_count ? (
+        <AppText
+          text={renderCommentReplyCount}
+          marginLeft={80}
+          marginTop={2}
+          size={12}
+          family={fontFamilies.Inter.bold}
+        />
+      ) : null}
     </Flex>
   );
 }
@@ -68,7 +87,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 8,
     alignItems: 'flex-start',
-    gap: 8,
-    paddingBottom: 12
+    gap: 8
   }
 });
