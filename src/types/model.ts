@@ -34,3 +34,10 @@ export interface Post {
   total_comments: number;
   is_saved: boolean;
 }
+
+export interface Comment {
+  id: number;
+  content: string;
+  created_at: string;
+  user: User;
+}

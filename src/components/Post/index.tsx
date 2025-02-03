@@ -1,5 +1,5 @@
 // Packages Imports (from node_modules)
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -26,6 +26,7 @@ import Video from './Video';
 import { DEFAULT_USER_IMAGE, fontFamilies, SCREEN_WIDTH } from '../../constants/ui';
 import { Post as PostModel } from '../../types/model';
 import { useAppSelector } from '../../store/storeHooks';
+import { CommentsContext } from '../../contexts/CommentsDetailsContext';
 
 const PROFILE_IMAGE_SIZE = 32;
 
@@ -58,12 +59,15 @@ function Post(props: PostProps) {
     showMuteIcon
   } = props;
 
-  const { user: currentUser } = useAppSelector((state) => state.auth);
-
+  // Local States
   const [activeIndex, setActiveIndex] = useState(0);
   const [canCache, setCanCache] = useState(false);
   const [likesCount, setLikesCount] = useState(total_likes);
   const [isPostSaved, setIsPostSaved] = useState(is_saved);
+
+  // Hooks
+  const { user: currentUser } = useAppSelector((state) => state.auth);
+  const { isSheetVisible, showCommentsView } = useContext(CommentsContext);
 
   useEffect(() => {
     if (inView) {
@@ -85,33 +89,33 @@ function Post(props: PostProps) {
     return `View all ${total_comments} comments`;
   }, [total_comments]);
 
-  const onLikePress = async () => {
+  const onLikePress = useCallback(async () => {
     try {
       setLikesCount((prev) => prev + 1);
       await postsApi.likeAPost(id);
     } catch (error) {}
-  };
+  }, [id]);
 
-  const onUnlikePress = async () => {
+  const onUnlikePress = useCallback(async () => {
     try {
       setLikesCount((prev) => prev - 1);
       await postsApi.unLikeAPost(id);
     } catch (error) {}
-  };
+  }, [id]);
 
-  const savePost = async () => {
+  const savePost = useCallback(async () => {
     try {
       setIsPostSaved(true);
       await postsApi.savePost(id);
     } catch (error) {}
-  };
+  }, [id]);
 
-  const unSavePost = async () => {
+  const unSavePost = useCallback(async () => {
     try {
       setIsPostSaved(false);
       await postsApi.unsavePost(id);
     } catch (error) {}
-  };
+  }, [id]);
 
   // render
   return (
@@ -135,6 +139,7 @@ function Post(props: PostProps) {
         ) : null}
       </View>
 
+      {/* Media Files */}
       <View>
         <ScrollView
           horizontal
@@ -159,7 +164,7 @@ function Post(props: PostProps) {
                 {...file}
                 key={file.id}
                 style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
-                shouldPlay={inView && activeIndex === index}
+                shouldPlay={!isSheetVisible && inView && activeIndex === index}
                 canCache={inView && activeIndex === index && canCache}
                 muted={isMuted}
                 onPress={onMediaPress}
@@ -207,7 +212,12 @@ function Post(props: PostProps) {
 
             {comments_enabled ? (
               <View style={styles.operationIconContainer}>
-                <Icon family="AntDesign" name="message1" size={24} />
+                <Icon
+                  family="AntDesign"
+                  name="message1"
+                  size={24}
+                  onPress={() => showCommentsView(id)}
+                />
                 {total_comments ? (
                   <AppText
                     text={total_comments?.toString()}

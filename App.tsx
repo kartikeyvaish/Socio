@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 // Local imports
 import AppSafeAreaProvider from './src/provider/AppSafeAreaProvider';
+import CommentsDetailsProvider from './src/provider/CommentsDetailsProvider';
 import ErrorBoundary from './src/components/ErrorBoundary';
 import Navigation from './src/navigation/Navigation';
 import ThemedLayout from './src/layouts/ThemedLayout';
@@ -17,13 +18,15 @@ export default function App() {
     <ErrorBoundary>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppSafeAreaProvider>
+          <ThemedLayout>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <ThemedLayout>
-                <Navigation />
-              </ThemedLayout>
+              <CommentsDetailsProvider>
+                <AppSafeAreaProvider>
+                  <Navigation />
+                </AppSafeAreaProvider>
+              </CommentsDetailsProvider>
             </GestureHandlerRootView>
-          </AppSafeAreaProvider>
+          </ThemedLayout>
         </PersistGate>
       </Provider>
     </ErrorBoundary>
