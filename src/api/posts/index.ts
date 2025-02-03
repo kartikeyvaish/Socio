@@ -1,11 +1,12 @@
 // Local Imports
+import { Comment } from '../../types/model';
 import endpoints from '../endpoints';
 
 // Named Imports
 import { executeApiCall } from '../index';
 
 // Request/Response Types
-import { PostDetailsResponse } from './types';
+import { CommentPayload, PostDetailsResponse } from './types';
 
 class Post {
   getPostDetails = async (post_id: number) => {
@@ -40,6 +41,22 @@ class Post {
     return executeApiCall({
       method: 'POST',
       url: endpoints.posts.unsave(post_id)
+    });
+  };
+
+  commentOnPost = async (post_id: number, body: CommentPayload) => {
+    return executeApiCall<{ comment: Comment }>({
+      method: 'POST',
+      url: endpoints.posts.comment(post_id),
+      data: body
+    });
+  };
+
+  getComments = async (post_id: number, limit: number = 10, offset: number = 0) => {
+    return executeApiCall<{ comments: Comment[] }>({
+      method: 'GET',
+      url: endpoints.posts.comments(post_id),
+      params: { limit, offset }
     });
   };
 }

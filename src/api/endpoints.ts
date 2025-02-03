@@ -14,7 +14,9 @@ const posts = {
   like: (post_id: number) => `/posts/${post_id}/like`,
   unlike: (post_id: number) => `/posts/${post_id}/unlike`,
   save: (post_id: number) => `/posts/${post_id}/save`,
-  unsave: (post_id: number) => `/posts/${post_id}/unsave`
+  unsave: (post_id: number) => `/posts/${post_id}/unsave`,
+  comment: (post_id: number) => `/posts/${post_id}/comment`,
+  comments: (post_id: number) => `/posts/${post_id}/comments`
 };
 
 const endpoints = {
