@@ -1,5 +1,5 @@
 // Packages Imports (from node_modules)
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -63,6 +63,7 @@ function Post(props: PostProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [canCache, setCanCache] = useState(false);
   const [likesCount, setLikesCount] = useState(total_likes);
+  const [isPostSaved, setIsPostSaved] = useState(is_saved);
 
   useEffect(() => {
     if (inView) {
@@ -76,6 +77,14 @@ function Post(props: PostProps) {
     if (currentIndex !== activeIndex) setActiveIndex(currentIndex);
   };
 
+  const commentsCountDisplay = useMemo(() => {
+    if (total_comments === 0) return 'No comments';
+
+    if (total_comments === 1) return 'View 1 comment';
+
+    return `View all ${total_comments} comments`;
+  }, [total_comments]);
+
   const onLikePress = async () => {
     try {
       setLikesCount((prev) => prev + 1);
@@ -87,6 +96,20 @@ function Post(props: PostProps) {
     try {
       setLikesCount((prev) => prev - 1);
       await postsApi.unLikeAPost(id);
+    } catch (error) {}
+  };
+
+  const savePost = async () => {
+    try {
+      setIsPostSaved(true);
+      await postsApi.savePost(id);
+    } catch (error) {}
+  };
+
+  const unSavePost = async () => {
+    try {
+      setIsPostSaved(false);
+      await postsApi.unsavePost(id);
     } catch (error) {}
   };
 
@@ -198,10 +221,10 @@ function Post(props: PostProps) {
             <Icon family="Feather" name="send" size={26} />
           </View>
 
-          {is_saved ? (
-            <Icon family="FontAwesome" name="bookmark" size={26} />
+          {isPostSaved ? (
+            <Icon family="FontAwesome" name="bookmark" size={26} onPress={unSavePost} />
           ) : (
-            <Icon family="FontAwesome" name="bookmark-o" size={26} />
+            <Icon family="FontAwesome" name="bookmark-o" size={26} onPress={savePost} />
           )}
         </View>
 
@@ -209,6 +232,10 @@ function Post(props: PostProps) {
           <AppText text={user.username} family={fontFamilies.Inter.bold}>
             <TruncateText text={caption.trim()} />
           </AppText>
+        ) : null}
+
+        {total_comments ? (
+          <AppText text={commentsCountDisplay} family={fontFamilies.Inter.regular} size={14} />
         ) : null}
 
         <AppText

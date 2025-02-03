@@ -28,6 +28,20 @@ class Post {
       url: endpoints.posts.unlike(post_id)
     });
   };
+
+  savePost = async (post_id: number) => {
+    return executeApiCall({
+      method: 'POST',
+      url: endpoints.posts.save(post_id)
+    });
+  };
+
+  unsavePost = async (post_id: number) => {
+    return executeApiCall({
+      method: 'POST',
+      url: endpoints.posts.unsave(post_id)
+    });
+  };
 }
 
 const postsApi = new Post();
