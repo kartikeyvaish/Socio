@@ -19,9 +19,14 @@ const posts = {
   comments: (post_id: number) => `/posts/${post_id}/comments`
 };
 
+const feed = {
+  getFeed: '/feed'
+};
+
 const endpoints = {
   auth,
-  posts
+  posts,
+  feed
 };
 
 export default endpoints;
