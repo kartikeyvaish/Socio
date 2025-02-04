@@ -1,13 +1,16 @@
 // Packages Imports (from node_modules)
 import { useCallback } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 // Local Imports (components/types/utils)
+import AppText from '../components/AppText';
 import Container from '../components/Container';
 import ContentLoader from '../components/ContentLoader';
+import colorPallete from '../constants/colorPallete';
 import feedApi from '../api/feed';
 import Flex from '../components/Flex';
+import MessengerIcon from '../icons/MessengerIcon';
 import Post from '../components/Post';
 import useFlatList from '../hooks/useFlatlist';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -15,6 +18,12 @@ import useMuted from '../hooks/useMuted';
 
 // Named Imports
 import { Post as PostType } from '../types/model';
+import { fontFamilies } from '../constants/ui';
+import { useAppSelector } from '../store/storeHooks';
+
+interface HomeHeaderProps {
+  onMessageIconPress?: () => void;
+}
 
 async function getFeed(limit: number, offset: number) {
   try {
@@ -78,8 +87,35 @@ function HomeScreen() {
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <Flex style={{ height: 10 }} />}
         ListFooterComponent={() => (isFetching ? <MorePostsLoader /> : null)}
+        ListHeaderComponent={<HomeHeader />}
       />
     </Container>
+  );
+}
+
+function HomeHeader(props: HomeHeaderProps) {
+  // Props
+  const { onMessageIconPress } = props;
+
+  // Hooks
+  const { dark } = useAppSelector((state) => state.theme);
+
+  return (
+    <Flex
+      row
+      align="center"
+      justify="space-between"
+      style={[
+        styles.homeHeaderContainer,
+        {
+          borderBottomColor: dark ? colorPallete.placeholderDark : colorPallete.placeholderLight
+        }
+      ]}
+    >
+      <AppText text="Socio" family={fontFamilies.BerkshireSwash.regular} size={35} />
+
+      <MessengerIcon onPress={onMessageIconPress} />
+    </Flex>
   );
 }
 
@@ -90,6 +126,16 @@ function MorePostsLoader() {
     </Flex>
   );
 }
+
+const styles = StyleSheet.create({
+  homeHeaderContainer: {
+    padding: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderBottomColor: colorPallete.placeholderLight,
+    borderBottomWidth: StyleSheet.hairlineWidth
+  }
+});
 
 // exports
 export default HomeScreen;
