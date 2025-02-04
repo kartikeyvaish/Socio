@@ -24,9 +24,9 @@ import Video from './Video';
 
 // Named Imports
 import { DEFAULT_USER_IMAGE, fontFamilies, SCREEN_WIDTH } from '../../constants/ui';
+import { CommentsContext } from '../../contexts/CommentsDetailsContext';
 import { Post as PostModel } from '../../types/model';
 import { useAppSelector } from '../../store/storeHooks';
-import { CommentsContext } from '../../contexts/CommentsDetailsContext';
 
 const PROFILE_IMAGE_SIZE = 32;
 
@@ -147,6 +147,7 @@ function Post(props: PostProps) {
           scrollEnabled
           showsHorizontalScrollIndicator={false}
           onScroll={onScroll}
+          bounces={files.length > 1}
         >
           {files.map((file, index) =>
             file.resource_type === 'image' ? (
