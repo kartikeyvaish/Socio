@@ -52,6 +52,7 @@ export default function useVideoCache(
   canCache: boolean = false
 ) {
   const [cachedUrls, setCachedUrls] = useState<CacheMap>({});
+  const [isCaching, setIsCaching] = useState(false);
 
   useEffect(() => {
     if (canCache) {
@@ -63,9 +64,11 @@ export default function useVideoCache(
 
   async function downloadVideo(url: string, uniqueCacheKey: string | number) {
     try {
-      if (cachedUrls[uniqueCacheKey.toString()]) {
-        return { uri: cachedUrls[uniqueCacheKey.toString()] };
-      }
+      let cachedUrl = cachedUrls[uniqueCacheKey.toString()];
+
+      if (cachedUrl) return { uri: cachedUrl };
+
+      if (isCaching) return;
 
       let filename = getFileNameFromUrl(url, uniqueCacheKey.toString());
 
@@ -87,6 +90,8 @@ export default function useVideoCache(
         setCachedUrls((prev) => ({ ...prev, [uniqueCacheKey.toString()]: existenceRespponse.uri }));
         return { uri: existenceRespponse.uri };
       }
+
+      setIsCaching(true);
 
       const downloadableObj = await createDownloadableObject(
         url,
