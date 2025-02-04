@@ -3,12 +3,7 @@ import { Image } from 'expo-image';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {
-  Video as VideoView,
-  VideoProps as VideoViewProps,
-  ResizeMode,
-  AVPlaybackStatus
-} from 'expo-av';
+import VideoView, { SelectedTrackType, VideoRef } from 'react-native-video';
 
 // Local Imports
 import reduxStorageEngine from '../../store/reduxStoreEngine';
@@ -16,10 +11,9 @@ import useVideoCache from '../../hooks/useVideoCache';
 
 // Named Imports (components/types/utils)
 import { FileAttachment } from '../../types/model';
-import { PlaybackStates } from '../../types/components';
 
 // interface for Video component
-export interface VideoProps extends FileAttachment, Omit<VideoViewProps, 'id' | 'style'> {
+export interface VideoProps extends FileAttachment {
   shouldPlay?: boolean;
   muted?: boolean;
   onPress?: () => void;
@@ -69,73 +63,45 @@ function Video(props: VideoProps) {
     }
   };
 
-  const playerRef = useRef<VideoView>(null);
-
-  const [playbackInstanceInfo, setPlaybackInstanceInfo] = useState({
-    position: 0,
-    duration: 0,
-    state: secure_url ? PlaybackStates.Loading : PlaybackStates.Error
-  });
+  const playerRef = useRef<VideoRef>(null);
 
   useEffect(() => {
     if (cachedUrls[id]) {
-      if (![PlaybackStates.Playing].includes(playbackInstanceInfo.state)) {
-        if (cachedUrls[id] !== videoSource) {
-          setVideoSource(cachedUrls[id]);
-        }
+      if (cachedUrls[id] !== videoSource) {
+        setVideoSource(cachedUrls[id]);
       }
     }
   }, [cachedUrls[id]]);
 
-  const updatePlaybackCallback = async (status: AVPlaybackStatus) => {
-    if (status.isLoaded) {
-      setPlaybackInstanceInfo({
-        ...playbackInstanceInfo,
-        position: status.positionMillis,
-        duration: status.durationMillis || 0,
-        state:
-          status.positionMillis === status.durationMillis
-            ? PlaybackStates.Ended
-            : status.isBuffering
-            ? PlaybackStates.Buffering
-            : status.shouldPlay
-            ? PlaybackStates.Playing
-            : PlaybackStates.Paused
-      });
-
-      if (status.didJustFinish) {
-        if (cachedUrls[id]) {
-          if (cachedUrls[id] !== videoSource) {
-            setVideoSource(cachedUrls[id]);
-          }
-        }
-      }
-    } else {
-      if (status.isLoaded === false && status.error) {
+  const onPlaybackEnd = () => {
+    if (cachedUrls[id]) {
+      if (cachedUrls[id] !== videoSource) {
+        setVideoSource(cachedUrls[id]);
       }
     }
   };
 
   // render
+
   return (
     <Pressable onPress={onPress} style={style}>
       <Animated.View style={style}>
-        <VideoView
-          ref={playerRef}
-          source={{ uri: videoSource }}
-          useNativeControls={false}
-          style={{ flex: 1, backgroundColor: 'transparent', zIndex: 2 }}
-          posterSource={{ uri: thumbnail }}
-          posterStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          usePoster={true}
-          isLooping
-          shouldPlay={shouldPlay}
-          isMuted={muted}
-          resizeMode={ResizeMode.CONTAIN}
-          rate={1.0}
-          onPlaybackStatusUpdate={updatePlaybackCallback}
-          {...restProps}
-        />
+        {videoSource ? (
+          <VideoView
+            source={{ uri: videoSource }}
+            ref={playerRef}
+            style={{ flex: 1, backgroundColor: 'transparent', zIndex: 2 }}
+            resizeMode="contain"
+            paused={!shouldPlay}
+            repeat={true}
+            onEnd={onPlaybackEnd}
+            muted={muted}
+            selectedAudioTrack={{ type: SelectedTrackType.SYSTEM }}
+            volume={1}
+            ignoreSilentSwitch="ignore"
+            {...restProps}
+          />
+        ) : null}
 
         <Image
           placeholder={{ blurhash }}
