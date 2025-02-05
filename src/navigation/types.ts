@@ -40,6 +40,9 @@ export type AppStackParamsList = {
     posts: Array<Post>;
     startIndex?: number;
   };
+  LikesListingScreen: {
+    post_id: number;
+  };
 };
 
 export type TabsParamsList = {

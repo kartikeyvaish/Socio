@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 // Screen imports
 import BackButtonHeader from '../components/BackButtonHeader';
 import BottomTabNavigator from './BottomTabNavigator';
+import LikesListingScreen from '../screens/misc/LikesListingScreen';
 import PostListScreen from '../screens/misc/PostListScreen';
 
 // Types/components/Navigators imports
@@ -31,6 +32,11 @@ function AppNavigator() {
         name={'PostListScreen'}
         component={PostListScreen}
         options={{ headerShown: true, headerTitle: 'Post List' }}
+      />
+      <Stack.Screen
+        name={'LikesListingScreen'}
+        component={LikesListingScreen}
+        options={{ headerShown: true, headerTitle: 'Likes' }}
       />
     </Stack.Navigator>
   );
