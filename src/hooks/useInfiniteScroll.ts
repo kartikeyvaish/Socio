@@ -24,10 +24,11 @@ const DEFAULT_PAGINATION_DETAILS: ApiConfig<any> = {
 export default function useInfiniteScroll<ResourceType = any, Params = any>(
   fetchFunction: FetchFunction<ResourceType, Params>,
   apiConfigs: ApiConfig<any> = DEFAULT_PAGINATION_DETAILS,
-  initialCallEnabled = true
+  initialCallEnabled = true,
+  initialData: Array<ResourceType> = []
 ) {
   const [isFetching, setIsFetching] = useState(false);
-  const [data, setData] = useState<Array<ResourceType>>([]);
+  const [data, setData] = useState<Array<ResourceType>>(initialData);
   const [paginationDetails, setPaginationDetails] = useState<ApiConfig<Params>>(apiConfigs);
 
   useEffect(() => {
@@ -41,6 +42,8 @@ export default function useInfiniteScroll<ResourceType = any, Params = any>(
   const getData = async () => {
     try {
       if (isFetching) return;
+
+      if (!paginationDetails.has_more) return;
 
       const { limit, offset, params } = paginationDetails;
 
