@@ -37,8 +37,11 @@ export type AppStackParamsList = {
   HomeScreen: undefined;
 };
 
-// Tab Navigator Screen Params
-export type TabsParamsList = {};
+export type TabsParamsList = {
+  // Tab Stack Screens
+  HomeTabScreen: undefined;
+  ProfileScreen: undefined;
+};
 
 // Props for Auth Navigator's Screens
 export type AuthScreenProps<Screen extends keyof AuthStackParamsList> = StackScreenProps<
@@ -66,4 +69,9 @@ export type AuthScreenNamesTypes = {
 // Screen Names types for AppNavigator
 export type AppScreenNamesTypes = {
   [key in keyof AppStackParamsList]: any;
+};
+
+// Screen Names types for TabNavigator
+export type TabScreenNamesTypes = {
+  [key in keyof TabsParamsList]: any;
 };

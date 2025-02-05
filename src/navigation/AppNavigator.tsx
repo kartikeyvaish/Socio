@@ -3,7 +3,7 @@ import { createStackNavigator, StackNavigationOptions } from '@react-navigation/
 import { useTheme } from '@react-navigation/native';
 
 // Screen imports
-import HomeScreen from '../screens/HomeScreen';
+import BottomTabNavigator from './BottomTabNavigator';
 
 // Types/components/Navigators imports
 import { AppStackParamsList } from './types';
@@ -23,7 +23,7 @@ function AppNavigator() {
   // Render
   return (
     <Stack.Navigator id="app" screenOptions={screenOptions}>
-      <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
+      <Stack.Screen name={'HomeScreen'} component={BottomTabNavigator} />
     </Stack.Navigator>
   );
 }
