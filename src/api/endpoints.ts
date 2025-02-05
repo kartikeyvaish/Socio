@@ -23,10 +23,16 @@ const feed = {
   getFeed: '/feed'
 };
 
+const profile = {
+  getProfilePosts: `/profile/posts/list`,
+  getProfileDetails: (user_id: string) => `/profile/${user_id}`
+};
+
 const endpoints = {
   auth,
   posts,
-  feed
+  feed,
+  profile
 };
 
 export default endpoints;
