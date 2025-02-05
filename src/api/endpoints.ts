@@ -12,6 +12,7 @@ const auth = {
 const posts = {
   show: (post_id: number) => `/posts/${post_id}`,
   like: (post_id: number) => `/posts/${post_id}/like`,
+  likes: (post_id: number) => `/posts/${post_id}/likes`,
   unlike: (post_id: number) => `/posts/${post_id}/unlike`,
   save: (post_id: number) => `/posts/${post_id}/save`,
   unsave: (post_id: number) => `/posts/${post_id}/unsave`,

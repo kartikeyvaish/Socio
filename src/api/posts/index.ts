@@ -1,5 +1,5 @@
 // Local Imports
-import { Comment } from '../../types/model';
+import { Comment, User } from '../../types/model';
 import endpoints from '../endpoints';
 
 // Named Imports
@@ -56,6 +56,14 @@ class Post {
     return executeApiCall<{ comments: Comment[] }>({
       method: 'GET',
       url: endpoints.posts.comments(post_id),
+      params: { limit, offset }
+    });
+  };
+
+  getLikesOnPost = async (post_id: number, limit: number = 10, offset: number = 0) => {
+    return executeApiCall<{ likes: Array<User>; has_more: boolean }>({
+      method: 'GET',
+      url: endpoints.posts.likes(post_id),
       params: { limit, offset }
     });
   };
