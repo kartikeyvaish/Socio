@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import AppSafeAreaProvider from './src/provider/AppSafeAreaProvider';
 import CommentsDetailsProvider from './src/provider/CommentsDetailsProvider';
 import ErrorBoundary from './src/components/ErrorBoundary';
+import FileCacheManager from './src/provider/FileCacheManager';
 import Navigation from './src/navigation/Navigation';
 import ThemedLayout from './src/layouts/ThemedLayout';
 
@@ -20,11 +21,13 @@ export default function App() {
         <PersistGate loading={null} persistor={persistor}>
           <ThemedLayout>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <CommentsDetailsProvider>
-                <AppSafeAreaProvider>
-                  <Navigation />
-                </AppSafeAreaProvider>
-              </CommentsDetailsProvider>
+              <FileCacheManager>
+                <CommentsDetailsProvider>
+                  <AppSafeAreaProvider>
+                    <Navigation />
+                  </AppSafeAreaProvider>
+                </CommentsDetailsProvider>
+              </FileCacheManager>
             </GestureHandlerRootView>
           </ThemedLayout>
         </PersistGate>

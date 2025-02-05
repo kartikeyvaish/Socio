@@ -13,12 +13,14 @@ import {
 
 // Local Imports
 import authReducer from './feature/authSlice';
+import fileCacheReducer from './feature/fileCache';
 import reduxStorageEngine from './reduxStoreEngine';
 import themeReducer from './feature/themeSlice';
 
 // Combining all the reducers and exporting
 const rootReducer = combineReducers({
   auth: authReducer,
+  fileCache: fileCacheReducer,
   theme: themeReducer
 });
 

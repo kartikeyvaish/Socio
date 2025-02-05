@@ -1,16 +1,14 @@
 // Packages Imports (from node_modules)
 import { Image } from 'expo-image';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import VideoView, { SelectedTrackType, VideoRef } from 'react-native-video';
 
-// Local Imports
-import reduxStorageEngine from '../../store/reduxStoreEngine';
-import useVideoCache from '../../hooks/useVideoCache';
-
 // Named Imports (components/types/utils)
 import { FileAttachment } from '../../types/model';
+import { FileCacheManagerContext } from '../../contexts/FileCacheManagerContext';
+import { useAppSelector } from '../../store/storeHooks';
 
 // interface for Video component
 export interface VideoProps extends FileAttachment {
@@ -39,9 +37,15 @@ function Video(props: VideoProps) {
     ...restProps
   } = props;
 
-  const { cachedUrls } = useVideoCache([{ id, secure_url }], canCache);
-
   const [videoSource, setVideoSource] = useState(null);
+  const playerRef = useRef<VideoRef>(null);
+
+  const { cacheFile } = useContext(FileCacheManagerContext);
+  const { cachedUrls, cachingState } = useAppSelector((state) => state.fileCache);
+
+  useEffect(() => {
+    if (canCache && !cachingState?.[id] && !cachedUrls?.[id]) cacheFile({ id, secure_url });
+  }, [canCache]);
 
   useEffect(() => {
     setSource();
@@ -49,29 +53,17 @@ function Video(props: VideoProps) {
 
   const setSource = async () => {
     try {
-      let mmkvStorageKey = `cachedUrls_${id}`;
+      if (cachedUrls?.[id]) {
+        setVideoSource(cachedUrls[id]);
 
-      let mmkvCachedUrl = await reduxStorageEngine.getItem(mmkvStorageKey);
-
-      if (mmkvCachedUrl) {
-        setVideoSource(mmkvCachedUrl);
-      } else {
-        setVideoSource(secure_url);
+        return;
       }
+
+      setVideoSource(secure_url);
     } catch (error) {
       setVideoSource(secure_url);
     }
   };
-
-  const playerRef = useRef<VideoRef>(null);
-
-  useEffect(() => {
-    if (cachedUrls[id]) {
-      if (cachedUrls[id] !== videoSource) {
-        setVideoSource(cachedUrls[id]);
-      }
-    }
-  }, [cachedUrls[id]]);
 
   const onPlaybackEnd = () => {
     if (cachedUrls[id]) {
@@ -80,8 +72,6 @@ function Video(props: VideoProps) {
       }
     }
   };
-
-  // render
 
   return (
     <Pressable onPress={onPress} style={style}>
