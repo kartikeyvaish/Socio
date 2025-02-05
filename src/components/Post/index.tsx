@@ -11,6 +11,7 @@ import {
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import dayjs from 'dayjs';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 // Local Imports (components/types/utils)
 import AnimatedView from '../AnimatedView';
@@ -23,6 +24,7 @@ import TruncateText from '../TruncateText';
 import Video from './Video';
 
 // Named Imports
+import { AppStackParamsList } from '../../navigation/types';
 import { DEFAULT_USER_IMAGE, fontFamilies, SCREEN_WIDTH } from '../../constants/ui';
 import { CommentsContext } from '../../contexts/CommentsDetailsContext';
 import { Post as PostModel } from '../../types/model';
@@ -68,6 +70,7 @@ function Post(props: PostProps) {
   // Hooks
   const { user: currentUser } = useAppSelector((state) => state.auth);
   const { isSheetVisible, showCommentsView } = useContext(CommentsContext);
+  const navigation = useNavigation<NavigationProp<AppStackParamsList>>();
 
   useEffect(() => {
     if (inView) {
@@ -207,7 +210,12 @@ function Post(props: PostProps) {
                 onUnLikePress={onUnlikePress}
               />
               {likesCount ? (
-                <AppText text={likesCount?.toString()} family={fontFamilies.Inter.bold} size={13} />
+                <AppText
+                  onPress={() => navigation.navigate('LikesListingScreen', { post_id: id })}
+                  text={likesCount?.toString()}
+                  family={fontFamilies.Inter.bold}
+                  size={13}
+                />
               ) : null}
             </View>
 
