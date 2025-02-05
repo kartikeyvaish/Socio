@@ -11,12 +11,13 @@ import { Image } from 'expo-image';
 // interface for PostMiniCard component
 export interface PostMiniCardProps extends Post {
   position: 'left' | 'right' | 'center';
+  onPress?: () => void;
 }
 
 // functional component for PostMiniCard
 function PostMiniCard(props: PostMiniCardProps) {
   // Destructuring props
-  const { position, files } = props;
+  const { position, files, onPress } = props;
 
   let cardStyles =
     position === 'center' ? styles.centerCard : position === 'left' ? styles.leftCard : {};
@@ -27,13 +28,18 @@ function PostMiniCard(props: PostMiniCardProps) {
 
   if (!firstFile) return null;
 
+  let displayImage =
+    firstFile.resource_type === 'image' ? firstFile.secure_url : firstFile.thumbnail;
+
   // render
   return (
-    <TouchableOpacity activeOpacity={0.8} style={[styles.container, cardStyles]}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={[styles.container, cardStyles]}>
       <Image
         placeholder={{ blurhash: firstFile.blurhash }}
         style={styles.image}
         contentFit="cover"
+        source={{ uri: displayImage }}
+        cachePolicy="none"
       />
     </TouchableOpacity>
   );
