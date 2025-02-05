@@ -39,7 +39,6 @@ function PostMiniCard(props: PostMiniCardProps) {
         style={styles.image}
         contentFit="cover"
         source={{ uri: displayImage }}
-        cachePolicy="none"
       />
     </TouchableOpacity>
   );
