@@ -38,6 +38,7 @@ export interface PostProps extends PostModel {
   isMuted: boolean;
   onMediaPress?: () => void;
   showMuteIcon?: boolean;
+  cachingEnabled?: boolean;
 }
 
 // functional component for Post
@@ -58,7 +59,8 @@ function Post(props: PostProps) {
     inView,
     isMuted,
     onMediaPress,
-    showMuteIcon
+    showMuteIcon,
+    cachingEnabled = true
   } = props;
 
   // Local States
@@ -74,7 +76,7 @@ function Post(props: PostProps) {
 
   useEffect(() => {
     if (inView) {
-      if (!canCache) setCanCache(true);
+      if (!canCache && cachingEnabled) setCanCache(true);
     }
   }, [inView]);
 

@@ -68,6 +68,7 @@ function PostListScreen(props: AppScreenProps<'PostListScreen'>) {
           setIsMuteVisible(true);
         }}
         showMuteIcon={isMuteVisible}
+        cachingEnabled={false}
       />
     ),
     [viewableItem, isFocused, isMuted, isMuteVisible]
