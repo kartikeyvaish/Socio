@@ -1,4 +1,5 @@
 export interface User {
+  id?: number;
   email?: string;
   first_name: string;
   last_name: string;
@@ -41,4 +42,8 @@ export interface Comment {
   created_at: string;
   user: User;
   comment_replies_count: number;
+}
+
+export interface Profile extends User {
+  total_posts: number;
 }
