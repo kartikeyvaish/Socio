@@ -73,22 +73,26 @@ function HomeScreen() {
   // render
   return (
     <Container>
-      <FlatList
-        ref={flatListRef}
-        data={data}
-        onViewableItemsChanged={onViewRef.current}
-        viewabilityConfig={viewConfigRef}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        initialNumToRender={2}
-        onEndReached={getData}
-        onEndReachedThreshold={0.5}
-        maxToRenderPerBatch={2}
-        showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => <Flex style={{ height: 10 }} />}
-        ListFooterComponent={() => (isFetching ? <MorePostsLoader /> : null)}
-        ListHeaderComponent={<HomeHeader />}
-      />
+      {data.length === 0 ? (
+        <ContentLoader loadingText="Fetching Feed..." />
+      ) : (
+        <FlatList
+          ref={flatListRef}
+          data={data}
+          onViewableItemsChanged={onViewRef.current}
+          viewabilityConfig={viewConfigRef}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          initialNumToRender={2}
+          onEndReached={getData}
+          onEndReachedThreshold={0.5}
+          maxToRenderPerBatch={2}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <Flex style={{ height: 10 }} />}
+          ListFooterComponent={() => (isFetching && data.length !== 0 ? <MorePostsLoader /> : null)}
+          ListHeaderComponent={<HomeHeader />}
+        />
+      )}
     </Container>
   );
 }
