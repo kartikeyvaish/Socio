@@ -52,7 +52,7 @@ export default function useInfiniteScroll<ResourceType = any, Params = any>(
       setIsFetching(false);
 
       if (apiResponse.ok) {
-        setData((prev) => [...prev, ...apiResponse.data]);
+        setData([...data, ...apiResponse.data]);
 
         setPaginationDetails({
           ...paginationDetails,
