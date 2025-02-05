@@ -49,6 +49,7 @@ export type TabsParamsList = {
   // Tab Stack Screens
   HomeTabScreen: undefined;
   ProfileScreen: undefined;
+  NewPostScreen: undefined;
 };
 
 // Props for Auth Navigator's Screens

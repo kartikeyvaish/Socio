@@ -11,6 +11,7 @@ import { Image } from 'expo-image';
 import colorPallete from '../constants/colorPallete';
 import HomeScreen from '../screens/HomeScreen';
 import Icon from '../components/Icon';
+import NewPostScreen from '../screens/misc/NewPostScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 
 // Named Imports
@@ -56,6 +57,21 @@ function BottomTabNavigator(props: BottomTabNavigatorProps) {
               <Icon
                 family={'Ionicons'}
                 name={focused ? 'home' : 'home-outline'}
+                color={color}
+                size={24}
+              />
+            )
+          }}
+        />
+        <Tab.Screen
+          name={'NewPostScreen'}
+          component={NewPostScreen}
+          options={{
+            tabBarLabel: 'New',
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                family={'AntDesign'}
+                name={focused ? 'pluscircle' : 'pluscircleo'}
                 color={color}
                 size={24}
               />
