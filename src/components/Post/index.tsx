@@ -232,6 +232,7 @@ function Post(props: PostProps) {
                     text={total_comments?.toString()}
                     family={fontFamilies.Inter.bold}
                     size={13}
+                    onPress={() => showCommentsView(id)}
                   />
                 ) : null}
               </View>
@@ -254,7 +255,12 @@ function Post(props: PostProps) {
         ) : null}
 
         {total_comments ? (
-          <AppText text={commentsCountDisplay} family={fontFamilies.Inter.regular} size={14} />
+          <AppText
+            onPress={() => showCommentsView(id)}
+            text={commentsCountDisplay}
+            family={fontFamilies.Inter.regular}
+            size={14}
+          />
         ) : null}
 
         <AppText
