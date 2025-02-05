@@ -81,7 +81,7 @@ function ProfileScreen(props: ProfileScreenProps) {
         }
       />
     ),
-    []
+    [profilePosts]
   );
 
   // render

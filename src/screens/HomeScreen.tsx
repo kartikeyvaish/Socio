@@ -51,7 +51,8 @@ function HomeScreen() {
   const { isMuteVisible, isMuted, setIsMuteVisible, setIsMuted } = useMuted();
   const { data, getData, isFetching } = useInfiniteScroll<PostType>(getFeed, {
     limit: 10,
-    offset: 0
+    offset: 0,
+    has_more: true
   });
 
   const renderItem = useCallback(
