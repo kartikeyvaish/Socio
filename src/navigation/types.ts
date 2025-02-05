@@ -1,6 +1,7 @@
 // Packages Imports
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { StackScreenProps } from '@react-navigation/stack';
+import { Post } from '../types/model';
 
 // Auth Navigator Screen Params
 export type AuthStackParamsList = {
@@ -35,6 +36,10 @@ export type AuthStackParamsList = {
 // App Navigator Screen Params
 export type AppStackParamsList = {
   HomeScreen: undefined;
+  PostListScreen: {
+    posts: Array<Post>;
+    startIndex?: number;
+  };
 };
 
 export type TabsParamsList = {
