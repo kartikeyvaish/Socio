@@ -52,11 +52,12 @@ export default function useInfiniteScroll<ResourceType = any, Params = any>(
       setIsFetching(false);
 
       if (apiResponse.ok) {
-        setData([...data, ...apiResponse.data]);
+        setData((prev) => [...prev, ...apiResponse.data]);
 
         setPaginationDetails({
           ...paginationDetails,
-          offset: offset + limit
+          offset: offset + limit,
+          has_more: apiResponse.has_more
         });
       }
     } catch (error) {
